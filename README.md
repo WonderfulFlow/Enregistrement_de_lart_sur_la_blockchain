@@ -11,4 +11,5 @@ Techno: React, Ethereum (solidity),
 > - Maxime    :   Site en react
 > - Alexis    :   Support site et Smart Contract
 
-le projet contient les modules car Openzepelin configure ses fichier avec solidity 0.4.24 or nous souhaitons utiliser 0.5.8
+le projet contient l'ensemble des fichier .sol necessaire au deploiement du smart contract.
+le fichier principale est ARt4blockchain.sol
