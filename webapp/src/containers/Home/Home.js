@@ -21,23 +21,36 @@ const useStyles = theme => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(6),
     },
-});
+})  ;
 
 class Album extends React.Component{
     constructor(props){
         super(props);
         this.nb_rows = 10;
         this.nb_cols = 10;
-        this.tile_height = 50;
-        this.tile_width = 50;
+        
         this.state = {
             uploadedImage: null,
             tilesArray: [],
+            dimensions: {},
         };
-
+       
+       
+        this.tile_height=this.state.dimensions.height/this.nb_rows ;
+        this.tile_width =this.state.dimensions.width/this.nb_cols ;
+        this.onImgLoad = this.onImgLoad.bind(this);
         this.generateTiles = this.generateTiles.bind(this);
         this.showTile = this.showTile.bind(this);
     }
+
+    // gets image height and width 
+    onImgLoad({target:img}) {
+        this.setState({dimensions:{height:img.offsetHeight,
+                                   width:img.offsetWidth}});
+        
+        console.log(this.state.dimensions);
+    }
+
 
 
     // Vérifie si le fichier envoyé est conforme.
@@ -59,13 +72,14 @@ class Album extends React.Component{
 
     // Stocke l'image dans le state
     uploadImage= (event) => {
+        
         if(this.checkFileValidity(event)){
             this.getBase64(event.target.files[0])
                 .then(base64 => {
                     this.setState({
                         uploadedImage: base64
                     }, () => {
-                        console.log(base64.offsetHeight);
+                        console.log(this.uploadImage.offsetHeight);
                     })
                 });
                 // uploadedImage: event.target.files[0] //APRES : QUAND ON FERA LE BACKEND
@@ -111,6 +125,8 @@ class Album extends React.Component{
         const { classes } = this.props;
 
         // On affiche la preview que lorsqu'une image a été uploadée.
+        //const {src} = this.props;
+     //   const {width, height} = this.state.dimensions;
         let imagePreview = null;
         if(this.state.uploadedImage){
             imagePreview = this.state.tilesArray.map((tile, index) => {
@@ -120,12 +136,15 @@ class Album extends React.Component{
 
                 return (
                     <div key={index} className={className} onClick={() => this.showTile(tile.id)}>
-                        <img key={index} src={this.state.uploadedImage} alt={"Upload preview"}
+                        <img key={index} onLoad={this.onImgLoad} src={this.state.uploadedImage} alt={"Upload preview"}
                             style={{ position: "relative",
                                      top: "-" + this.tile_height * tile.col + "px",
                                      left: "-" + this.tile_width * tile.row + "px"
                             }}/>
+               
+               
                     </div>
+                    
                 )
             })
         }
