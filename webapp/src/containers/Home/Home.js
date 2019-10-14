@@ -4,9 +4,10 @@ import AppBar from '../../components/AppBar/AppBar';
 import HomeBody from '../../components/HomeBody/HomeBody';
 import Footer from '../../components/Footer/Footer';
 
-import { makeStyles, CssBaseline } from '@material-ui/core';
+import './Home.css';
+import {CssBaseline, withStyles} from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     icon: {
         marginRight: theme.spacing(2),
         width: '75px'
@@ -20,20 +21,129 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(6),
     },
-}));
+});
 
-export default function Album(props) {
-    const classes = useStyles();
+class Album extends React.Component{
+    constructor(props){
+        super(props);
+        this.nb_rows = 10;
+        this.nb_cols = 10;
+        this.tile_height = 50;
+        this.tile_width = 50;
+        this.state = {
+            uploadedImage: null,
+            tilesArray: [],
+        };
 
-    return (
-        <>
-            <CssBaseline />
-            <AppBar icon={classes.icon}/>
-            <HomeBody heroContent={classes.heroContent}
-                    network={props.network}
-                    account={props.account}
-                    lastBlock={props.lastBlock}/>
-            <Footer footerClass={classes.footer}/>
-        </>
-    );
+        this.generateTiles = this.generateTiles.bind(this);
+        this.showTile = this.showTile.bind(this);
+    }
+
+
+    // Vérifie si le fichier envoyé est conforme.
+    checkFileValidity = (event) => {
+        const files = event.target.files;
+
+        return (files[0] && files.length === 1 && files[0].name.match(/.(jpg|jpeg|png|gif)$/i));
+    };
+
+    // Récupère l'image de l'input
+    getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    };
+
+    // Stocke l'image dans le state
+    uploadImage= (event) => {
+        if(this.checkFileValidity(event)){
+            this.getBase64(event.target.files[0])
+                .then(base64 => {
+                    this.setState({
+                        uploadedImage: base64
+                    }, () => {
+                        console.log(base64.offsetHeight);
+                    })
+                });
+                // uploadedImage: event.target.files[0] //APRES : QUAND ON FERA LE BACKEND
+        } else {
+            alert("Vous ne pouvez pas envoyer plusieurs fichiers.");
+        }
+    };
+
+    // Génère les cases formant la mosaïque
+    generateTiles(){
+        const tiles_array = [];
+        let id = 1;
+
+        for(let i = 0; i < this.nb_rows; i++){
+            for(let j = 0; j < this.nb_cols; j++){
+                tiles_array.push({
+                    id: id,
+                    col: j,
+                    row: i,
+                });
+
+                id += 1;
+            }
+        }
+
+        this.setState({
+            ...this.state,
+            tilesArray: [...tiles_array]
+        });
+    }
+
+    //Ici on va vérifier qu'on peut récupérer les données d'une case qu'on enverra dans un formulaire lorsque
+    //l'utilisateur valider sa commande.
+    showTile(id){
+        console.log(id);
+    }
+
+    componentDidMount(){
+        this.generateTiles();
+    }
+
+    render(){
+        const { classes } = this.props;
+
+        // On affiche la preview que lorsqu'une image a été uploadée.
+        let imagePreview = null;
+        if(this.state.uploadedImage){
+            imagePreview = this.state.tilesArray.map((tile, index) => {
+                let className = this.state.selectedTileId === tile.id
+                                ? "tile selected"
+                                : "tile";
+
+                return (
+                    <div key={index} className={className} onClick={() => this.showTile(tile.id)}>
+                        <img key={index} src={this.state.uploadedImage} alt={"Upload preview"}
+                            style={{ position: "relative",
+                                     top: "-" + this.tile_height * tile.col + "px",
+                                     left: "-" + this.tile_width * tile.row + "px"
+                            }}/>
+                    </div>
+                )
+            })
+        }
+
+        return (
+            <>
+                <CssBaseline />
+                <AppBar icon={classes.icon}/>
+                <HomeBody heroContent={classes.heroContent}
+                          network={this.props.network}
+                          account={this.props.account}
+                          lastBlock={this.props.lastBlock}
+                          uploadImage={this.uploadImage}
+                          imagePreview={imagePreview}/>
+                <Footer footerClass={classes.footer}/>
+            </>
+        );
+    }
 }
+
+export default withStyles(useStyles)(Album);

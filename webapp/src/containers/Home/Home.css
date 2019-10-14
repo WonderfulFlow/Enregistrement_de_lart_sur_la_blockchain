@@ -1,0 +1,15 @@
+.tile {
+    display: inline-block;
+    margin: 2px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.preview-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 550px;
+}
