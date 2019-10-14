@@ -7,7 +7,7 @@ const appBar = (props) => {
     return (
         <AppBar position="relative">
             <Toolbar>
-                <img className={props.icon} src={logo}/>
+                <img className={props.icon} src={logo} alt={"Fond"}/>
                 <Typography variant="h6" color="inherit" noWrap>
                     ArtBlockchain
                 </Typography>
