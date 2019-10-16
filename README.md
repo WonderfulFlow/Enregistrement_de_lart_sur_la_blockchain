@@ -18,8 +18,9 @@ this project is made by 4 students Osman, Halim, Maxime and Alexis.
 the goal is to be able to create NFT on ethereum for a piece of art, view the art piece and be able to buy them directly from the site.
 
 the contracts are written in solidity and uses a standard ERC721 contract but adds on top of it.
-with the ```Art_Piece.sol``
+with the ```Art_Piece.sol```
 we have a bunch of function that are callable.
 ## list of functions
  ``` list_of_owned``` 
 takes no argument but returns an array of every token owned by the caller of the function on that specific smart contract 
+
