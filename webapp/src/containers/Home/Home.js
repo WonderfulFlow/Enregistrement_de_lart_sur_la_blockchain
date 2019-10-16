@@ -26,32 +26,21 @@ const useStyles = theme => ({
 class Album extends React.Component{
     constructor(props){
         super(props);
-        this.nb_rows = 10;
-        this.nb_cols = 10;
-        
+        this.tile_height = 0;
+        this.tile_width = 0;
+
         this.state = {
+            nb_rows: 10,
+            nb_cols: 10,
+            width: 0,
+            selectedTileId: null,
             uploadedImage: null,
             tilesArray: [],
-            dimensions: {},
         };
-       
-       
-        this.tile_height=this.state.dimensions.height/this.nb_rows ;
-        this.tile_width =this.state.dimensions.width/this.nb_cols ;
-        this.onImgLoad = this.onImgLoad.bind(this);
+
         this.generateTiles = this.generateTiles.bind(this);
         this.showTile = this.showTile.bind(this);
     }
-
-    // gets image height and width 
-    onImgLoad({target:img}) {
-        this.setState({dimensions:{height:img.offsetHeight,
-                                   width:img.offsetWidth}});
-        
-        console.log(this.state.dimensions);
-    }
-
-
 
     // Vérifie si le fichier envoyé est conforme.
     checkFileValidity = (event) => {
@@ -70,31 +59,52 @@ class Album extends React.Component{
         });
     };
 
+    // Récupère les dimensions de l'image
+    getImageDimensions = (file) => {
+        return new Promise (function (resolved, rejected) {
+            const i = new Image();
+            i.onload = function(){
+                resolved({
+                    width: i.width,
+                    height: i.height
+                })
+            };
+            i.src = file
+        })
+    };
+
     // Stocke l'image dans le state
-    uploadImage= (event) => {
-        
-        if(this.checkFileValidity(event)){
-            this.getBase64(event.target.files[0])
-                .then(base64 => {
-                    this.setState({
-                        uploadedImage: base64
-                    }, () => {
-                        console.log(this.uploadImage.offsetHeight);
-                    })
-                });
-                // uploadedImage: event.target.files[0] //APRES : QUAND ON FERA LE BACKEND
-        } else {
-            alert("Vous ne pouvez pas envoyer plusieurs fichiers.");
+    uploadImage = (event) => {
+        if(event.target.files.length !== 0){
+            if(this.checkFileValidity(event)){
+                this.getBase64(event.target.files[0])
+                    .then(base64 => {
+                        this.getImageDimensions(base64)
+                            .then(response => {
+                                this.tile_height = response.height / this.state.nb_rows;
+                                this.tile_width = response.width / this.state.nb_cols;
+
+                                this.setState({
+                                    ...this.state,
+                                    uploadedImage: base64,
+                                    width: response.width
+                                });
+                            });
+                    });
+                    // uploadedImage: event.target.files[0] //APRES : QUAND ON FERA LE BACKEND
+            } else {
+                alert("Vous ne pouvez pas envoyer plusieurs fichiers.");
+            }
         }
     };
 
     // Génère les cases formant la mosaïque
-    generateTiles(){
+    generateTiles = () => {
         const tiles_array = [];
         let id = 1;
 
-        for(let i = 0; i < this.nb_rows; i++){
-            for(let j = 0; j < this.nb_cols; j++){
+        for(let i = 0; i < this.state.nb_rows; i++){
+            for(let j = 0; j < this.state.nb_cols; j++){
                 tiles_array.push({
                     id: id,
                     col: j,
@@ -109,7 +119,7 @@ class Album extends React.Component{
             ...this.state,
             tilesArray: [...tiles_array]
         });
-    }
+    };
 
     //Ici on va vérifier qu'on peut récupérer les données d'une case qu'on enverra dans un formulaire lorsque
     //l'utilisateur valider sa commande.
@@ -125,24 +135,24 @@ class Album extends React.Component{
         const { classes } = this.props;
 
         // On affiche la preview que lorsqu'une image a été uploadée.
-        //const {src} = this.props;
-     //   const {width, height} = this.state.dimensions;
         let imagePreview = null;
+        let containerWidth = 0;
         if(this.state.uploadedImage){
+            containerWidth = this.state.width + this.state.nb_cols * 4 + "px";
+
             imagePreview = this.state.tilesArray.map((tile, index) => {
                 let className = this.state.selectedTileId === tile.id
                                 ? "tile selected"
                                 : "tile";
 
                 return (
-                    <div key={index} className={className} onClick={() => this.showTile(tile.id)}>
-                        <img key={index} onLoad={this.onImgLoad} src={this.state.uploadedImage} alt={"Upload preview"}
+                    <div key={index} className={className}
+                         onClick={() => this.showTile(tile.id)}>
+                        <img key={index} src={this.state.uploadedImage} alt={"Upload preview"}
                             style={{ position: "relative",
                                      top: "-" + this.tile_height * tile.col + "px",
                                      left: "-" + this.tile_width * tile.row + "px"
                             }}/>
-               
-               
                     </div>
                     
                 )
@@ -158,7 +168,8 @@ class Album extends React.Component{
                           account={this.props.account}
                           lastBlock={this.props.lastBlock}
                           uploadImage={this.uploadImage}
-                          imagePreview={imagePreview}/>
+                          imagePreview={imagePreview}
+                          containerWidth={containerWidth}/>
                 <Footer footerClass={classes.footer}/>
             </>
         );

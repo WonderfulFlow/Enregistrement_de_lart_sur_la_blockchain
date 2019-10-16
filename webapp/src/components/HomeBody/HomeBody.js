@@ -40,7 +40,7 @@ const homeBody = (props) => {
                     </Typography>
                 </Container>
 
-                <div className={"preview-container"}>
+                <div className={"preview-container"} style={{width: props.containerWidth}}>
                     {props.imagePreview}
                 </div>
             </div>
