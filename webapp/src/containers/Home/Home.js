@@ -70,6 +70,7 @@ class Album extends React.Component{
                 })
             };
             i.src = file
+            console.log(i.width,i.height) //good
         })
     };
 
@@ -83,6 +84,7 @@ class Album extends React.Component{
                             .then(response => {
                                 this.tile_height = response.height / this.state.nb_rows;
                                 this.tile_width = response.width / this.state.nb_cols;
+                                console.log(this.tile_height,this.tile_width)
 
                                 this.setState({
                                     ...this.state,

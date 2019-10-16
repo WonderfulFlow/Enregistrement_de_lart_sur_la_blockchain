@@ -1,6 +1,3 @@
-adresse contrat : 0x662287c1f8a3c65632f4bad37a6791d8acbea5aa57385e2e44cd1bcbe0fd3fb7
-
-ABI: 
 [
 	{
 		"constant": true,
@@ -53,15 +50,6 @@ ABI:
 			}
 		],
 		"name": "approve",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "read_liste",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -157,6 +145,20 @@ ABI:
 			{
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "list_of_owned",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256[]"
 			}
 		],
 		"payable": false,
