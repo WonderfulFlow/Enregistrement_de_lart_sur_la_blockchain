@@ -103,8 +103,8 @@ class Album extends React.Component{
         const tiles_array = [];
         let id = 1;
 
-        for(let i = 0; i < this.state.nb_rows; i++){
-            for(let j = 0; j < this.state.nb_cols; j++){
+        for(let i = 0; i < this.state.nb_cols; i++){
+            for(let j = 0; j < this.state.nb_rows; j++){
                 tiles_array.push({
                     id: id,
                     col: j,
@@ -123,8 +123,8 @@ class Album extends React.Component{
 
     //Ici on va vérifier qu'on peut récupérer les données d'une case qu'on enverra dans un formulaire lorsque
     //l'utilisateur valider sa commande.
-    showTile(id){
-        console.log(id);
+    showTile(tile){
+        console.log(tile);
     }
 
     componentDidMount(){
@@ -147,11 +147,12 @@ class Album extends React.Component{
 
                 return (
                     <div key={index} className={className}
-                         onClick={() => this.showTile(tile.id)}>
+                         style={{width: this.tile_width, height: this.tile_height}}
+                         onClick={() => this.showTile(tile)}>
                         <img key={index} src={this.state.uploadedImage} alt={"Upload preview"}
                             style={{ position: "relative",
-                                     top: "-" + this.tile_height * tile.col + "px",
-                                     left: "-" + this.tile_width * tile.row + "px"
+                                     top: "-" + this.tile_height * tile.row + "px",
+                                     left: "-" + this.tile_width * tile.col + "px"
                             }}/>
                     </div>
                     
