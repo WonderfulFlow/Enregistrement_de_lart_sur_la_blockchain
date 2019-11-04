@@ -14,7 +14,7 @@ Techno: React, Ethereum (solidity),
 le projet contient l'ensemble des fichier .sol necessaire au deploiement du smart contract.
 le fichier principale est ARt4blockchain.sol
 
-this project is made by 4 students Osman, Halim, Maxime and Alexis.
+this project is made by 4 students Osmane, Halim, Maxime and Alexis.
 the goal is to be able to create NFT on ethereum for a piece of art, view the art piece and be able to buy them directly from the site.
 
 the contracts are written in solidity and uses a standard ERC721 contract but adds on top of it.
