@@ -2,6 +2,7 @@ import React from 'react';
 import background from '../../img/background.png';
 import AppBar from '../../components/AppBar/AppBar';
 import HomeBody from '../../components/HomeBody/HomeBody';
+import Mosaique from '../Mosaique/Mosaique';
 import Footer from '../../components/Footer/Footer';
 
 import './Home.css';
@@ -26,21 +27,47 @@ const useStyles = theme => ({
 class Album extends React.Component{
     constructor(props){
         super(props);
-        this.tile_height = 0;
-        this.tile_width = 0;
+        this.margin = 1;
 
         this.state = {
             nb_rows: 10,
             nb_cols: 10,
+            height: 0,
             width: 0,
+            tile_height: 0,
+            tile_width: 0,
             selectedTileId: null,
             uploadedImage: null,
             tilesArray: [],
         };
 
         this.generateTiles = this.generateTiles.bind(this);
-        this.showTile = this.showTile.bind(this);
+        this.selectTile = this.selectTile.bind(this);
     }
+
+    changeNbCols = (event) => {
+        const nb_cols = Math.max(event.target.value, 5);
+
+        this.setState({
+            ...this.state,
+            nb_cols: nb_cols,
+            tile_width: this.state.width / nb_cols
+        }, () => {
+            this.generateTiles();
+        });
+    };
+
+    changeNbRows = (event) => {
+        const nb_rows = Math.max(event.target.value, 5);
+
+        this.setState({
+            ...this.state,
+            nb_rows: nb_rows,
+            tile_height: this.state.height / nb_rows
+        }, () => {
+            this.generateTiles();
+        });
+    };
 
     // Vérifie si le fichier envoyé est conforme.
     checkFileValidity = (event) => {
@@ -81,13 +108,13 @@ class Album extends React.Component{
                     .then(base64 => {
                         this.getImageDimensions(base64)
                             .then(response => {
-                                this.tile_height = response.height / this.state.nb_rows;
-                                this.tile_width = response.width / this.state.nb_cols;
-
                                 this.setState({
                                     ...this.state,
                                     uploadedImage: base64,
-                                    width: response.width
+                                    height: response.height,
+                                    width: response.width,
+                                    tile_height: response.height / this.state.nb_rows,
+                                    tile_width: response.width / this.state.nb_cols,
                                 });
                             });
                     });
@@ -103,8 +130,8 @@ class Album extends React.Component{
         const tiles_array = [];
         let id = 1;
 
-        for(let i = 0; i < this.state.nb_cols; i++){
-            for(let j = 0; j < this.state.nb_rows; j++){
+        for(let i = 0; i < this.state.nb_rows; i++){
+            for(let j = 0; j < this.state.nb_cols; j++){
                 tiles_array.push({
                     id: id,
                     col: j,
@@ -123,8 +150,15 @@ class Album extends React.Component{
 
     //Ici on va vérifier qu'on peut récupérer les données d'une case qu'on enverra dans un formulaire lorsque
     //l'utilisateur valider sa commande.
-    showTile(tile){
-        console.log(tile);
+    selectTile(tile){
+        this.setState({
+            ...this.state,
+            selectedTileId: tile.id
+        });
+
+        console.log("Col : " + tile.col + " Row : " + tile.row);
+
+        // alert("Vous souhaitez acheter la portion de l'oeuvre ayant pour ID : " + tile.id);
     }
 
     componentDidMount(){
@@ -133,32 +167,16 @@ class Album extends React.Component{
 
     render(){
         const { classes } = this.props;
-
-        // On affiche la preview que lorsqu'une image a été uploadée.
-        let imagePreview = null;
-        let containerWidth = 0;
-        if(this.state.uploadedImage){
-            containerWidth = this.state.width + this.state.nb_cols * 4 + "px";
-
-            imagePreview = this.state.tilesArray.map((tile, index) => {
-                let className = this.state.selectedTileId === tile.id
-                                ? "tile selected"
-                                : "tile";
-
-                return (
-                    <div key={index} className={className}
-                         style={{width: this.tile_width, height: this.tile_height}}
-                         onClick={() => this.showTile(tile)}>
-                        <img key={index} src={this.state.uploadedImage} alt={"Upload preview"}
-                            style={{ position: "relative",
-                                     top: "-" + this.tile_height * tile.row + "px",
-                                     left: "-" + this.tile_width * tile.col + "px"
-                            }}/>
-                    </div>
-                    
-                )
-            })
-        }
+        const mosaique = <Mosaique uploadedImage={this.state.uploadedImage}
+                                   tilesArray={this.state.tilesArray}
+                                   selectedTilesId={this.state.selectedTileId}
+                                   width={this.state.width}
+                                   nb_cols={this.state.nb_cols}
+                                   margin={this.margin}
+                                   tile_width={this.state.tile_width}
+                                   tile_height={this.state.tile_height}
+                                   selectTile={this.selectTile}
+                                    />;
 
         return (
             <>
@@ -169,8 +187,12 @@ class Album extends React.Component{
                           account={this.props.account}
                           lastBlock={this.props.lastBlock}
                           uploadImage={this.uploadImage}
-                          imagePreview={imagePreview}
-                          containerWidth={containerWidth}/>
+                          changeNbCols={this.changeNbCols}
+                          valueNbCols={this.state.nb_cols}
+                          changeNbRows={this.changeNbRows}
+                          valueNbRows={this.state.nb_rows}>
+                    {mosaique}
+                </HomeBody>
                 <Footer footerClass={classes.footer}/>
             </>
         );

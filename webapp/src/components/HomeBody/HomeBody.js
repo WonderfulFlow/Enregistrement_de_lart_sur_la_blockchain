@@ -35,14 +35,20 @@ const homeBody = (props) => {
                         </div>
                     </div>
                     <br/><br/>
+                    <label>NB COLS</label>
+                    <input type="number" value={props.valueNbCols} style={{ marginLeft: "10px" }}
+                           min={5} max={20} onChange={(event) => props.changeNbCols(event)}/>
+                    <br/>
+                    <label>NB COLS</label>
+                    <input type="number" value={props.valueNbRows} style={{ marginLeft: "10px" }}
+                           min={5} max={20} onChange={(event) => props.changeNbRows(event)}/>
+                    <br/><br/>
                     <Typography variant="h5" align="center" color="inherit" paragraph>
                         Preview de l'image uploadée :
                     </Typography>
                 </Container>
 
-                <div className={"preview-container"} style={{width: props.containerWidth}}>
-                    {props.imagePreview}
-                </div>
+                {props.children}
             </div>
         </main>
     );
