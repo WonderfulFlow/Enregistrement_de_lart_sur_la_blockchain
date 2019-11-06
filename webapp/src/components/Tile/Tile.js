@@ -9,7 +9,7 @@ const tile = (props) => (
                  position: "relative",
                  top: "-" + props.tile_height * props.tile.row + "px",
                  left: "-" + props.tile_width * props.tile.col + "px"
-             }}/>
+             }}/> 
     </div>
 );
 
