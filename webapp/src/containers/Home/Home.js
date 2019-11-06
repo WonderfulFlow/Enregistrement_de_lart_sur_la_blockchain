@@ -97,6 +97,7 @@ class Album extends React.Component{
                 })
             };
             i.src = file
+            console.log(i.width,i.height) //good
         })
     };
 
