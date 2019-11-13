@@ -5,6 +5,10 @@ import HomeBody from '../../components/HomeBody/HomeBody';
 import Mosaique from '../Mosaique/Mosaique';
 import Footer from '../../components/Footer/Footer';
 
+import Web3 from 'web3';
+import { artblockchain2_ABI, artblockchain2_ADRESS } from '../../config'
+
+
 import './Home.css';
 import {CssBaseline, withStyles} from '@material-ui/core';
 
@@ -39,12 +43,45 @@ class Album extends React.Component{
             selectedTileId: null,
             uploadedImage: null,
             tilesArray: [],
+            smart_contract: null,
+            nb_oeuvres: null,
+
+            token_id: 0,
         };
 
+        this.getAddress= this.getAddress.bind(this);
         this.generateTiles = this.generateTiles.bind(this);
         this.selectTile = this.selectTile.bind(this);
+        this.loadBlockchainData = this.loadBlockchainData.bind(this);
     }
 
+    onChange_Token_Id = (event) => {
+        this.setState({
+            ...this.state,
+            token_id: event.target.value
+        });
+    }
+
+    async loadBlockchainData() {
+        await window.ethereum.enable();
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const smart_contract = new web3.eth.Contract( artblockchain2_ABI, artblockchain2_ADRESS)
+        this.setState({
+            ...this.state,
+            smart_contract: smart_contract 
+        });
+        
+       
+      }
+
+    async getAddress(val){
+        let nb_oeuvres = await this.state.smart_contract.methods.ownerOf(val).call()// calls the function ownerOf the 1st token 
+        this.setState({ 
+            ...this.state,
+            nb_oeuvres: nb_oeuvres 
+        });
+    }
+    
     changeNbCols = (event) => {
         const nb_cols = Math.max(event.target.value, 5);
 
@@ -164,6 +201,7 @@ class Album extends React.Component{
 
     componentDidMount(){
         this.generateTiles();
+        this.loadBlockchainData();
     }
 
     render(){
@@ -179,6 +217,10 @@ class Album extends React.Component{
                                    selectTile={this.selectTile}
                                     />;
 
+        if(this.state.smart_contract){
+            this.getAddress(this.state.token_id);
+        }
+        
         return (
             <>
                 <CssBaseline />
@@ -186,12 +228,14 @@ class Album extends React.Component{
                 <HomeBody heroContent={classes.heroContent}
                           network={this.props.network}
                           account={this.props.account}
+                          nb_oeuvres={this.state.nb_oeuvres}
                           lastBlock={this.props.lastBlock}
                           uploadImage={this.uploadImage}
                           changeNbCols={this.changeNbCols}
                           valueNbCols={this.state.nb_cols}
                           changeNbRows={this.changeNbRows}
-                          valueNbRows={this.state.nb_rows}>
+                          valueNbRows={this.state.nb_rows}
+                          onChange_Token_Id={this.onChange_Token_Id}>
                     {mosaique}
                 </HomeBody>
                 <Footer footerClass={classes.footer}/>

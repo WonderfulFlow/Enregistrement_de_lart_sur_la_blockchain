@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { Container, Typography } from "@material-ui/core";
+//import { artblockchain2_ABI, artblockchain2_ADRESS } from '../../config' //to be changed somehow
 
 const homeBody = (props) => {
+    
     return (
+        
         <main>
             <div className={props.heroContent}  style={{ minHeight:"75vh" }}>
                 <Container maxWidth="sm" style={{color: "lightblue"}}>
@@ -15,8 +18,12 @@ const homeBody = (props) => {
                         Vous êtes actuellement sur le serveur : {props.network}
                         <br/><br/>
                         Votre numéro de compte : {props.account}
-                        <br/><br/>
+                        <br/><br/> 
                         Le numéro du dernier block : {props.lastBlock}
+                        <br/><br/>
+                        <input type="text" placeholder="ID du token" onChange={props.onChange_Token_Id}/>
+                        Le propietaire du 1er token est : {props.nb_oeuvres}
+                        
                     </Typography>
                     <br/><br/>
                     <div className="input-group">

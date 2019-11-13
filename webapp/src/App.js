@@ -2,7 +2,7 @@ import React from 'react';
 import Web3 from 'web3';
 import Home from './containers/Home/Home';
 import './App.css';
-
+import { artblockchain2_ABI, artblockchain2_ADRESS } from './config'
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -18,7 +18,10 @@ class App extends React.Component {
   async loadBlockchainData() {
     await window.ethereum.enable();
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    const network = await web3.eth.net.getNetworkType();
+    const smart_contract= new web3.eth.Contract( artblockchain2_ABI, artblockchain2_ADRESS)
+    this.setState({ smart_contract })
+    
+   const network = await web3.eth.net.getNetworkType();
     const accounts = await web3.eth.getAccounts();
     const lastBlock = await web3.eth.getBlock('latest');
 
@@ -26,7 +29,8 @@ class App extends React.Component {
         ...this.state,
         network: network,
         account: accounts[0],
-        lastBlock: lastBlock.number
+        lastBlock: lastBlock.number,
+       
     });
   }
 
