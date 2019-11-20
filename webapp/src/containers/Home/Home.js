@@ -46,21 +46,35 @@ class Album extends React.Component{
             smart_contract: null,
             nb_oeuvres: null,
 
-            token_id: 0,
+            token_id: null,
         };
 
         this.getAddress= this.getAddress.bind(this);
         this.generateTiles = this.generateTiles.bind(this);
         this.selectTile = this.selectTile.bind(this);
         this.loadBlockchainData = this.loadBlockchainData.bind(this);
+        this.get_info=this.get_info.bind(this);
+
     }
 
     onChange_Token_Id = (event) => {
+
         this.setState({
             ...this.state,
             token_id: event.target.value
-        });
+        }); 
     }
+    async buy_token(token_id, price=1){
+            await this.state.smart_contract.methods.purchaseToken(token_id).send({from:this.props.account, value:price })
+            
+    }
+    async get_info(token_id){
+        let infos= await this.state.smart_contract.methods.list_of_art(token_id).call() // call to hget the infos 
+        console.log(infos);
+    }
+
+
+    
 
     async loadBlockchainData() {
         await window.ethereum.enable();
@@ -71,15 +85,27 @@ class Album extends React.Component{
             smart_contract: smart_contract 
         });
         
-       
+                
       }
+    
+    async getAddress(token_id){
+        let nb_oeuvres=null
 
-    async getAddress(val){
-        let nb_oeuvres = await this.state.smart_contract.methods.ownerOf(val).call()// calls the function ownerOf the 1st token 
+
+        try {
+            nb_oeuvres = await this.state.smart_contract.methods.ownerOf(token_id).call()// calls the function ownerOf the 1st token 
+
+        } catch (error) {
+            nb_oeuvres=null
+        }
+        // nb_oeuvres = await this.state.smart_contract.methods.ownerOf(token_id).call()// calls the function ownerOf the 1st token 
+        //return nb_oeuvres
+        console.log(nb_oeuvres)
         this.setState({ 
             ...this.state,
             nb_oeuvres: nb_oeuvres 
         });
+
     }
     
     changeNbCols = (event) => {
@@ -208,7 +234,7 @@ class Album extends React.Component{
         const { classes } = this.props;
         const mosaique = <Mosaique uploadedImage={this.state.uploadedImage}
                                    tilesArray={this.state.tilesArray}
-                                   selectedTilesId={this.state.selectedTileId}
+                                   selectedTilesId={this.state.selectedTileId}  
                                    width={this.state.width}
                                    nb_cols={this.state.nb_cols}
                                    margin={this.margin}
@@ -217,14 +243,20 @@ class Album extends React.Component{
                                    selectTile={this.selectTile}
                                     />;
 
-        if(this.state.smart_contract){
-            this.getAddress(this.state.token_id);
+                                   
+        if(this.state.smart_contract && this.state.token_id){
+           this.getAddress(this.state.token_id);
+           //nb_oeuvres = this.state.nb_oeuvres
         }
         
         return (
             <>
                 <CssBaseline />
                 <AppBar icon={classes.icon}/>
+                <button onClick={() => this.buy_token(12)}>GET INFO</button>
+               { //<button onClick={() => this.getAddress(12) }>GET INFO2</button>
+               }
+
                 <HomeBody heroContent={classes.heroContent}
                           network={this.props.network}
                           account={this.props.account}
@@ -235,7 +267,8 @@ class Album extends React.Component{
                           valueNbCols={this.state.nb_cols}
                           changeNbRows={this.changeNbRows}
                           valueNbRows={this.state.nb_rows}
-                          onChange_Token_Id={this.onChange_Token_Id}>
+                          onChange_Token_Id={this.onChange_Token_Id}
+                          >
                     {mosaique}
                 </HomeBody>
                 <Footer footerClass={classes.footer}/>

@@ -22,7 +22,7 @@ const homeBody = (props) => {
                         Le numéro du dernier block : {props.lastBlock}
                         <br/><br/>
                         <input type="text" placeholder="ID du token" onChange={props.onChange_Token_Id}/>
-                        Le propietaire du 1er token est : {props.nb_oeuvres}
+                        Le proprietaire du 1er token est : {props.nb_oeuvres}
                         
                     </Typography>
                     <br/><br/>
