@@ -1,18 +1,15 @@
 import React from 'react';
 import background from '../../img/background.png';
-import AppBar from '../../components/AppBar/AppBar';
-import HomeBody from '../../components/HomeBody/HomeBody';
 import Mosaique from '../Mosaique/Mosaique';
+import HomeBody from '../../components/HomeBody/HomeBody';
 import Footer from '../../components/Footer/Footer';
-
 import './Home.css';
+
+import { connect } from 'react-redux';
 import {CssBaseline, withStyles} from '@material-ui/core';
+import Web3 from "web3";
 
 const useStyles = theme => ({
-    icon: {
-        marginRight: theme.spacing(2),
-        width: '75px'
-    },
     heroContent: {
         backgroundColor: theme.palette.background.paper,
         backgroundImage: "url(" + background + ")",
@@ -22,18 +19,22 @@ const useStyles = theme => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(6),
     },
-})  ;
+});
 
 class Album extends React.Component{
     constructor(props){
         super(props);
-        this.margin = 1;
+        this.tile_margin = 1;
 
         this.state = {
+            network: "",
+            account: "",
+            lastBlock: "",
+
             nb_rows: 10,
             nb_cols: 10,
-            height: 0,
-            width: 0,
+            original_height: 0,
+            original_width: 0,
             tile_height: 0,
             tile_width: 0,
             selectedTileId: null,
@@ -41,29 +42,34 @@ class Album extends React.Component{
             tilesArray: [],
         };
 
-        this.generateTiles = this.generateTiles.bind(this);
         this.selectTile = this.selectTile.bind(this);
+        this.loadBlockchainData = this.loadBlockchainData.bind(this);
     }
 
-    changeNbCols = (event) => {
-        const nb_cols = Math.max(event.target.value, 5);
+    async loadBlockchainData(){
+        await window.ethereum.enable();
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const network = await web3.eth.net.getNetworkType();
+        const accounts = await web3.eth.getAccounts();
+        const lastBlock = await web3.eth.getBlock('latest');
 
         this.setState({
             ...this.state,
-            nb_cols: nb_cols,
-            tile_width: this.state.width / nb_cols
-        }, () => {
-            this.generateTiles();
+            network: network,
+            account: accounts[0],
+            lastBlock: lastBlock.number
         });
-    };
+    }
 
-    changeNbRows = (event) => {
-        const nb_rows = Math.max(event.target.value, 5);
+    changeInputMosaique = (event, keys) => {
+        const val = Math.max(event.target.value, 5);
 
-        this.setState({
-            ...this.state,
-            nb_rows: nb_rows,
-            tile_height: this.state.height / nb_rows
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                [keys.division]: val,
+                ["tile_" + keys.dimension]: prevState["original_" + keys.dimension] / val
+            };
         }, () => {
             this.generateTiles();
         });
@@ -111,14 +117,13 @@ class Album extends React.Component{
                                 this.setState({
                                     ...this.state,
                                     uploadedImage: base64,
-                                    height: response.height,
-                                    width: response.width,
+                                    original_height: response.height,
+                                    original_width: response.width,
                                     tile_height: response.height / this.state.nb_rows,
                                     tile_width: response.width / this.state.nb_cols,
                                 });
                             });
                     });
-                    // uploadedImage: event.target.files[0] //APRES : QUAND ON FERA LE BACKEND
             } else {
                 alert("Vous ne pouvez pas envoyer plusieurs fichiers.");
             }
@@ -162,6 +167,7 @@ class Album extends React.Component{
     }
 
     componentDidMount(){
+        this.loadBlockchainData();
         this.generateTiles();
     }
 
@@ -170,9 +176,9 @@ class Album extends React.Component{
         const mosaique = <Mosaique uploadedImage={this.state.uploadedImage}
                                    tilesArray={this.state.tilesArray}
                                    selectedTilesId={this.state.selectedTileId}
-                                   width={this.state.width}
+                                   original_width={this.state.original_width}
                                    nb_cols={this.state.nb_cols}
-                                   margin={this.margin}
+                                   tile_margin={this.tile_margin}
                                    tile_width={this.state.tile_width}
                                    tile_height={this.state.tile_height}
                                    selectTile={this.selectTile}
@@ -181,15 +187,13 @@ class Album extends React.Component{
         return (
             <>
                 <CssBaseline />
-                <AppBar icon={classes.icon}/>
                 <HomeBody heroContent={classes.heroContent}
-                          network={this.props.network}
-                          account={this.props.account}
-                          lastBlock={this.props.lastBlock}
+                          network={this.state.network}
+                          account={this.state.account}
+                          lastBlock={this.state.lastBlock}
                           uploadImage={this.uploadImage}
-                          changeNbCols={this.changeNbCols}
+                          changeInputMosaique={this.changeInputMosaique}
                           valueNbCols={this.state.nb_cols}
-                          changeNbRows={this.changeNbRows}
                           valueNbRows={this.state.nb_rows}>
                     {mosaique}
                 </HomeBody>
@@ -199,4 +203,16 @@ class Album extends React.Component{
     }
 }
 
-export default withStyles(useStyles)(Album);
+const mapStateToProps = state => {
+    return {
+
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Album));

@@ -1,40 +1,10 @@
 import React from 'react';
-import Tile from '../../components/Tile/Tile';
+import "./Mosaique.css";
 
-class Mosaique extends React.Component{
-    render(){
-        let imagePreview = null;
-        let containerWidth = 0;
+const mosaique = (props) => (
+    <div className={"preview-container"} style={{ width: props.containerWidth }}>
+        {props.imagePreview}
+    </div>
+);
 
-        if(this.props.uploadedImage) {
-            containerWidth = this.props.width + 2 * this.props.nb_cols * this.props.margin + "px";
-
-            imagePreview = this.props.tilesArray.map((tile, index) => {
-                const tileClass = this.props.selectedTileId === tile.id
-                    ? "tile selected"
-                    : "tile";
-
-                return (
-                    <Tile key={index}
-                          tileClass={tileClass}
-                          width={this.props.tile_width}
-                          height={this.props.tile_height}
-                          margin={this.props.margin}
-                          selectTile={this.props.selectTile}
-                          uploadedImage={this.props.uploadedImage}
-                          tile={tile}
-                          tile_height={this.props.tile_height}
-                          tile_width={this.props.tile_width}/>
-                );
-            });
-        }
-
-        return (
-            <div className={"preview-container"} style={{ width: containerWidth }}>
-                {imagePreview}
-            </div>
-        )
-    }
-}
-
-export default Mosaique;
+export default mosaique;
