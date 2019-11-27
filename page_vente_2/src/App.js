@@ -1,53 +1,52 @@
 import React, {Component}from 'react';
 import {Button,Typography,Container,Input,InputLabel,TextField} from '@material-ui/core';
-//import Modal from '@material-ui/core/Modal'
+import Modal from '@material-ui/core/Modal'
 import Web3 from 'web3'
-import {abi, addresss} from './config'
+import {abi, addresss, byte_code} from './config'
 
 import './App.css';
 
 class App extends Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     open: false,
-  //     address :""
-  //   };
-  //   this.handleOpen = this.handleOpen.bind(this);
-  //   this.handleClose = this.handleClose.bind(this);
-  //   this.DeployContract = this.DeployContract.bind(this)
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      address :""
+    };
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.DeployContract = this.DeployContract.bind(this)
+  }
 
   async DeployContract () {
     await window.ethereum.enable();
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     const myContract = new web3.eth.Contract(abi,addresss)
     myContract.deploy({
-      data : '0x92c114F6A3Ede531b95805d5197e0678dd42CfaC',
+      data : '0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820a906072c1065dbdb1041d1de751cb1b25ace39613f9db0640852d7974cddc8be64736f6c634300050c0032',
       arguments : [3,"bonjour","bonjour","bonjour",3]
     }).send({
-        from: '0x8DC5133eF01B89cD550528f1ea56ECB876ff7C3b',
-        gas: 1500000,
-        gasPrice: '30000000000000'
+        from: '0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852',
+        gasPrice: '20000000000'
       })
       .then(function(newContractInstance){
           console.log(newContractInstance.options.address) // instance with the new contract address
       });
   }
 
-  // handleOpen() {
-  //   this.setState({ open: true });
-  // };
+  handleOpen() {
+    this.setState({ open: true });
+  };
 
-  // handleClose(){
-  //   this.setState({ open: false });
-  // };
+  handleClose(){
+    this.setState({ open: false });
+  };
 
-  // componentDidMount(){
-  //   this.DeployContract();
-  //   //this.getAddress();
-  // }
+  componentDidMount(){
+    this.DeployContract();
+    //this.getAddress();
+  }
 
   render(){
     return (
@@ -106,7 +105,20 @@ class App extends Component {
               <Button type="button" onClick={this.DeployContract}>
                 Suivant
               </Button>
+              <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={this.state.open}
+                onClose={this.handleClose}
+              >
+                <div>
+                  <h2 id="simple-modal-title">IMAGE avec découpage etc.</h2>
+                  <p id="simple-modal-description">
+                  </p>
+                </div>
+              </Modal>
             </form>
+
           </Container>
         </div> 
     );
