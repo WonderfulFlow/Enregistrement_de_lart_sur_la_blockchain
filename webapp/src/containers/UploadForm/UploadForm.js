@@ -7,6 +7,10 @@ import MetamaskVerification from "../MetamaskVerification/MetamaskVerification";
 import {Typography, Container, makeStyles, withStyles} from '@material-ui/core';
 import { connect } from "react-redux";
 import * as actions_upload from "../../store/actions/actions_upload";
+import Web3 from 'web3'
+import {abi, addresss, byte_code} from './config'
+
+
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -86,8 +90,24 @@ class UploadForm extends React.Component {
             check = true;
         }
 
-        return check;
+        return true;
     };
+    async DeployContract () {
+        await window.ethereum.enable();
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const myContract = new web3.eth.Contract(abi,addresss)
+        myContract.deploy({
+          data : '0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820a906072c1065dbdb1041d1de751cb1b25ace39613f9db0640852d7974cddc8be64736f6c634300050c0032',
+          arguments : [3,"bonjour","bonjour","bonjour",3]
+        }).send({
+            from: '0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852',
+            gasPrice: '20000000000'
+          })
+          .then(function(newContractInstance){
+              console.log(newContractInstance.options.address) // instance with the new contract address
+          });
+      }
+    
 
     render(){
         return (

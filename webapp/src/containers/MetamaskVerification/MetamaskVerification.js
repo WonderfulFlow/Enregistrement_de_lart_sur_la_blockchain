@@ -13,36 +13,35 @@ class MetamaskVerification extends React.Component {
             account: null,
             lastBlock: 0,
             mounted: false
-        };
+};
         this.loadBlockchainData = this.loadBlockchainData.bind(this);
         this.test = this.test.bind(this);
     }
 
     async loadBlockchainData(){
-    //     let network = null, account = null, lastBlock_number = null;
-    //
-    //     try {
-    //         console.log("ici2");
-    //         await window.ethereum.enable();
-    //         console.log("ici1");
-    //         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    //         network = await web3.eth.net.getNetworkType();
-    //         account = await web3.eth.getAccounts()[0];
-    //         lastBlock_number = await web3.eth.getBlock('latest').number;
-    //     } catch (e) {
-    //         console.log(e);
-    //     } finally {
-    //         alert("finally");
-    //         this.setState({
-    //             ...this.state,
-    //             network: network,
-    //             account: account,
-    //             lastBlock_number: lastBlock_number,
-    //             mounted: true,
-    //         });
-    //     }
-    //
-    //     console.log("try fini");
+        let network = null, account = null, lastBlock_number = null;
+    
+        try {
+            //console.log("ici2");
+            await window.ethereum.enable();
+            //console.log("ici1");
+            const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+            network = await web3.eth.net.getNetworkType();
+            account = await web3.eth.getAccounts()[0];
+            lastBlock_number = await web3.eth.getBlock('latest').number;
+        } catch (e) {
+            console.log(e);
+        } finally {
+            this.setState({
+                ...this.state,
+                network: network,
+                account: account,
+                lastBlock_number: lastBlock_number,
+                mounted: true,
+            });
+        }
+    
+        console.log("try fini");
     }
 
     async test(){
@@ -86,8 +85,8 @@ class MetamaskVerification extends React.Component {
     }
 
     componentDidMount() {
-        // this.loadBlockchainData();
-        this.test();
+        this.loadBlockchainData();
+        //this.test();
     }
 
     render(){
