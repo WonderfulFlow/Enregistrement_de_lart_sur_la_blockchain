@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import * as actions_upload from "../../store/actions/actions_upload";
 import Web3 from 'web3'
 import {abi, addresss, byte_code} from './config'
-
+import { stringify } from 'querystring';
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ class UploadForm extends React.Component {
             name: "",
             description: "",
             price: 0,
-
+            
             modalOpen: false,
             tileHeight: 0,
             tileWidth: 0,
@@ -73,7 +73,7 @@ class UploadForm extends React.Component {
 
         return check;
     };
-
+   
     checkFormImageValidity = () => {
         let check = true;
 
@@ -92,13 +92,13 @@ class UploadForm extends React.Component {
 
         return true;
     };
-    async DeployContract () {
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const myContract = new web3.eth.Contract(abi,addresss)
         myContract.deploy({
-          data : '0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820a906072c1065dbdb1041d1de751cb1b25ace39613f9db0640852d7974cddc8be64736f6c634300050c0032',
-          arguments : [3,"bonjour","bonjour","bonjour",3]
+          data : byte_code,
+          arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
         }).send({
             from: '0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852',
             gasPrice: '20000000000'
