@@ -1,5 +1,4 @@
 import * as actionTypes from "./actions_names";
-import tile from "../../components/Tile/Tile";
 
 export const uploadStart = () => {
     return {

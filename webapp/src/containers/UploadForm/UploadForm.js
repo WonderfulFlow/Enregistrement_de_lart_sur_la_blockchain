@@ -2,6 +2,7 @@ import React from 'react';
 import Form from "../../components/Form/Form";
 import Modal from "../Test/Modal";
 import ApercuModal from "../Test/ApercuModal";
+import MetamaskVerification from "../MetamaskVerification/MetamaskVerification";
 
 import {Typography, Container, makeStyles, withStyles} from '@material-ui/core';
 import { connect } from "react-redux";
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-class MiseVente extends React.Component {
+class UploadForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -42,6 +43,8 @@ class MiseVente extends React.Component {
 
     checkFormNameValidity = () => {
         let check = true;
+        //check text, pas file
+        // faire trycatch
 
         if(this.state.name.length < 2  || this.state.name.length > 20) check = false;
 
@@ -50,6 +53,8 @@ class MiseVente extends React.Component {
 
     checkFormDescriptionValidity = () => {
         let check = true;
+        //check text, pas file
+        // faire trycatch
 
         if(this.state.description.length < 2  || this.state.description.length > 500) check = false;
 
@@ -58,6 +63,7 @@ class MiseVente extends React.Component {
 
     checkFormPriceValidity = () => {
         let check = true;
+        // faire trycatch
 
         if(isNaN(this.state.price)) check = false;
 
@@ -73,20 +79,20 @@ class MiseVente extends React.Component {
     };
 
     checkFormValidity = () => {
-        // let check = false;
-        //
-        // if(this.checkFormNameValidity() && this.checkFormDescriptionValidity() &&
-        //     this.checkFormPriceValidity() && this.checkFormImageValidity()){
-        //     check = true;
-        // }
-        //
-        // return check;
-        return true;
+        let check = false;
+
+        if(this.checkFormNameValidity() && this.checkFormDescriptionValidity() &&
+            this.checkFormPriceValidity() && this.checkFormImageValidity()){
+            check = true;
+        }
+
+        return check;
     };
 
     render(){
         return (
             <div>
+                <MetamaskVerification/>
                 <Container maxWidth="md">
                     <br/><br/>
                     <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -99,7 +105,7 @@ class MiseVente extends React.Component {
 
                     <Form onChange={this.onChange} uploadImage={this.props.uploadImage}/>
 
-                    <Modal original_width={this.props.original_width}>
+                    <Modal original_width={this.props.original_width} checkFormValidity={this.checkFormValidity}>
                         <ApercuModal/>
                     </Modal>
                 </Container>
@@ -123,4 +129,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(MiseVente));
+export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(UploadForm));

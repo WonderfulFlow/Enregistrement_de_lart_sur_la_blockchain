@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Link, Toolbar} from "@material-ui/core";
+import {Button, Link} from "@material-ui/core";
 import "./NavBarLink.css";
 
 const navBarLink = (props) => (

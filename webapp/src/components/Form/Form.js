@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, InputLabel, TextField } from "@material-ui/core";
+import { Input, InputLabel, TextField } from "@material-ui/core";
 
 const form = (props) => (
     <div>
@@ -23,7 +23,6 @@ const form = (props) => (
             <Input
                 type={"file"}
                 accept={"image/*"}
-                className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
                 placeholder={"test"}
                 onChange={props.uploadImage}

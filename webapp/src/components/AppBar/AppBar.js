@@ -4,7 +4,7 @@ import NavBarLink from "../NavBarLink/NavBarLink";
 import "./AppBar.css";
 import * as routes from "../../routes";
 
-import { AppBar, Toolbar, Typography, Button, Link } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
 const appBar = (props) => {
     return (
@@ -17,7 +17,7 @@ const appBar = (props) => {
                     </Typography>
                     <div className={"divExpand"}/>
                     <NavBarLink url={routes.HOME}>Home</NavBarLink>
-                    <NavBarLink url={routes.BUY}>Parcourir les oeuvres</NavBarLink>
+                    <NavBarLink url={routes.BROWSE}>Parcourir les oeuvres</NavBarLink>
                     <NavBarLink url={routes.MISEVENTE}>Mettre en vente</NavBarLink>
                 </Toolbar>
             </AppBar>

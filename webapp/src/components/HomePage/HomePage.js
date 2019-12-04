@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Card, CardActions, CardContent, CardMedia, CssBaseline,
          Grid, Typography, Container, makeStyles } from '@material-ui/core';
 import Footer from "../Footer/Footer";
+import * as routes from "../../routes";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -57,14 +59,18 @@ export default function Album() {
                         <div className={classes.heroButtons}>
                             <Grid container spacing={2} justify="center">
                                 <Grid item>
-                                    <Button variant="contained" color="primary">
-                                        Parcourir les ventes
-                                    </Button>
+                                    <Link to={routes.BUY}>
+                                        <Button variant="contained" color="primary">
+                                            Parcourir les ventes
+                                        </Button>
+                                    </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Button variant="outlined" color="primary">
-                                        Mettre en vente
-                                    </Button>
+                                    <Link to={routes.MISEVENTE}>
+                                        <Button variant="outlined" color="primary">
+                                            Mettre en vente
+                                        </Button>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </div>

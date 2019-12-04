@@ -1,7 +1,10 @@
 import React from 'react';
 import Home from './containers/Home/Home';
-import HomePage from './components/HomePage/HomePage';
 import AppBar from './components/AppBar/AppBar';
+import HomePage from './components/HomePage/HomePage';
+import Catalogue from './containers/Catalogue/Catalogue';
+import UploadForm from "./containers/UploadForm/UploadForm";
+import Error from "./components/Error/Error";
 import './App.css';
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
@@ -11,7 +14,6 @@ import reducer_upload from "./store/reducers/reducer_upload";
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as routes_names from './routes';
-import MiseVente from "./containers/MiseVente/MiseVente";
 
 class App extends React.Component {
     render() {
@@ -34,7 +36,9 @@ class App extends React.Component {
             <Switch>
                 <Route path={routes_names.HOME} exact component={HomePage}/>
                 <Route path={routes_names.BUY} component={Home}/>
-                <Route path={routes_names.MISEVENTE} component={MiseVente}/>
+                <Route path={routes_names.BROWSE} component={Catalogue}/>
+                <Route path={routes_names.MISEVENTE} component={UploadForm}/>
+                <Route path={routes_names.NO_METAMASK} component={Error}/>
                 <Redirect to={routes_names.HOME}/>
             </Switch>
         );

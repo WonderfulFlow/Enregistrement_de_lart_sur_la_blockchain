@@ -30,7 +30,11 @@ function SimpleModal(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
-        setOpen(true);
+        if(props.checkFormValidity()){
+            setOpen(true);
+        } else {
+            alert("Veuillez remplir le formulaire");
+        }
     };
 
     const handleClose = () => {
