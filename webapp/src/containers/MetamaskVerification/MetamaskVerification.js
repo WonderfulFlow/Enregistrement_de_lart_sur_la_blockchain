@@ -39,9 +39,10 @@ class MetamaskVerification extends React.Component {
                 lastBlock_number: lastBlock_number,
                 mounted: true,
             });
+            this.props.getaccount(account)
         }
     
-        console.log("try fini");
+        console.log("try fini meta");
     }
 
     async test(){

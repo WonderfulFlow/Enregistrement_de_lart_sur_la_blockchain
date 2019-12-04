@@ -31,6 +31,8 @@ class UploadForm extends React.Component {
             name: "",
             description: "",
             price: 0,
+
+            account:null,
             
             modalOpen: false,
             tileHeight: 0,
@@ -92,15 +94,17 @@ class UploadForm extends React.Component {
 
         return true;
     };
-    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply, account="0xe1f4F8626402626D144442544A77f834472C1CDb") {
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        //let account = await web3.eth.getAccounts()[0];
+        console.log(stringify(account))
         const myContract = new web3.eth.Contract(abi,addresss)
         myContract.deploy({
           data : byte_code,
           arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
         }).send({
-            from: '0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852',
+            from: account,
             gasPrice: '20000000000'
           })
           .then(function(newContractInstance){
@@ -108,11 +112,16 @@ class UploadForm extends React.Component {
           });
       }
     
+      getaccount=(account)=>{
+          this.setState({
+              account:account
+          })
+      }
 
     render(){
         return (
             <div>
-                <MetamaskVerification/>
+                <MetamaskVerification getaccount={this.getaccount}/>
                 <Container maxWidth="md">
                     <br/><br/>
                     <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -122,6 +131,7 @@ class UploadForm extends React.Component {
                         Vos oeuvres peuvent être découpées en morceaux et chacun d'entre eux mis en vente. Il est alors possible d'acheter et d'être le propriétaire de parties de votre oeuvre.
                     </Typography>
                     <br/><hr/><br/>
+                    <button onClick={ ()=> this.DeployContract(3,"bonjour","bonjour","bonjour",3)}>deploy</button>
 
                     <Form onChange={this.onChange} uploadImage={this.props.uploadImage}/>
 
