@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, InputLabel, TextField } from "@material-ui/core";
+import {Button, Container, Input, InputLabel, TextField} from "@material-ui/core";
 
 const form = (props) => (
     <div>
@@ -33,6 +33,9 @@ const form = (props) => (
             />
         </div>
         <br/><br/>
+        <Button type="button" onClick={props.openMosaique}>
+            Suivant
+        </Button>
     </div>
 );
 

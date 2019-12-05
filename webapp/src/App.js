@@ -4,13 +4,15 @@ import AppBar from './components/AppBar/AppBar';
 import HomePage from './components/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
-import Error from "./components/Error/Error";
+import Error from "./components/Errors/Error";
 import './App.css';
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
 import thunk from "redux-thunk";
 import reducer_upload from "./store/reducers/reducer_upload";
+import reducer_modal from "./store/reducers/reducer_modal";
+import reducer_modal_error from "./store/reducers/reducer_modal_error";
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as routes_names from './routes';
@@ -19,6 +21,8 @@ class App extends React.Component {
     render() {
         const rootReducer = combineReducers({
             upload: reducer_upload,
+            modal: reducer_modal,
+            modal_error: reducer_modal_error,
         });
 
         const logger = store => {

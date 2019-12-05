@@ -1,9 +1,12 @@
 import React from "react";
 import Web3 from "web3";
+import Modal from "../Test/Modal";
+import ErrorMetamaskConnection from "../../components/Errors/ErrorMetamaskConnection";
 
 import { Redirect } from "react-router-dom";
 import * as routes from "../../routes";
-import {withMobileDialog} from "@material-ui/core";
+import { connect } from "react-redux";
+import * as actions_modal_error from "../../store/actions/actions_modal_error";
 
 class MetamaskVerification extends React.Component {
     constructor(props) {
@@ -12,15 +15,17 @@ class MetamaskVerification extends React.Component {
             network: null,
             account: null,
             lastBlock: 0,
-            mounted: false
-};
+            no_metamask: false,
+            no_metamask_connection: true,
+        };
         this.loadBlockchainData = this.loadBlockchainData.bind(this);
+        this.getMetamaskUserData = this.getMetamaskUserData.bind(this);
         this.test = this.test.bind(this);
     }
 
     async loadBlockchainData(){
-        let network = null, account = null, lastBlock_number = null;
-    
+        let network = null, account = null, lastBlock = null;
+
         try {
             //console.log("ici2");
             await window.ethereum.enable();
@@ -28,7 +33,7 @@ class MetamaskVerification extends React.Component {
             const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
             network = await web3.eth.net.getNetworkType();
             account = await web3.eth.getAccounts()[0];
-            lastBlock_number = await web3.eth.getBlock('latest').number;
+            lastBlock = await web3.eth.getBlock('latest').number;
         } catch (e) {
             console.log(e);
         } finally {
@@ -36,69 +41,81 @@ class MetamaskVerification extends React.Component {
                 ...this.state,
                 network: network,
                 account: account,
-                lastBlock_number: lastBlock_number,
+                lastBlock: lastBlock,
                 mounted: true,
             });
             this.props.getaccount(account)
         }
-    
+
         console.log("try fini meta");
     }
 
+    async getMetamaskUserData(web3){
+        let network, account, lastBlock;
+
+        network = await web3.eth.net.getNetworkType();
+        account = await web3.eth.getAccounts()[0];
+        lastBlock = await web3.eth.getBlock('latest').number;
+
+        this.setState({
+            network: network,
+            account: account,
+            lastBlock: lastBlock,
+            no_metamask_connection: false,
+        });
+    }
+
     async test(){
-        let web3 = new Web3(Web3.givenProvider);
-        let lastBlock_number = null;
-
-        try {
-            if (typeof web3 !== 'undefined') {
-                web3 = new Web3(web3.currentProvider);
-            } else {
-                web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        if (window.ethereum) {
+            const web3 = new Web3(window.ethereum);
+            try {
+                window.ethereum.enable().then(() => this.getMetamaskUserData(web3));
+            } catch(e) {
+                alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+                console.log(e);
             }
-
-            web3.eth.getBlock('latest')
-                .then(response => {
-                    lastBlock_number = response.number;
-
-                    this.setState({
-                        mounted: true,
-                        lastBlock: lastBlock_number,
-                        network: 1
-                    }, () => console.log(this.state.lastBlock))
-                })
-                .catch(error =>
-                    console.log(error)
-                );
-
-
-
-        } catch(e) {
-            console.log(e);
-        } finally {
-            this.setState({
-                mounted: true,
-            });
+        } else if (window.web3) {
+            const web3 = new Web3(window.web3.currentProvider);
+            this.getMetamaskUserData(web3);
+        } else {
+            this.setState({ no_metamask: true });
         }
-
-
-
-
     }
 
     componentDidMount() {
-        this.loadBlockchainData();
-        //this.test();
+        this.test();
     }
 
     render(){
         let res = null;
-        if(this.state.mounted && !this.state.network){
+        if(this.state.no_metamask){
             res = <Redirect to={routes.NO_METAMASK}/>;
-            console.log("redirect");
+        } else if (this.state.no_metamask_connection){
+            this.props.openErrorModal();
+            res = <ErrorMetamaskConnection/>;
+        } else {
+            this.props.closeErrorModal();
         }
 
-        return res;
+        return (
+            <Modal isOpen={this.props.modalErrorOpen}>
+                {res}
+            </Modal>
+        );
     }
 }
 
-export default MetamaskVerification;
+const mapStateToProps = state => {
+    return {
+        modalErrorOpen: state.modal_error.modalErrorOpen,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        openErrorModal: () => dispatch(actions_modal_error.openErrorModal()),
+        closeErrorModal: () => dispatch(actions_modal_error.closeErrorModal()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetamaskVerification);
