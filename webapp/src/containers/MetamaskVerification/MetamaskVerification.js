@@ -46,44 +46,68 @@ class MetamaskVerification extends React.Component {
     }
 
     async test(){
-        let web3 = new Web3(Web3.givenProvider);
-        let lastBlock_number = null;
-
-        try {
-            if (typeof web3 !== 'undefined') {
-                web3 = new Web3(web3.currentProvider);
-            } else {
-                web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
+            try {
+                // Request account access if needed
+                await ethereum.enable();
+                // Acccounts now exposed
+                web3.eth.sendTransaction({/* ... */});
+            } catch (error) {
+                // User denied account access...
             }
-
-            web3.eth.getBlock('latest')
-                .then(response => {
-                    lastBlock_number = response.number;
-
-                    this.setState({
-                        mounted: true,
-                        lastBlock: lastBlock_number,
-                        network: 1
-                    }, () => console.log(this.state.lastBlock))
-                })
-                .catch(error =>
-                    console.log(error)
-                );
-
-
-
-        } catch(e) {
-            console.log(e);
-        } finally {
-            this.setState({
-                mounted: true,
-            });
         }
-
-
-
-
+        // Legacy dapp browsers...
+        else if (window.web3) {
+            window.web3 = new Web3(web3.currentProvider);
+            // Acccounts always exposed
+            web3.eth.sendTransaction({/* ... */});
+        }
+        // Non-dapp browsers...
+        else {
+            console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+        }
     }
+
+    // async test(){
+    //     let web3 = new Web3(Web3.givenProvider);
+    //     let lastBlock_number = null;
+    //
+    //     try {
+    //         console.log("[test] try");
+    //         if (typeof web3 !== 'undefined') {
+    //             console.log("Metamask OK");
+    //             web3 = new Web3(web3.currentProvider);
+    //         } else {
+    //             console.log("Metamask NOT OK");
+    //             web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    //         }
+    //
+    //         web3.eth.getBlock('latest')
+    //             .then(response => {
+    //                 lastBlock_number = response.number;
+    //
+    //                 this.setState({
+    //                     mounted: true,
+    //                     lastBlock: lastBlock_number,
+    //                     network: 1
+    //                 });
+    //             })
+    //             .catch(error =>
+    //                 console.log(error)
+    //             );
+    //
+    //     } catch(e) {
+    //         console.log("[test] catch");
+    //         console.log(e);
+    //         this.setState({
+    //             mounted: true,
+    //         }, () => {
+    //             console.log(this.state.mounted);
+    //             console.log(this.state.network)
+    //         })
+    //     }
+    // }
 
     componentDidMount() {
         // this.loadBlockchainData();
@@ -91,6 +115,7 @@ class MetamaskVerification extends React.Component {
     }
 
     render(){
+        console.log("[Render]");
         let res = null;
         if(this.state.mounted && !this.state.network){
             res = <Redirect to={routes.NO_METAMASK}/>;
