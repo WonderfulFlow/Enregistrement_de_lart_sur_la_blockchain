@@ -8,7 +8,7 @@ const homeBody = (props) => {
             <div className={props.heroContent}  style={{ minHeight:"75vh" }}>
                 <Container maxWidth="sm" style={{color: "lightblue"}}>
                     <Typography component="h1" variant="h2" align="center" color="inherit" gutterBottom>
-                        ArtBlockchain
+
                     </Typography>
                     <br/><br/>
                     <Typography variant="h5" align="center" color="inherit" paragraph>

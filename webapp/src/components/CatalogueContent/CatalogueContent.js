@@ -1,20 +1,17 @@
 import React from "react";
 import { TextField, Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Typography } from "@material-ui/core";
 import "./CatalogueContent.css";
+import HeadSection from "../HeadSection/HeadSection";
 
 const homeContent = (props) => (
     <>
         <CssBaseline />
         <main>
             <Container className={props.classes.cardGrid} maxWidth="md">
-                <br/><br/>
-                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                    Mettez en vente vos oeuvres !
-                </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                    Vos oeuvres peuvent être découpées en morceaux et chacun d'entre eux mis en vente. Il est alors possible d'acheter et d'être le propriétaire de parties de votre oeuvre.
-                </Typography>
-                <br/><hr/><br/>
+                <HeadSection title={"Mettez en vente vos oeuvres"}
+                            subtitle={"Vos oeuvres peuvent être découpées en morceaux et chacun d'entre eux mis en " +
+                            "vente. Il est alors possible d'acheter et d'être le propriétaire de parties de votre " +
+                            "oeuvre."}/>
                 <TextField
                     id="standard-basic"
                     className={props.classes.textField}

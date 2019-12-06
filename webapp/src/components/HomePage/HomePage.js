@@ -1,4 +1,6 @@
 import React from 'react';
+import HeadSection from "../HeadSection/HeadSection";
+
 import { Button, Card, CardActions, CardContent, CardMedia, CssBaseline,
          Grid, Typography, Container, makeStyles } from '@material-ui/core';
 import Footer from "../Footer/Footer";
@@ -47,15 +49,11 @@ export default function Album() {
             <CssBaseline />
             <main>
                 <div className={classes.heroContent}>
-                    <Container maxWidth="sm">
-                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                            Art Blockchain
-                        </Typography>
-                        <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                            Achetez ou mettez en vente des oeuvres d'art de façon sécurisée grâce à "Art Blockchain", le
-                            nouveau service en ligne de vente d'oeuvres d'arts utilisant la blockchain Ethereum pour
-                            enregistrer et prouver la possession d'une oeuvre.
-                        </Typography>
+                    <HeadSection title={"Art Blockchain"}
+                                subtitle={"Achetez ou mettez en vente des oeuvres d'art de façon sécurisée grâce " +
+                                        "à \"Art Blockchain\", le\n nouveau service en ligne de vente d'oeuvres " +
+                                        "d'arts utilisant la blockchain Ethereum pour enregistrer et prouver la " +
+                                        "possession d'une oeuvre."}>
                         <div className={classes.heroButtons}>
                             <Grid container spacing={2} justify="center">
                                 <Grid item>
@@ -74,7 +72,7 @@ export default function Album() {
                                 </Grid>
                             </Grid>
                         </div>
-                    </Container>
+                    </HeadSection>
                 </div>
                 <Container className={classes.cardGrid} maxWidth="md">
                     <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom
