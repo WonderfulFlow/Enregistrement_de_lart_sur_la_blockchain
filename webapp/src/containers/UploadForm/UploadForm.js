@@ -1,8 +1,8 @@
 import React from 'react';
 import HeadSection from "../../components/HeadSection/HeadSection";
 import Form from "../../components/Form/Form";
-import Modal from "../Test/Modal";
-import ApercuModal from "../Test/ApercuModal";
+import Modal from "../../hoc/Modal/Modal";
+import ApercuModal from "./ApercuModal";
 import MetamaskVerification from "../MetamaskVerification/MetamaskVerification";
 
 import { Container, makeStyles, withStyles } from '@material-ui/core';
@@ -35,7 +35,7 @@ class UploadForm extends React.Component {
             description: "",
             price: 0,
 
-            account:null,
+            account: null,
             
             modalOpen: false,
             tileHeight: 0,
@@ -45,27 +45,30 @@ class UploadForm extends React.Component {
 
     onChange = (value, variable) => {
         this.setState({
-            ...this.state,
             [variable]: value
-        })
+        });
     };
 
     checkFormNameValidity = () => {
         let check = true;
-        //check text, pas file
         // faire trycatch
 
-        if(this.state.name.length < 2  || this.state.name.length > 20) check = false;
+        if(typeof(this.state.name) !== "string")
+            check = false;
+        else if(this.state.name.length < 1  || this.state.name.length > 20)
+            check = false;
 
         return check;
     };
 
     checkFormDescriptionValidity = () => {
         let check = true;
-        //check text, pas file
         // faire trycatch
 
-        if(this.state.description.length < 2  || this.state.description.length > 500) check = false;
+        if(typeof(this.state.description) !== "string")
+            check = false;
+        else if(this.state.description.length < 2  || this.state.description.length > 500)
+            check = false;
 
         return check;
     };
@@ -74,7 +77,8 @@ class UploadForm extends React.Component {
         let check = true;
         // faire trycatch
 
-        if(isNaN(this.state.price) && parseInt(this.state.price) > 0) check = false;
+        if(isNaN(this.state.price) || parseInt(this.state.price) < 0)
+            check = false;
 
         return check;
     };
@@ -95,20 +99,20 @@ class UploadForm extends React.Component {
             check = true;
         }
 
-        return true;
+        return check;
     };
 
-    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply, account="0xe1f4F8626402626D144442544A77f834472C1CDb") {
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        //let account = await web3.eth.getAccounts()[0];
-        console.log(stringify(account));
+        const accounts = await web3.eth.getAccounts();
+        console.log(accounts[0]);
         const myContract = new web3.eth.Contract(abi,addresss);
         myContract.deploy({
           data : byte_code,
           arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
         }).send({
-            from: account,
+            from: accounts[0],
             gasPrice: '20000000000'
           })
           .then(function(newContractInstance){
@@ -158,6 +162,7 @@ const mapStateToProps = state => {
     return {
         loading: state.upload.loading,
         error: state.upload.error,
+        uploadedImage: state.upload.uploadedImage,
         original_width: state.upload.original_width,
 
         modalOpen: state.modal.modalOpen,

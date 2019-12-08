@@ -1,7 +1,7 @@
 import React from "react";
 import Mosaique from "../Mosaique/Mosaique";
 import Tile from "../../components/Tile/Tile";
-
+import "./ApercuModal.css";
 import { connect } from "react-redux";
 import * as actions_send_data from "../../store/actions/actions_send_data";
 import { Button } from "@material-ui/core";
@@ -116,6 +116,7 @@ class ApercuModal extends React.Component{
 
         return (
             <>
+                <h3 className={"apercuModalTitle"}>Informations sur votre oeuvre : </h3>
                 <div>
                     <label>Nom de l'oeuvre : </label> {this.props.name}
                 </div>
@@ -125,6 +126,10 @@ class ApercuModal extends React.Component{
                 <div>
                     <label>Prix des subdivisions : </label> {this.props.price}
                 </div>
+
+                <hr/>
+
+                <h3 className={"apercuModalTitle"}>Modifier le nombre de subdivisions de votre oeuvre : </h3>
                 <label>NB COLS</label>
                 <input type="number" value={this.state.nb_cols} style={{marginLeft: "10px"}}
                        min={5} max={20} onChange={(event) => this.changeInputMosaique(event, {

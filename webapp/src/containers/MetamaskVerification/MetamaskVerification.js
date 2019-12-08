@@ -1,6 +1,6 @@
 import React from "react";
 import Web3 from "web3";
-import Modal from "../Test/Modal";
+import Modal from "../../hoc/Modal/Modal";
 import ErrorMetamaskConnection from "../../components/Errors/ErrorMetamaskConnection";
 
 import { Redirect } from "react-router-dom";
@@ -27,9 +27,7 @@ class MetamaskVerification extends React.Component {
         let network = null, account = null, lastBlock = null;
 
         try {
-            //console.log("ici2");
             await window.ethereum.enable();
-            //console.log("ici1");
             const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
             network = await web3.eth.net.getNetworkType();
             account = await web3.eth.getAccounts()[0];
@@ -46,8 +44,6 @@ class MetamaskVerification extends React.Component {
             });
             this.props.getaccount(account)
         }
-
-        console.log("try fini meta");
     }
 
     async getMetamaskUserData(web3){
@@ -67,6 +63,7 @@ class MetamaskVerification extends React.Component {
             lastBlock: lastBlock,
             no_metamask_connection: false,
         });
+        this.props.openErrorModal();
     }
 
     async test(){
@@ -87,7 +84,7 @@ class MetamaskVerification extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount(){
         this.test();
     }
 
@@ -96,7 +93,6 @@ class MetamaskVerification extends React.Component {
         if(this.state.no_metamask){
             res = <Redirect to={routes.NO_METAMASK}/>;
         } else if (this.state.no_metamask_connection){
-            this.props.openErrorModal();
             res = <ErrorMetamaskConnection/>;
         } else {
             this.props.closeErrorModal();
