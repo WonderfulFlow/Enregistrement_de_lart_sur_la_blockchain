@@ -51,23 +51,28 @@ class MetamaskVerification extends React.Component {
     }
 
     async getMetamaskUserData(web3){
-        let network, account, lastBlock;
+        let network, accounts, lastBlock;
 
         network = await web3.eth.net.getNetworkType();
-        account = await web3.eth.getAccounts()[0];
-        lastBlock = await web3.eth.getBlock('latest').number;
+        accounts = await web3.eth.getAccounts();
+        lastBlock = await web3.eth.getBlock('latest');
+        lastBlock = lastBlock.number;
 
+        console.log(network);
+        console.log(accounts[0]);
+        console.log(lastBlock);
         this.setState({
             network: network,
-            account: account,
+            account: accounts[0],
             lastBlock: lastBlock,
             no_metamask_connection: false,
         });
     }
 
     async test(){
+        let web3;
         if (window.ethereum) {
-            const web3 = new Web3(window.ethereum);
+            web3 = new Web3(window.ethereum);
             try {
                 window.ethereum.enable().then(() => this.getMetamaskUserData(web3));
             } catch(e) {
@@ -75,7 +80,7 @@ class MetamaskVerification extends React.Component {
                 console.log(e);
             }
         } else if (window.web3) {
-            const web3 = new Web3(window.web3.currentProvider);
+            web3 = new Web3(window.web3.currentProvider);
             this.getMetamaskUserData(web3);
         } else {
             this.setState({ no_metamask: true });

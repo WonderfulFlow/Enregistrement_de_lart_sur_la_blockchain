@@ -1,7 +1,10 @@
 import React from "react";
 import Mosaique from "../Mosaique/Mosaique";
 import Tile from "../../components/Tile/Tile";
+
 import { connect } from "react-redux";
+import * as actions_send_data from "../../store/actions/actions_send_data";
+import { Button } from "@material-ui/core";
 
 class ApercuModal extends React.Component{
     constructor(props){
@@ -68,10 +71,20 @@ class ApercuModal extends React.Component{
         this.setState((prevState, props) => {
             return {
                 ...prevState,
-                tile_width: props.original_width / prevState.nb_cols,
+                tile_width: Math.min(800, props.original_width) / prevState.nb_cols,
                 tile_height: props.original_height / prevState.nb_rows
             };
         });
+    };
+
+    orderHandler = () => {
+        const formData = {
+            name: this.props.name,
+            description: this.props.description,
+            price: this.props.price
+        };
+
+        this.props.sendData(formData);
     };
 
     componentDidMount(){
@@ -84,7 +97,8 @@ class ApercuModal extends React.Component{
         let containerWidth = 0;
 
         if(this.props.uploadedImage) {
-            containerWidth = this.props.original_width + 2 * this.state.nb_cols * this.tile_margin + "px";
+            containerWidth = Math.min(800, this.props.original_width)
+                            + 2 * this.state.nb_cols * this.tile_margin + "px";
 
             imagePreview = this.state.tilesArray.map(tile => {
                 const tileClass = this.state.selectedTileId === tile.id
@@ -102,6 +116,15 @@ class ApercuModal extends React.Component{
 
         return (
             <>
+                <div>
+                    <label>Nom de l'oeuvre : </label> {this.props.name}
+                </div>
+                <div>
+                    <label>Description de l'oeuvre : </label> {this.props.description}
+                </div>
+                <div>
+                    <label>Prix des subdivisions : </label> {this.props.price}
+                </div>
                 <label>NB COLS</label>
                 <input type="number" value={this.state.nb_cols} style={{marginLeft: "10px"}}
                        min={5} max={20} onChange={(event) => this.changeInputMosaique(event, {
@@ -121,6 +144,10 @@ class ApercuModal extends React.Component{
                           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
                           tile_margin={this.tile_margin} containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
+
+                <Button type={"button"} onClick={this.orderHandler}>
+                    Envoyer
+                </Button>
             </>
         )
     }
@@ -134,4 +161,10 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(ApercuModal);
+const mapDispatchToProps = dispatch => {
+    return {
+        sendData: (formData) => dispatch(actions_send_data.sendData(formData))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApercuModal);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const error = (props) => (
+const error = () => (
     <p>Error : No Metamask detected</p>
 );
 

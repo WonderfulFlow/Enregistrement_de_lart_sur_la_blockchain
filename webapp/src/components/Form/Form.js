@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Container, Input, InputLabel, TextField} from "@material-ui/core";
+import {Button, Input, InputLabel, TextField} from "@material-ui/core";
 
 const form = (props) => (
     <div>
@@ -16,7 +16,7 @@ const form = (props) => (
         <div>
             <TextField required id="price" label="Prix par subdivision"
                        defaultValue=" " margin="normal"
-                       onChange={(event) => props.onChange(event.target.value, "prix")}/>
+                       onChange={(event) => props.onChange(event.target.value, "price")}/>
         </div>
         <br/><br/>
         <div>

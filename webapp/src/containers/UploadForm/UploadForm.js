@@ -74,7 +74,7 @@ class UploadForm extends React.Component {
         let check = true;
         // faire trycatch
 
-        if(isNaN(this.state.price)) check = false;
+        if(isNaN(this.state.price) && parseInt(this.state.price) > 0) check = false;
 
         return check;
     };
@@ -144,7 +144,8 @@ class UploadForm extends React.Component {
 
                     <Modal isOpen={this.props.modalOpen} closeModal={this.props.closeModal}
                            original_width={this.props.original_width}>
-                        <ApercuModal/>
+                        <ApercuModal name={this.state.name} description={this.state.description}
+                                    price={this.state.price}/>
                     </Modal>
                 </Container>
             </div>

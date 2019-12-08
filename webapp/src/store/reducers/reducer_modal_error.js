@@ -19,8 +19,8 @@ const modalErrorClose = state => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case actionTypes.modal_OPEN_ERROR: return modalErrorOpen(state, action);
-        case actionTypes.modal_CLOSE_ERROR: return modalErrorClose(state, action);
+        case actionTypes.modal_error_OPEN: return modalErrorOpen(state, action);
+        case actionTypes.modal_error_CLOSE: return modalErrorClose(state, action);
 
         default:
             return state;
