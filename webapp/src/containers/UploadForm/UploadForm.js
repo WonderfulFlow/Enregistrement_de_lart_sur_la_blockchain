@@ -102,17 +102,17 @@ class UploadForm extends React.Component {
         return check;
     };
 
-    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply, account="0xe1f4F8626402626D144442544A77f834472C1CDb") {
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        //let account = await web3.eth.getAccounts()[0];
-        console.log(stringify(account));
+        const accounts = await web3.eth.getAccounts();
+        console.log(accounts[0]);
         const myContract = new web3.eth.Contract(abi,addresss);
         myContract.deploy({
           data : byte_code,
           arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
         }).send({
-            from: account,
+            from: accounts[0],
             gasPrice: '20000000000'
           })
           .then(function(newContractInstance){
