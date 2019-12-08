@@ -16,7 +16,7 @@ const form = (props) => (
         <div>
             <TextField required id="price" label="Prix par subdivision"
                        defaultValue=" " margin="normal"
-                       onChange={(event) => props.onChange(event.target.value, "prix")}/>
+                       onChange={(event) => props.onChange(event.target.value, "price")}/>
         </div>
         <br/><br/>
         <div>

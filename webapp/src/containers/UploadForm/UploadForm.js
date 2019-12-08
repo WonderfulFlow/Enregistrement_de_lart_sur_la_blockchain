@@ -35,7 +35,7 @@ class UploadForm extends React.Component {
             description: "",
             price: 0,
 
-            account:null,
+            account: null,
             
             modalOpen: false,
             tileHeight: 0,
@@ -45,9 +45,8 @@ class UploadForm extends React.Component {
 
     onChange = (value, variable) => {
         this.setState({
-            ...this.state,
             [variable]: value
-        })
+        });
     };
 
     checkFormNameValidity = () => {
@@ -78,9 +77,7 @@ class UploadForm extends React.Component {
         let check = true;
         // faire trycatch
 
-        if(typeof(this.state.price) !== "number")
-            check = false;
-        else if(isNaN(this.state.price) || this.state.price < 0)
+        if(isNaN(this.state.price) || parseInt(this.state.price) < 0)
             check = false;
 
         return check;
@@ -88,9 +85,6 @@ class UploadForm extends React.Component {
    
     checkFormImageValidity = () => {
         let check = true;
-
-        console.log(this.props.uploadedImage);
-        console.log(typeof(this.props.uploadedImage));
 
         if(!this.props.uploadedImage) check = false;
 
@@ -154,7 +148,8 @@ class UploadForm extends React.Component {
 
                     <Modal isOpen={this.props.modalOpen} closeModal={this.props.closeModal}
                            original_width={this.props.original_width}>
-                        <ApercuModal/>
+                        <ApercuModal name={this.state.name} description={this.state.description}
+                                    price={this.state.price}/>
                     </Modal>
                 </Container>
             </div>

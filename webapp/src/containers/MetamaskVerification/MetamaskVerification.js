@@ -27,9 +27,7 @@ class MetamaskVerification extends React.Component {
         let network = null, account = null, lastBlock = null;
 
         try {
-            //console.log("ici2");
             await window.ethereum.enable();
-            //console.log("ici1");
             const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
             network = await web3.eth.net.getNetworkType();
             account = await web3.eth.getAccounts()[0];
@@ -46,21 +44,19 @@ class MetamaskVerification extends React.Component {
             });
             this.props.getaccount(account)
         }
-
-        console.log("try fini meta");
     }
 
     async getMetamaskUserData(web3){
-        let network, account, lastBlock;
+        let network, accounts, lastBlock;
 
         network = await web3.eth.net.getNetworkType();
-        account = await web3.eth.getAccounts()[0];
-        lastBlock = await web3.eth.getBlock('latest').number;
+        accounts = await web3.eth.getAccounts();
+        lastBlock = await web3.eth.getBlock('latest');
 
         this.setState({
             network: network,
-            account: account,
-            lastBlock: lastBlock,
+            account: accounts[0],
+            lastBlock: lastBlock.number,
             no_metamask_connection: false,
         });
         this.props.openErrorModal();
@@ -70,7 +66,6 @@ class MetamaskVerification extends React.Component {
         if (window.ethereum) {
             const web3 = new Web3(window.ethereum);
             try {
-                console.log("try");
                 window.ethereum.enable().then(() => this.getMetamaskUserData(web3));
             } catch(e) {
                 alert("Une erreur est survenue. Veuillez réessayer plus tard.");
@@ -84,12 +79,11 @@ class MetamaskVerification extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount(){
         this.test();
     }
 
     render(){
-        console.log("[Render]");
         let res = null;
         if(this.state.no_metamask){
             res = <Redirect to={routes.NO_METAMASK}/>;
