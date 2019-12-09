@@ -63,7 +63,6 @@ class MetamaskVerification extends React.Component {
             lastBlock: lastBlock,
             no_metamask_connection: false,
         });
-        this.props.openErrorModal();
     }
 
     async test(){
@@ -85,6 +84,7 @@ class MetamaskVerification extends React.Component {
     }
 
     componentDidMount(){
+        this.props.openErrorModal();
         this.test();
     }
 

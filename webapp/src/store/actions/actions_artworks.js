@@ -1,37 +1,37 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actions_names";
 
-export const sendDataStart = () => {
+export const artworksSendStart = () => {
     return {
-        type: actionTypes.send_data_START
+        type: actionTypes.artworks_START
     };
 };
 
-export const sendDataSuccess = (id, formData) => {
+export const artworksSendSuccess = (id, formData) => {
     return {
-        type: actionTypes.send_data_SUCCESS,
+        type: actionTypes.artworks_SUCCESS,
         dataID: id,
         formData: formData
     };
 };
 
-export const sendDataFail = (error) => {
+export const artworksSendFail = (error) => {
     return {
-        type: actionTypes.send_data_FAIL,
+        type: actionTypes.artworks_FAIL,
         error: error
     };
 };
 
 export const sendData = (formData) => {
     return dispatch => {
-        dispatch(sendDataStart());
+        dispatch(artworksSendStart());
 
         axios.post('/artwork.json', formData)
             .then(response => {
-                dispatch(sendDataSuccess(response.data.name, formData));
+                dispatch(artworksSendSuccess(response.data.name, formData));
             })
             .catch(error => {
-                dispatch(sendDataFail(error));
+                dispatch(artworksSendFail(error));
             });
     };
 };

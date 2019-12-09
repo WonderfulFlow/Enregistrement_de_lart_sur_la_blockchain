@@ -1,6 +1,8 @@
 import React from "react";
 import CatalogueContent from "../../components/CatalogueContent/CatalogueContent";
+
 import { withStyles, makeStyles } from "@material-ui/core";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -34,7 +36,6 @@ const useStyles = makeStyles(theme => ({
         width: 200,
     },
 }));
-
 
 class Catalogue extends React.Component{
     constructor(props){
@@ -113,8 +114,8 @@ class Catalogue extends React.Component{
     };
 
     componentDidMount(){
+
         this.setState({
-            ...this.state,
             filteredCards: this.cards
         });
     }
@@ -130,4 +131,15 @@ class Catalogue extends React.Component{
     }
 }
 
-export default withStyles(useStyles)(Catalogue);
+const mapStateToProps = state => {
+    return {
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Catalogue));

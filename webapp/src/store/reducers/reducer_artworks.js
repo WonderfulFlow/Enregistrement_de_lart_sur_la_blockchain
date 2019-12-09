@@ -8,14 +8,14 @@ const initialState = {
     formData: null
 };
 
-const uploadStart = (state, action) => {
+const artworkSendStart = (state, action) => {
     return updateObject(state, {
         error: false,
         loading: true
     });
 };
 
-const uploadSuccess = (state, action) => {
+const artworkSendSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: null,
@@ -24,7 +24,7 @@ const uploadSuccess = (state, action) => {
     });
 };
 
-const uploadFail = (state, action) => {
+const artworkSendFail = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: action.error
@@ -33,9 +33,9 @@ const uploadFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case actionTypes.send_data_START: return uploadStart(state, action);
-        case actionTypes.send_data_SUCCESS: return uploadSuccess(state, action);
-        case actionTypes.send_data_FAIL: return uploadFail(state, action);
+        case actionTypes.artworks_START: return artworkSendStart(state, action);
+        case actionTypes.artworks_SUCCESS: return artworkSendSuccess(state, action);
+        case actionTypes.artworks_FAIL: return artworkSendFail(state, action);
 
         default:
             return state;

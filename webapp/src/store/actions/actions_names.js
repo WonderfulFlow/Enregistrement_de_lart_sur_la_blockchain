@@ -14,7 +14,7 @@ export const modal_CLOSE = "MODAL_CLOSE";
 export const modal_error_OPEN = "MODAL_ERROR_OPEN";
 export const modal_error_CLOSE = "MODAL_ERROR_CLOSE";
 
-//send data
-export const send_data_START = "SEND_DATA_START";
-export const send_data_SUCCESS = "SEND_DATA_SUCCESS";
-export const send_data_FAIL = "SEND_DATA_ERROR";
+//artworks
+export const artworks_START = "SEND_DATA_START";
+export const artworks_SUCCESS = "SEND_DATA_SUCCESS";
+export const artworks_FAIL = "SEND_DATA_ERROR";
