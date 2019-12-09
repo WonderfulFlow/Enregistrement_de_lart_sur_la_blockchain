@@ -4,6 +4,7 @@ import AppBar from './components/AppBar/AppBar';
 import HomePage from './components/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
+import Sell_page from "./components/Sell_page/Sell_page"
 import Error from "./components/Errors/Error";
 import './App.css';
 
@@ -39,6 +40,8 @@ class App extends React.Component {
         const routes = (
             <Switch>
                 <Route path={routes_names.HOME} exact component={HomePage}/>
+                <Route path={routes_names.Sell} exact component={Sell_page}/>
+
                 <Route path={routes_names.BUY} component={Home}/>
                 <Route path={routes_names.BROWSE} component={Catalogue}/>
                 <Route path={routes_names.MISEVENTE} component={UploadForm}/>
