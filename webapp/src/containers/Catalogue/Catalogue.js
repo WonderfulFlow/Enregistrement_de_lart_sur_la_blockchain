@@ -123,11 +123,15 @@ class Catalogue extends React.Component{
 
     render(){
         const classes = this.props;
+        let catalogue = null;
+        if(this.props.data){
+            catalogue = (
+                <CatalogueContent classes={classes} filteredCards={this.state.filteredCards}
+                                  data={this.props.data} changeFilter={this.changeFilter}/>
+            )
+        }
 
-        return (
-            <CatalogueContent classes={classes} filteredCards={this.state.filteredCards}
-                                changeFilter={this.changeFilter}/>
-        );
+        return catalogue;
     }
 }
 
