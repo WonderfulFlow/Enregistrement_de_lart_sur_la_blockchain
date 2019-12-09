@@ -16,5 +16,6 @@ export const modal_error_CLOSE = "MODAL_ERROR_CLOSE";
 
 //artworks
 export const artworks_START = "SEND_DATA_START";
-export const artworks_SUCCESS = "SEND_DATA_SUCCESS";
+export const artworks_GET_SUCCESS = "SEND_DATA_GET_SUCCESS";
+export const artworks_SEND_SUCCESS = "SEND_DATA_SEND_SUCCESS";
 export const artworks_FAIL = "SEND_DATA_ERROR";

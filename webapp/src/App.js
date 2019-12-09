@@ -14,6 +14,7 @@ import thunk from "redux-thunk";
 import reducer_upload from "./store/reducers/reducer_upload";
 import reducer_modal from "./store/reducers/reducer_modal";
 import reducer_modal_error from "./store/reducers/reducer_modal_error";
+import reducer_artworks from "./store/reducers/reducer_artworks";
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as routes_names from './routes';
@@ -24,6 +25,7 @@ class App extends React.Component {
             upload: reducer_upload,
             modal: reducer_modal,
             modal_error: reducer_modal_error,
+            artworks: reducer_artworks,
         });
 
         const logger = store => {

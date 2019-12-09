@@ -5,17 +5,26 @@ const initialState = {
     error: null,
     loading: false,
     dataID: 0,
-    formData: null
+    formData: null,
+    data: null
 };
 
-const artworkSendStart = (state, action) => {
+const artworksStart = (state, action) => {
     return updateObject(state, {
         error: false,
         loading: true
     });
 };
 
-const artworkSendSuccess = (state, action) => {
+const artworksGetSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: null,
+        data: action.data,
+    });
+};
+
+const artworksSendSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: null,
@@ -24,7 +33,7 @@ const artworkSendSuccess = (state, action) => {
     });
 };
 
-const artworkSendFail = (state, action) => {
+const artworksFail = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: action.error
@@ -33,9 +42,10 @@ const artworkSendFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case actionTypes.artworks_START: return artworkSendStart(state, action);
-        case actionTypes.artworks_SUCCESS: return artworkSendSuccess(state, action);
-        case actionTypes.artworks_FAIL: return artworkSendFail(state, action);
+        case actionTypes.artworks_START: return artworksStart(state, action);
+        case actionTypes.artworks_GET_SUCCESS: return artworksGetSuccess(state, action);
+        case actionTypes.artworks_SEND_SUCCESS: return artworksSendSuccess(state, action);
+        case actionTypes.artworks_FAIL: return artworksFail(state, action);
 
         default:
             return state;

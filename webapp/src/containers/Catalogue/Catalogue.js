@@ -3,6 +3,7 @@ import CatalogueContent from "../../components/CatalogueContent/CatalogueContent
 
 import { withStyles, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
+import * as actions_artworks from "../../store/actions/actions_artworks";
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -114,7 +115,7 @@ class Catalogue extends React.Component{
     };
 
     componentDidMount(){
-
+        this.props.fetchData();
         this.setState({
             filteredCards: this.cards
         });
@@ -124,22 +125,24 @@ class Catalogue extends React.Component{
         const classes = this.props;
 
         return (
-            <CatalogueContent classes={classes}
-                         filteredCards={this.state.filteredCards}
-                         changeFilter={this.changeFilter}/>
+            <CatalogueContent classes={classes} filteredCards={this.state.filteredCards}
+                                changeFilter={this.changeFilter}/>
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
+        data: state.artworks.data,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        fetchData: () => dispatch(actions_artworks.getData()),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Catalogue));
+export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(Catalogue));
+
+
