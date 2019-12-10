@@ -51,12 +51,11 @@ export const getData = () => {
 
         axios.get('/artwork.json')
             .then(response => {
-<<<<<<< HEAD
+
                 console.log(response.data["-LvatGQ55gYVwpNsKl_X"]);
                 dispatch(artworksGetSuccess(response.data["-LvatGQ55gYVwpNsKl_X"]));
-=======
-                dispatch(artworksGetSuccess(response.data));
->>>>>>> 441b147c6792b18b93d247e331ffdb5048914baf
+
+   
             })
             .catch(error => {
                 dispatch(artworksFail(error));
