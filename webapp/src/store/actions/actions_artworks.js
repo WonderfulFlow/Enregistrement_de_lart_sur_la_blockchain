@@ -49,8 +49,8 @@ export const getData = () => {
 
         axios.get('/artwork.json')
             .then(response => {
-                console.log(response.data);
-                dispatch(artworksGetSuccess(response.data));
+                console.log(response.data["-LvatGQ55gYVwpNsKl_X"]);
+                dispatch(artworksGetSuccess(response.data["-LvatGQ55gYVwpNsKl_X"]));
             })
             .catch(error => {
                 dispatch(artworksFail(error));
