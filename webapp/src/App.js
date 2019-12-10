@@ -4,11 +4,9 @@ import AppBar from './components/AppBar/AppBar';
 import HomePage from './components/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
-<<<<<<< HEAD
+
 import Sell_page from "./containers/buy_page/buy_page"
-=======
-import Sell_page from "./containers/Sell_page/Sell_page"
->>>>>>> 441b147c6792b18b93d247e331ffdb5048914baf
+
 import Error from "./components/Errors/Error";
 import './App.css';
 
