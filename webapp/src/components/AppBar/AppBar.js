@@ -19,7 +19,7 @@ const appBar = (props) => {
                     <NavBarLink url={routes.HOME}>Home</NavBarLink>
                     <NavBarLink url={routes.BROWSE}>Parcourir les oeuvres</NavBarLink>
                     <NavBarLink url={routes.MISEVENTE}>Mettre en vente</NavBarLink>
-                    <NavBarLink url={routes.Sell}>buy stuff</NavBarLink>
+                    <NavBarLink url={routes.BUY + "/1"}>Buy stuff</NavBarLink>
 
                 </Toolbar>
             </AppBar>

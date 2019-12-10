@@ -1,5 +1,7 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actions_names";
+import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
+import React from "react";
 
 export const artworksStart = () => {
     return {
@@ -49,8 +51,12 @@ export const getData = () => {
 
         axios.get('/artwork.json')
             .then(response => {
+<<<<<<< HEAD
                 console.log(response.data["-LvatGQ55gYVwpNsKl_X"]);
                 dispatch(artworksGetSuccess(response.data["-LvatGQ55gYVwpNsKl_X"]));
+=======
+                dispatch(artworksGetSuccess(response.data));
+>>>>>>> 441b147c6792b18b93d247e331ffdb5048914baf
             })
             .catch(error => {
                 dispatch(artworksFail(error));
@@ -58,3 +64,5 @@ export const getData = () => {
 
     };
 };
+
+

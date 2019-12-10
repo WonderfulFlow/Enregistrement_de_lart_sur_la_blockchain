@@ -84,7 +84,6 @@ class MetamaskVerification extends React.Component {
     }
 
     componentDidMount(){
-        this.props.openErrorModal();
         this.test();
     }
 
@@ -93,6 +92,7 @@ class MetamaskVerification extends React.Component {
         if(this.state.no_metamask){
             res = <Redirect to={routes.NO_METAMASK}/>;
         } else if (this.state.no_metamask_connection){
+            this.props.openErrorModal();
             res = <ErrorMetamaskConnection/>;
         } else {
             this.props.closeErrorModal();
