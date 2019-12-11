@@ -8,6 +8,11 @@ import * as actions_send_data from "../../store/actions/actions_artworks";
 import * as actions_modal from "../../store/actions/actions_modal";
 import { Button } from "@material-ui/core";
 
+import Web3 from 'web3'
+import {abi, addresss, byte_code} from './config'
+import { stringify } from 'querystring';
+
+
 class ApercuModal extends React.Component{
     constructor(props){
         super(props);
@@ -23,6 +28,29 @@ class ApercuModal extends React.Component{
         }
     }
 
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
+        await window.ethereum.enable();
+        
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const accounts = await web3.eth.getAccounts();
+        console.log(accounts[0]);
+        const myContract = new web3.eth.Contract(abi,addresss);
+        myContract.deploy({
+          data : byte_code,
+          arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
+        }).send({
+            from: accounts[0],
+            gasPrice: '20000000000'
+          })
+          .then(function(newContractInstance){
+              console.log(newContractInstance.options.address) // instance with the new contract address
+          })
+          .then(this.orderHandler());
+      }
+    
+    getAccount = (account) => {
+        this.setState({ account: account });
+    };
     changeInputMosaique = (event, keys) => {
         const val = Math.max(event.target.value, 5);
 
@@ -147,14 +175,14 @@ class ApercuModal extends React.Component{
                            dimension: "height"
                        })}/>
                 <br/><br/>
-
-                <Button type={"button"} onClick={this.orderHandler}>
-                    Envoyer
-                </Button>
+                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
+                
             </>
         )
     }
 }
+
+//order handler should call the function deploy 
 // <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
 //           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
 //           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
