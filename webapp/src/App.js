@@ -1,6 +1,6 @@
 import React from 'react';
 import AppBar from './components/AppBar/AppBar';
-import HomePage from './components/HomePage/HomePage';
+import HomePage from './containers/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
 

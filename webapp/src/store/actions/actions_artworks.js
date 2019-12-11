@@ -43,7 +43,7 @@ export const sendData = (formData) => {
     };
 };
 
-export const getData = (id = null) => {
+export const getData = (id = null, limit = null) => {
     return dispatch => {
         dispatch(artworksStart());
         let url = "/artwork";
@@ -52,9 +52,18 @@ export const getData = (id = null) => {
 
         axios.get(url)
             .then(response => {
-                dispatch(artworksGetSuccess(response.data));
+                let data = response.data;
+                if(limit){
+                    // let data2 = data.slice(0, limit);
+                    // console.log(data2);
+                    console.log("A MODIFIER : actions_artwork");
+                    console.log(data);
+                }
+
+                dispatch(artworksGetSuccess(data));
             })
             .catch(error => {
+                console.log("error");
                 dispatch(artworksFail(error));
             });
 
