@@ -1,22 +1,11 @@
 import React from "react";
-import CatalogueContent from "../../components/CatalogueContent/CatalogueContent";
-import Form from "../../components/Form/Form";
+import BuyPage from "../../components/buy_page/buy_page";
 
-import { withStyles, makeStyles } from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import * as actions_artworks from "../../store/actions/actions_artworks";
 
 const useStyles = makeStyles(theme => ({
-    icon: {
-        marginRight: theme.spacing(2),
-    },
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
@@ -32,29 +21,32 @@ const useStyles = makeStyles(theme => ({
     cardContent: {
         flexGrow: 1,
     },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
 }));
- 
+
 class Buyingpage extends React.Component{
     constructor(props){
         super(props);
-    
     }
 
-    componentDidMount(){
-        this.props.fetchData();
-      
+    // componentDidMount(){
+    //     this.props.fetchData();
+    //
+    // }
+
+    componentDidMount() {
+        const {match: {params}} = this.props;
+        console.log(params.id);
     }
 
     render(){
+        const { classes } = this.props;
 
-        return(
-            <button onClick={() => this.props.fetchData()}>deploy</button>
-          )
+        return (
+            <>
+                <button onClick={this.props.fetchData}>fetch data</button>
+                <BuyPage classes={classes}/>
+            </>
+        )
     }
 }
 

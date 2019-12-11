@@ -2,6 +2,7 @@ import React from "react";
 import Mosaique from "../Mosaique/Mosaique";
 import Tile from "../../components/Tile/Tile";
 import "./ApercuModal.css";
+
 import { connect } from "react-redux";
 import * as actions_send_data from "../../store/actions/actions_artworks";
 import { Button } from "@material-ui/core";

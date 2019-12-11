@@ -1,7 +1,5 @@
 import axios from "../../axios-orders";
 import * as actionTypes from "./actions_names";
-import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
-import React from "react";
 
 export const artworksStart = () => {
     return {

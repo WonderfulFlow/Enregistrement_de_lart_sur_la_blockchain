@@ -1,5 +1,4 @@
 import React from 'react';
-import Home from './containers/Home/Home';
 import AppBar from './components/AppBar/AppBar';
 import HomePage from './components/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
@@ -47,7 +46,7 @@ class App extends React.Component {
                 <Route path={routes_names.BROWSE} component={Catalogue}/>
                 <Route path={routes_names.MISEVENTE} component={UploadForm}/>
                 <Route path={routes_names.NO_METAMASK} component={Error}/>
-                <Route path={routes_names.BUY + "/:id"} exact component={Sell_page}/>
+                <Route path={routes_names.BUY + "/:id"} component={Sell_page}/>
                 <Redirect to={routes_names.HOME}/>
             </Switch>
         );
