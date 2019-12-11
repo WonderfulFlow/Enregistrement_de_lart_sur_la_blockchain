@@ -1,5 +1,5 @@
-pragma solidity ^0.4.24;
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.5.12;
+//pragma experimental ABIEncoderV2;
 import "./ERC721.sol";
 
 contract Art4blockchain is ERC721{
@@ -10,7 +10,7 @@ contract Art4blockchain is ERC721{
         uint morceau; //fragment de l'oeuvre
     }
     event logListeOfArt(string nomdoeuvre, string createur, uint morceau );
-    
+     
     Art[] public list_of_art; //tab de la liste de tout ce qui a été créé 
    // address private owner;
    
@@ -21,16 +21,17 @@ contract Art4blockchain is ERC721{
     }
     */
     
-    function list_of_owned () view public returns (uint[]){
-        uint[] storage tokeid;
+    function list_of_owned () view public returns (uint[] memory  ){
+        
+        uint[] memory tokeid2= new uint[](list_of_art.length);
             for (uint i=0; i<list_of_art.length; i++) {
                
             if (ownerOf(i)==msg.sender)
-            {
-             tokeid.push(i)   ;
+          {
+            tokeid2[i]=i  ;
             }
         }
-        return tokeid;
+        return tokeid2;
     }
     
    /* function ownerOf(uint256 tokenId) private view returns (address) {
@@ -51,10 +52,10 @@ contract Art4blockchain is ERC721{
         
     }
     */
-    function Create_Token(string _nomdoeuvre,string _auteur)public {
+    function Create_Token(string memory _nomdoeuvre,string memory _auteur)public {
         if (list_of_art.length<100)
         {
-            for(uint i=0;i<50;i++)
+           for(uint i=0;i<3;i++)
             { 
            //     string memory uneoeuvre=_nomdoeuvre+i;
                 uint id = list_of_art.length; // Item ID = Length of the Array Items

@@ -40,6 +40,10 @@ class Album extends React.Component{
             selectedTileId: null,
             uploadedImage: null,
             tilesArray: [],
+            smart_contract: null,
+            nb_oeuvres: null,
+
+            token_id: null,
         };
 
         this.selectTile = this.selectTile.bind(this);
@@ -103,6 +107,7 @@ class Album extends React.Component{
                 })
             };
             i.src = file
+            console.log(i.width,i.height) //good
         })
     };
 
@@ -169,6 +174,7 @@ class Album extends React.Component{
     componentDidMount(){
         this.loadBlockchainData();
         this.generateTiles();
+        this.loadBlockchainData();
     }
 
     render(){
@@ -184,6 +190,12 @@ class Album extends React.Component{
                                    selectTile={this.selectTile}
                                     />;
 
+                                   
+        if(this.state.smart_contract && this.state.token_id){
+           this.getAddress(this.state.token_id);
+           //nb_oeuvres = this.state.nb_oeuvres
+        }
+        
         return (
             <>
                 <CssBaseline />
