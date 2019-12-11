@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
 
 const buy_page = (props) => (
-    <Container maxWidth="md">
+    <Container maxWidth="sm">
         <Card className={props.classes.card}>
             <CardMedia className={props.classes.cardMedia} image="https://source.unsplash.com/random"
                        title="Image title"/>

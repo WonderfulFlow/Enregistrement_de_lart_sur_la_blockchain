@@ -164,7 +164,6 @@ const mapStateToProps = state => {
         error: state.upload.error,
         uploadedImage: state.upload.uploadedImage,
         original_width: state.upload.original_width,
-
         modalOpen: state.modal.modalOpen,
     }
 };
@@ -174,6 +173,7 @@ const mapDispatchToProps = dispatch => {
         uploadImage: (event) => dispatch(actions_upload.uploadImage(event)),
         openModal: () => dispatch(actions_modal.openModal()),
         closeModal: () => dispatch(actions_modal.closeModal()),
+
     }
 };
 
