@@ -5,6 +5,7 @@ import "./ApercuModal.css";
 
 import { connect } from "react-redux";
 import * as actions_send_data from "../../store/actions/actions_artworks";
+import * as actions_modal from "../../store/actions/actions_modal";
 import { Button } from "@material-ui/core";
 
 class ApercuModal extends React.Component{
@@ -86,6 +87,7 @@ class ApercuModal extends React.Component{
         };
 
         this.props.sendData(formData);
+        this.props.closeModal();
     };
 
     componentDidMount(){
@@ -145,11 +147,6 @@ class ApercuModal extends React.Component{
                            dimension: "height"
                        })}/>
                 <br/><br/>
-                <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
-                          selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
-                          tile_height={this.state.tile_height} tile_width={this.state.tile_width}
-                          tile_margin={this.tile_margin} containerWidth={containerWidth}
-                          imagePreview={imagePreview}/>
 
                 <Button type={"button"} onClick={this.orderHandler}>
                     Envoyer
@@ -158,6 +155,11 @@ class ApercuModal extends React.Component{
         )
     }
 }
+// <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
+//           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
+//           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
+//           tile_margin={this.tile_margin} containerWidth={containerWidth}
+//           imagePreview={imagePreview}/>
 
 const mapStateToProps = state => {
     return {
@@ -169,7 +171,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        sendData: (formData) => dispatch(actions_send_data.sendData(formData))
+        sendData: (formData) => dispatch(actions_send_data.sendData(formData)),
+        closeModal: () => dispatch(actions_modal.closeModal()),
     };
 };
 

@@ -8,10 +8,10 @@ const buy_page = (props) => (
                        title="Image title"/>
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    {props.name}
+                    {props.data.name}
                 </Typography>
                 <Typography>
-                    {props.description}
+                    {props.data.description}
                 </Typography>
             </CardContent>
             <CardActions>

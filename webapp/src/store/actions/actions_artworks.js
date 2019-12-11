@@ -43,23 +43,22 @@ export const sendData = (formData) => {
     };
 };
 
-export const getData = () => {
+export const getData = (id = null) => {
     return dispatch => {
         dispatch(artworksStart());
+        let url = "/artwork";
+        if(id) url += "/" + id;
+        url += ".json";
 
-        axios.get('/artwork.json')
+        axios.get(url)
             .then(response => {
-
-                console.log(response.data["-LvatGQ55gYVwpNsKl_X"]);
-                dispatch(artworksGetSuccess(response.data["-LvatGQ55gYVwpNsKl_X"]));
-
-   
+                dispatch(artworksGetSuccess(response.data));
             })
             .catch(error => {
                 dispatch(artworksFail(error));
             });
 
     };
-};
 
+};
 

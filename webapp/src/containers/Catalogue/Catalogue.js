@@ -128,7 +128,7 @@ class Catalogue extends React.Component{
             catalogue = (
                 <CatalogueContent classes={classes} filteredCards={this.state.filteredCards}
                                   data={this.props.data} changeFilter={this.changeFilter}/>
-            )
+            );
         }
 
         return catalogue;

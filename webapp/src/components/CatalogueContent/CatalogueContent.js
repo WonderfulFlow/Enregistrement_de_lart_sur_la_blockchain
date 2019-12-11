@@ -2,10 +2,11 @@ import React from "react";
 import HeadSection from "../HeadSection/HeadSection";
 import "./CatalogueContent.css";
 
+import * as routes from "../../routes";
 import { TextField, Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
-
-const homeContent = (props) => (
+const catalogueContent = (props) => (
     <>
         <CssBaseline />
         <main>
@@ -39,7 +40,9 @@ const homeContent = (props) => (
                                 </CardContent>
                                 <CardActions>
                                     <Button size="small" color="primary">
-                                        Commander
+                                        <Link to={routes.BUY + key}>
+                                            Commander
+                                        </Link>
                                     </Button>
                                     <div className={"divSpace"}/>
                                     <small>{props.data[key].price}€</small>
@@ -53,4 +56,4 @@ const homeContent = (props) => (
     </>
 );
 
-export default homeContent;
+export default catalogueContent;

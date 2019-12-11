@@ -35,16 +35,22 @@ class Buyingpage extends React.Component{
 
     componentDidMount() {
         const {match: {params}} = this.props;
-        console.log(params.id);
+        const artwork_id = params.id;
+        this.props.fetchData(artwork_id);
     }
 
     render(){
         const { classes } = this.props;
+        let buyPage = null;
+        if(this.props.data){
+            buyPage = <BuyPage classes={classes} data={this.props.data}/>;
+        }
 
         return (
             <>
                 <button onClick={this.props.fetchData}>fetch data</button>
-                <BuyPage classes={classes}/>
+                <button onClick={() => console.log(this.props.data)}>show data</button>
+                {buyPage}
             </>
         )
     }
@@ -58,7 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchData: () => dispatch(actions_artworks.getData()),
+        fetchData: (id) => dispatch(actions_artworks.getData(id)),
     };
 };
 
