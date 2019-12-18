@@ -9,7 +9,7 @@ import * as actions_modal from "../../store/actions/actions_modal";
 import { Button } from "@material-ui/core";
 
 import Web3 from 'web3'
-import {abi, addresss, byte_code} from './config'
+import {abi, address, byte_code} from '../../config'
 import { stringify } from 'querystring';
 
 
@@ -29,12 +29,18 @@ class ApercuModal extends React.Component{
     }
 
     async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
+        
         await window.ethereum.enable();
         
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
-        console.log(accounts[0]);
-        const myContract = new web3.eth.Contract(abi,addresss);
+        
+        const weiValue = Web3.utils.toWei('1', 'ether');
+        console.log(weiValue);
+        console.log(price, hash, nom_auteur, nom_oeuvre,supply);
+        //price=weiValue*price
+        console.log(price);
+        const myContract = new web3.eth.Contract(abi,address);
         myContract.deploy({
           data : byte_code,
           arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
@@ -42,10 +48,12 @@ class ApercuModal extends React.Component{
             from: accounts[0],
             gasPrice: '20000000000'
           })
-          .then(function(newContractInstance){
-              console.log(newContractInstance.options.address) // instance with the new contract address
+          .then(newContractInstance => {
+              const address=  newContractInstance.options.address
+              console.log("contract :  " + newContractInstance.options.address) // instance with the new contract address
+              this.orderHandler(address, price)
           })
-          .then(this.orderHandler());
+        
       }
     
     getAccount = (account) => {
@@ -107,11 +115,15 @@ class ApercuModal extends React.Component{
         });
     };
 
-    orderHandler = () => {
+    orderHandler = (address, price) => {
+        console.log("order handler"+ address);
         const formData = {
             name: this.props.name,
             description: this.props.description,
-            price: this.props.price
+            price: this.props.price,
+            contract_address: address,
+            artiste : "Artiste",
+            supply: price,
         };
 
         this.props.sendData(formData);
@@ -175,7 +187,7 @@ class ApercuModal extends React.Component{
                            dimension: "height"
                        })}/>
                 <br/><br/>
-                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
+                <button onClick={() => this.DeployContract(parseFloat (this.props.price),"hash",this.props.artiste,this.props.name, (this.state.nb_cols*this.state.nb_rows))}>deploy</button>
                 
             </>
         )

@@ -12,13 +12,24 @@ const buy_page = (props) => (
                 </Typography>
                 <Typography>
                     {props.data.description}
+                    
+                </Typography>
+                <Typography>
+                    {props.data.Artiste}
+                </Typography>
+                <Typography>
+                    {props.data.supply}
+                </Typography>
+                <Typography>
+                    {props.data.contract_address}
+                    
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={props.clicked} >
                     View
                 </Button>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={props.clicking} >
                     Edit
                 </Button>
             </CardActions>

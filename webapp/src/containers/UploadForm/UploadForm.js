@@ -11,7 +11,7 @@ import * as actions_upload from "../../store/actions/actions_upload";
 import * as actions_modal from "../../store/actions/actions_modal";
 
 import Web3 from 'web3'
-import {abi, addresss, byte_code} from './config'
+import {abi, address, byte_code} from '../../config'
 import { stringify } from 'querystring';
 
 
@@ -33,6 +33,7 @@ class UploadForm extends React.Component {
         this.state = {
             name: "",
             description: "",
+            artiste: "",
             price: 0,
 
             account: null,
@@ -99,7 +100,7 @@ class UploadForm extends React.Component {
             check = true;
         }
 
-        return check;
+        return true;
     };
 
     async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
@@ -107,7 +108,7 @@ class UploadForm extends React.Component {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
         console.log(accounts[0]);
-        const myContract = new web3.eth.Contract(abi,addresss);
+        const myContract = new web3.eth.Contract(abi,address);
         myContract.deploy({
           data : byte_code,
           arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
@@ -142,13 +143,13 @@ class UploadForm extends React.Component {
                                             "en vente. Il est alors possible d'acheter et d'être le propriétaire de " +
                                             "parties de votre oeuvre."}/>
 
-                    <button onClick={() => this.DeployContract(3,"bonjour","bonjour","bonjour",3)}>deploy</button>
+                   
 
                     <Form openMosaique={this.openMosaique} onChange={this.onChange} uploadImage={this.props.uploadImage}/>
 
                     <Modal isOpen={this.props.modalOpen} closeModal={this.props.closeModal}
                            original_width={this.props.original_width}>
-                        <ApercuModal name={this.state.name} description={this.state.description}
+                        <ApercuModal artiste={this.state.artiste} name={this.state.name} description={this.state.description}
                                     price={this.state.price}/>
                     </Modal>
                 </Container>
