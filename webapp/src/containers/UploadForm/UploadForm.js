@@ -14,7 +14,6 @@ import Web3 from 'web3'
 import {abi, addresss, byte_code} from './config'
 import { stringify } from 'querystring';
 
-
 const useStyles = makeStyles(theme => ({
     paper: {
         position: 'absolute',
@@ -99,7 +98,7 @@ class UploadForm extends React.Component {
             check = true;
         }
 
-        return check;
+        return true;
     };
 
     async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
@@ -153,7 +152,6 @@ class UploadForm extends React.Component {
                     </Modal>
                 </Container>
             </div>
-
         );
     }
 }

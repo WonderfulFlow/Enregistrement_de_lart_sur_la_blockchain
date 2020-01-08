@@ -2,7 +2,7 @@ import React from 'react';
 
 const tile = (props) => (
     <div key={props.index} className={props.tileClass}
-         style={{width: props.tile_width, height: props.tile_height, margin: props.tile_margin}}
+         style={{ display: "inline-block", overflow: "hidden", width: props.tile_width, height: props.tile_height, margin: props.tile_margin }}
          onClick={() => props.selectTile(props.tile)}>
         <img key={props.index} src={props.uploadedImage} alt={"Upload preview"}
              style={{

@@ -1,4 +1,5 @@
 .preview-container {
+    flex: 1;
     margin-left: auto;
     margin-right: auto;
 }
