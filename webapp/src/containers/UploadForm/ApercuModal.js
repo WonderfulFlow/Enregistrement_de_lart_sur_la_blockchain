@@ -128,8 +128,7 @@ class ApercuModal extends React.Component{
         let containerWidth = 0;
 
         if(this.props.uploadedImage) {
-            containerWidth = Math.min(800, this.props.original_width)
-                            + 2 * this.state.nb_cols * this.tile_margin + "px";
+            containerWidth = this.props.original_width + 2 * this.state.nb_cols * this.tile_margin + "px";
 
             imagePreview = this.state.tilesArray.map(tile => {
                 const tileClass = this.state.selectedTileId === tile.id
@@ -175,19 +174,17 @@ class ApercuModal extends React.Component{
                            dimension: "height"
                        })}/>
                 <br/><br/>
+                <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
+                          selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
+                          tile_height={this.state.tile_height} tile_width={this.state.tile_width}
+                          tile_margin={this.tile_margin} containerWidth={containerWidth}
+                          imagePreview={imagePreview}/>
                 <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
                 
             </>
         )
     }
 }
-
-//order handler should call the function deploy 
-// <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
-//           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
-//           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
-//           tile_margin={this.tile_margin} containerWidth={containerWidth}
-//           imagePreview={imagePreview}/>
 
 const mapStateToProps = state => {
     return {
