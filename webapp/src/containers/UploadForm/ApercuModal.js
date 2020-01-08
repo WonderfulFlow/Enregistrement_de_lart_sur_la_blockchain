@@ -149,10 +149,15 @@ class ApercuModal extends React.Component{
                     : "tile";
 
                 return (
-                    <Tile key={tile.id} index={tile.id} tile={tile} tileClass={tileClass}
-                          tile_height={this.state.tile_height} tile_width={this.state.tile_width}
-                          tile_margin={this.tile_margin} selectTile={this.selectTile}
-                          uploadedImage={this.props.uploadedImage}/>
+                    <Tile   key={tile.id} 
+                            index={tile.id}
+                            tile={tile} 
+                            tileClass={tileClass}
+                            tile_height={this.state.tile_height} 
+                            tile_width={this.state.tile_width}
+                            tile_margin={this.tile_margin} 
+                            selectTile={this.selectTile}
+                            uploadedImage={this.props.uploadedImage}/>
                 );
             });
         }
@@ -188,6 +193,7 @@ class ApercuModal extends React.Component{
                        })}/>
                 <br/><br/>
                 <button onClick={() => this.DeployContract(parseFloat (this.props.price),"hash",this.props.artiste,this.props.name, (this.state.nb_cols*this.state.nb_rows))}>deploy</button>
+               
                 
             </>
         )
@@ -195,12 +201,13 @@ class ApercuModal extends React.Component{
 }
 
 //order handler should call the function deploy 
-// <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
-//           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
-//           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
-//           tile_margin={this.tile_margin} containerWidth={containerWidth}
-//           imagePreview={imagePreview}/>
-
+/*
+ <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
+           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
+           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
+           tile_margin={this.tile_margin} containerWidth={containerWidth}
+           imagePreview={imagePreview}/>
+*/
 const mapStateToProps = state => {
     return {
         uploadedImage: state.upload.uploadedImage,

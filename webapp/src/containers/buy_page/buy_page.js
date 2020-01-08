@@ -58,7 +58,7 @@ class Buyingpage extends React.Component{
 
         //var MyContract = new Web3.eth.Contract(abi, address);
         contract.methods.balanceOf(accounts[0]).call()
-        .then(console.log);}
+        .then(alert);}
        /*else{
          window.alert("pas d'adresse pour cette oeurvre")
         }*/
@@ -666,7 +666,7 @@ class Buyingpage extends React.Component{
 
         return (
             <>
-                 {buyPage}
+                  {buyPage}
             </>
         )
     }
