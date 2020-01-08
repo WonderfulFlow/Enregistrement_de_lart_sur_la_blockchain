@@ -6,7 +6,6 @@ import "./ApercuModal.css";
 import { connect } from "react-redux";
 import * as actions_send_data from "../../store/actions/actions_artworks";
 import * as actions_modal from "../../store/actions/actions_modal";
-import { Button } from "@material-ui/core";
 
 import Web3 from 'web3'
 import {abi, address, byte_code} from '../../config'
@@ -109,7 +108,7 @@ class ApercuModal extends React.Component{
         this.setState((prevState, props) => {
             return {
                 ...prevState,
-                tile_width: Math.min(800, props.original_width) / prevState.nb_cols,
+                tile_width: props.original_width / prevState.nb_cols,
                 tile_height: props.original_height / prevState.nb_rows
             };
         });
@@ -140,8 +139,7 @@ class ApercuModal extends React.Component{
         let containerWidth = 0;
 
         if(this.props.uploadedImage) {
-            containerWidth = Math.min(800, this.props.original_width)
-                            + 2 * this.state.nb_cols * this.tile_margin + "px";
+            containerWidth = this.props.original_width + 2 * this.state.nb_cols * this.tile_margin + "px";
 
             imagePreview = this.state.tilesArray.map(tile => {
                 const tileClass = this.state.selectedTileId === tile.id
@@ -149,15 +147,15 @@ class ApercuModal extends React.Component{
                     : "tile";
 
                 return (
-                    <Tile   key={tile.id} 
-                            index={tile.id}
-                            tile={tile} 
-                            tileClass={tileClass}
-                            tile_height={this.state.tile_height} 
-                            tile_width={this.state.tile_width}
-                            tile_margin={this.tile_margin} 
-                            selectTile={this.selectTile}
-                            uploadedImage={this.props.uploadedImage}/>
+                    <Tile key={tile.id}
+                          index={tile.id}
+                          tile={tile}
+                          tileClass={tileClass}
+                          tile_height={this.state.tile_height}
+                          tile_width={this.state.tile_width}
+                          tile_margin={this.tile_margin}
+                          selectTile={this.selectTile}
+                          uploadedImage={this.props.uploadedImage}/>
                 );
             });
         }
@@ -179,35 +177,41 @@ class ApercuModal extends React.Component{
 
                 <h3 className={"apercuModalTitle"}>Modifier le nombre de subdivisions de votre oeuvre : </h3>
                 <label>NB COLS</label>
-                <input type="number" value={this.state.nb_cols} style={{marginLeft: "10px"}}
-                       min={5} max={20} onChange={(event) => this.changeInputMosaique(event, {
+                <input type="number"
+                       value={this.state.nb_cols}
+                       style={{marginLeft: "10px"}}
+                       min={5} max={20}
+                       onChange={(event) => this.changeInputMosaique(event, {
                            division: "nb_cols",
                            dimension: "width"
                        })}/>
                 <br/>
                 <label>NB ROWS</label>
-                <input type="number" value={this.state.nb_rows} style={{marginLeft: "10px"}}
-                       min={5} max={20} onChange={(event) => this.changeInputMosaique(event, {
+                <input type="number"
+                       value={this.state.nb_rows}
+                       style={{marginLeft: "10px"}}
+                       min={5} max={20}
+                       onChange={(event) => this.changeInputMosaique(event, {
                            division: "nb_rows",
                            dimension: "height"
                        })}/>
                 <br/><br/>
-                <button onClick={() => this.DeployContract(parseFloat (this.props.price),"hash",this.props.artiste,this.props.name, (this.state.nb_cols*this.state.nb_rows))}>deploy</button>
-               
+                <Mosaique uploadedImage={this.props.uploadedImage}
+                          tilesArray={this.state.tilesArray}
+                          selectTileId={this.selectTile}
+                          selectedTileId={this.state.selectedTileId}
+                          tile_height={this.state.tile_height}
+                          tile_width={this.state.tile_width}
+                          tile_margin={this.tile_margin}
+                          containerWidth={containerWidth}
+                          imagePreview={imagePreview}/>
+                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
                 
             </>
         )
     }
 }
 
-//order handler should call the function deploy 
-/*
- <Mosaique uploadedImage={this.props.uploadedImage} tilesArray={this.state.tilesArray}
-           selectTileId={this.selectTile} selectedTileId={this.state.selectedTileId}
-           tile_height={this.state.tile_height} tile_width={this.state.tile_width}
-           tile_margin={this.tile_margin} containerWidth={containerWidth}
-           imagePreview={imagePreview}/>
-*/
 const mapStateToProps = state => {
     return {
         uploadedImage: state.upload.uploadedImage,

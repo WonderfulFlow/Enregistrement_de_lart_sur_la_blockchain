@@ -32,9 +32,11 @@ export const artworksFail = (error) => {
 export const sendData = (formData) => {
     return dispatch => {
         dispatch(artworksStart());
-    const id=parseInt(Math.random()*1000000)
-    const url='/artwork/'+id+'.json'
-    console.log(url)
+
+        const id = parseInt(Math.random() * 1000000);
+        const url = '/artwork/' + id + '.json';
+        console.log(url);
+
         axios.put(url, formData)
 
        // axios.put('/artwork/1.json', formData)

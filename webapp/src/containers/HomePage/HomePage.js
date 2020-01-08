@@ -55,7 +55,7 @@ class HomePage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.artworks.data,
+        data : state.artworks.data
     };
 };
 

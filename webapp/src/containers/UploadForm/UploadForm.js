@@ -14,7 +14,6 @@ import Web3 from 'web3'
 import {abi, address, byte_code} from '../../config'
 import { stringify } from 'querystring';
 
-
 const useStyles = makeStyles(theme => ({
     paper: {
         position: 'absolute',
@@ -154,7 +153,6 @@ class UploadForm extends React.Component {
                     </Modal>
                 </Container>
             </div>
-
         );
     }
 }
