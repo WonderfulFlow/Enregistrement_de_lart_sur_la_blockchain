@@ -40,7 +40,8 @@ class Buyingpage extends React.Component{
     
     async show(){
         const address=this.props.data.contract_address;
-        console.log(this.props.data.contract_address)
+        console.log("Contract adress : ");
+        console.log(this.props.data.contract_address);
         //if(address!=null ){
        
         await window.ethereum.enable();
