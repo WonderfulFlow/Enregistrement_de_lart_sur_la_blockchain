@@ -1,10 +1,11 @@
 import React from 'react';
+import "./HomePageContent.css";
 import * as routes from "../../routes";
 import Footer from "../Footer/Footer";
 import HeadSection from "../HeadSection/HeadSection";
+import ArtworkGrid from "../ArtworkGrid/ArtworkGrid";
 
-import { Button, Card, CardActions, CardContent, CardMedia, CssBaseline,
-         Grid, Typography, Container, makeStyles } from '@material-ui/core';
+import { Button, CssBaseline, Grid, Typography, Container } from '@material-ui/core';
 import { Link } from "react-router-dom";
 
 const homePageContent = (props) => (
@@ -20,7 +21,7 @@ const homePageContent = (props) => (
                     <div className={props.classes.heroButtons}>
                         <Grid container spacing={2} justify="center">
                             <Grid item>
-                                <Link to={routes.BUY}>
+                                <Link to={routes.BROWSE}>
                                     <Button variant="contained" color="primary">
                                         Parcourir les ventes
                                     </Button>
@@ -38,43 +39,18 @@ const homePageContent = (props) => (
                 </HeadSection>
             </div>
             <Container className={props.classes.cardGrid} maxWidth="md">
-                <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom
-                            className={"titleTrending"}>
+                <Typography component="h1"
+                            variant="h4"
+                            align="center"
+                            color="textPrimary"
+                            gutterBottom>
                     Populaires en ce moment
                 </Typography>
-                <Grid container spacing={4}>
-                    {Object.keys(props.data).map(key => (
-                        <Grid item key={key} xs={12} sm={6} md={4}>
-                            <Card className={props.classes.card}>
-                                <CardMedia
-                                    className={props.classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
-                                    title="Image title"
-                                />
-                                <CardContent className={props.classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {props.data[key].name}
-                                    </Typography>
-                                    <Typography>
-                                        {props.data[key].description}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" color="primary">
-                                        <Link to={routes.BUY + key}>
-                                            Commander
-                                        </Link>
-                                    </Button>
-                                    <div className={"divSpace"}/>
-                                    <small>{props.data[key].price}€</small>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
+                <ArtworkGrid data={props.data}
+                             classes={props.classes}/>
             </Container>
         </main>
-        <Footer/>
+        <Footer position={"absolute"}/>
     </>
 );
 

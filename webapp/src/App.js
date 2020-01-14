@@ -1,13 +1,11 @@
 import React from 'react';
+import './App.css';
 import AppBar from './components/AppBar/AppBar';
+import Error from "./components/Errors/Error";
 import HomePage from './containers/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
-
 import Sell_page from "./containers/buy_page/buy_page"
-
-import Error from "./components/Errors/Error";
-import './App.css';
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';

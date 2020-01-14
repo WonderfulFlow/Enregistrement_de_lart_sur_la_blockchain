@@ -1,5 +1,6 @@
 import React from "react";
 import BuyPage from "../../components/buy_page/buy_page";
+import Footer from "../../components/Footer/Footer";
 
 import { makeStyles, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -24,17 +25,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 class Buyingpage extends React.Component{
-    constructor(props){
-        super(props);
-    }
-
-    // componentDidMount(){
-    //     this.props.fetchData();
-    //
-    // }
-
     componentDidMount() {
-        const {match: {params}} = this.props;
+        const { match: { params } } = this.props;
         const artwork_id = params.id;
         this.props.fetchData(artwork_id);
     }
@@ -43,7 +35,9 @@ class Buyingpage extends React.Component{
         const { classes } = this.props;
         let buyPage = null;
         if(this.props.data){
-            buyPage = <BuyPage classes={classes} data={this.props.data}/>;
+            // console.log("data : ", this.props.data);
+            buyPage = <BuyPage classes={classes}
+                               data={this.props.data}/>;
         }
 
         return (
@@ -51,6 +45,7 @@ class Buyingpage extends React.Component{
                 <button onClick={this.props.fetchData}>fetch data</button>
                 <button onClick={() => console.log(this.props.data)}>show data</button>
                 {buyPage}
+                <Footer position={"absolute"}/>
             </>
         )
     }

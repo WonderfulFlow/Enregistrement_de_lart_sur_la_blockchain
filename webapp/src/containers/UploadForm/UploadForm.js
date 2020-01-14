@@ -1,5 +1,7 @@
 import React from 'react';
+import "./UploadForm.css";
 import HeadSection from "../../components/HeadSection/HeadSection";
+import Footer from "../../components/Footer/Footer";
 import Form from "../../components/Form/Form";
 import Modal from "../../hoc/Modal/Modal";
 import ApercuModal from "./ApercuModal";
@@ -105,18 +107,21 @@ class UploadForm extends React.Component {
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
+
         console.log(accounts[0]);
+
         const myContract = new web3.eth.Contract(abi,addresss);
         myContract.deploy({
-          data : byte_code,
-          arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
-        }).send({
-            from: accounts[0],
-            gasPrice: '20000000000'
-          })
-          .then(function(newContractInstance){
-              console.log(newContractInstance.options.address) // instance with the new contract address
-          });
+            data : byte_code,
+            arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
+        })
+            .send({
+                from: accounts[0],
+                gasPrice: '20000000000'
+            })
+            .then(function(newContractInstance){
+                console.log(newContractInstance.options.address) // instance with the new contract address
+            });
       }
     
     getAccount = (account) => {
@@ -143,14 +148,20 @@ class UploadForm extends React.Component {
 
                     <button onClick={() => this.DeployContract(3,"bonjour","bonjour","bonjour",3)}>deploy</button>
 
-                    <Form openMosaique={this.openMosaique} onChange={this.onChange} uploadImage={this.props.uploadImage}/>
+                    <Form openMosaique={this.openMosaique}
+                          onChange={this.onChange}
+                          uploadImage={this.props.uploadImage}/>
 
-                    <Modal isOpen={this.props.modalOpen} closeModal={this.props.closeModal}
+                    <Modal className={"ModalTest"}
+                           isOpen={this.props.modalOpen}
+                           closeModal={this.props.closeModal}
                            original_width={this.props.original_width}>
-                        <ApercuModal name={this.state.name} description={this.state.description}
-                                    price={this.state.price}/>
+                        <ApercuModal name={this.state.name}
+                                     description={this.state.description}
+                                     price={this.state.price}/>
                     </Modal>
                 </Container>
+                <Footer/>
             </div>
         );
     }

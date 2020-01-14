@@ -1,3 +1,11 @@
-.apercuModalTitle{
+.contenuModal {
+    overflow: auto;
+}
+
+.contenuModal > h3 {
     text-align: center;
+}
+
+.contenuModal > input {
+    margin-left: 10px;
 }

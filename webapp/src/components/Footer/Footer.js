@@ -1,10 +1,11 @@
 import React from 'react';
+import "./Footer.css";
 
 import { Typography } from "@material-ui/core";
 
 const footer = (props) => {
     return (
-        <footer className={props.footerClass}>
+        <footer className={"Footer"} style={{position: props.position}}>
             <Typography variant="h6" align="center" gutterBottom>
                 Projet "Enregistrer de l'art sur la Blockchain" de M. Henri Lieutaud réalisé par :
             </Typography>

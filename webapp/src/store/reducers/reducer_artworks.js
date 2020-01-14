@@ -6,7 +6,9 @@ const initialState = {
     loading: false,
     dataID: 0,
     formData: null,
-    data: null
+    input: "",
+    data: null,
+    filteredData: null,
 };
 
 const artworksStart = (state, action) => {
@@ -21,6 +23,7 @@ const artworksGetSuccess = (state, action) => {
         loading: false,
         error: null,
         data: action.data,
+        filteredData: action.data,
     });
 };
 
@@ -30,6 +33,13 @@ const artworksSendSuccess = (state, action) => {
         error: null,
         dataID: action.dataID,
         formData: action.formData
+    });
+};
+
+const artworksFilterData = (state, action) => {
+    return updateObject(state, {
+        filter: action.filter,
+        filteredData: state.data.filter(artwork => artwork.name.startsWith(action.filter)),
     });
 };
 
@@ -45,6 +55,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.artworks_START: return artworksStart(state, action);
         case actionTypes.artworks_GET_SUCCESS: return artworksGetSuccess(state, action);
         case actionTypes.artworks_SEND_SUCCESS: return artworksSendSuccess(state, action);
+        case actionTypes.artworks_FILTER: return artworksFilterData(state, action);
         case actionTypes.artworks_FAIL: return artworksFail(state, action);
 
         default:

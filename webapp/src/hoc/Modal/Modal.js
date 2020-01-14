@@ -4,13 +4,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 
 function getModalStyle() {
-    const top = 50, left = 50, width = 80, height = 80;
+    const top = 50, left = 50, width = 80;
 
     return {
         top: `${top}%`,
         left: `${left}%`,
         width: `${width}%`,
         transform: `translate(-${top}%, -${left}%)`,
+        overflow: 'auto',
+        display: 'block',
+        maxHeight: '90%',
+        position: 'absolute',
+        padding: '5px',
     };
 }
 
@@ -31,9 +36,10 @@ function SimpleModal(props) {
 
     return (
         <div>
-            <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
-                open={props.isOpen} onClose={props.closeModal}>
-                <div style={{...modalStyle}} className={classes.paper}>
+            <Modal open={props.isOpen}
+                   onClose={props.closeModal}>
+                <div style={{...modalStyle}}
+                     className={classes.paper}>
                     {content}
                 </div>
             </Modal>

@@ -1,10 +1,10 @@
 import React from "react";
 import HeadSection from "../HeadSection/HeadSection";
+import ArtworkGrid from "../ArtworkGrid/ArtworkGrid";
+import Footer from "../Footer/Footer";
 import "./CatalogueContent.css";
 
-import * as routes from "../../routes";
-import { TextField, Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { TextField, Container, CssBaseline } from "@material-ui/core";
 
 const catalogueContent = (props) => (
     <>
@@ -12,47 +12,20 @@ const catalogueContent = (props) => (
         <main>
             <Container className={props.classes.cardGrid} maxWidth="md">
                 <HeadSection title={"Mettez en vente vos oeuvres"}
-                            subtitle={"Vos oeuvres peuvent être découpées en morceaux et chacun d'entre eux mis en " +
-                            "vente. Il est alors possible d'acheter et d'être le propriétaire de parties de votre " +
-                            "oeuvre."}/>
+                             subtitle={"Vos oeuvres peuvent être découpées en morceaux et chacun d'entre eux mis en " +
+                             "vente. Il est alors possible d'acheter et d'être le propriétaire de parties de votre " +
+                             "oeuvre."}/>
                 <div className={"filterInput"}>
-                    <TextField
-                        id="standard-basic" className={props.classes.textField} margin="normal"
-                        onChange={(event) => props.changeFilter(event)} label="Chercher une oeuvre"
-                    />
+                    <TextField id="standard-basic"
+                               className={props.classes.textField}
+                               margin="normal"
+                               onChange={(event) => props.filterData(event)}
+                               label="Chercher une oeuvre"/>
                 </div>
-                <Grid container spacing={4}>
-                    {Object.keys(props.data).map(key => (
-                        <Grid item key={key} xs={12} sm={6} md={4}>
-                            <Card className={props.classes.card}>
-                                <CardMedia
-                                    className={props.classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
-                                    title="Image title"
-                                />
-                                <CardContent className={props.classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {props.data[key].name}
-                                    </Typography>
-                                    <Typography>
-                                        {props.data[key].description}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" color="primary">
-                                        <Link to={routes.BUY + key}>
-                                            Commander
-                                        </Link>
-                                    </Button>
-                                    <div className={"divSpace"}/>
-                                    <small>{props.data[key].price}€</small>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
+                <ArtworkGrid data={props.filteredData} classes={props.classes}/>
             </Container>
         </main>
+        <Footer/>
     </>
 );
 

@@ -19,3 +19,4 @@ export const artworks_START = "SEND_DATA_START";
 export const artworks_GET_SUCCESS = "SEND_DATA_GET_SUCCESS";
 export const artworks_SEND_SUCCESS = "SEND_DATA_SEND_SUCCESS";
 export const artworks_FAIL = "SEND_DATA_ERROR";
+export const artworks_FILTER = "artworks_FILTER";

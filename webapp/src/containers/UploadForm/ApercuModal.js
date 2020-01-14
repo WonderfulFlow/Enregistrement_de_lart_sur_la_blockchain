@@ -8,7 +8,7 @@ import * as actions_send_data from "../../store/actions/actions_artworks";
 import * as actions_modal from "../../store/actions/actions_modal";
 
 import Web3 from 'web3'
-import {abi, addresss, byte_code} from './config'
+import { abi, addresss, byte_code } from './config'
 import { stringify } from 'querystring';
 
 
@@ -16,7 +16,6 @@ class ApercuModal extends React.Component{
     constructor(props){
         super(props);
 
-        this.tile_margin = 1;
         this.state = {
             tilesArray: [],
             selectedTileId: 0,
@@ -127,7 +126,7 @@ class ApercuModal extends React.Component{
         let containerWidth = 0;
 
         if(this.props.uploadedImage) {
-            containerWidth = this.props.original_width + 2 * this.state.nb_cols * this.tile_margin + "px";
+            containerWidth = this.props.original_width + 2 * this.state.nb_cols + "px";
 
             imagePreview = this.state.tilesArray.map(tile => {
                 const tileClass = this.state.selectedTileId === tile.id
@@ -141,7 +140,6 @@ class ApercuModal extends React.Component{
                           tileClass={tileClass}
                           tile_height={this.state.tile_height}
                           tile_width={this.state.tile_width}
-                          tile_margin={this.tile_margin}
                           selectTile={this.selectTile}
                           uploadedImage={this.props.uploadedImage}/>
                 );
@@ -149,8 +147,8 @@ class ApercuModal extends React.Component{
         }
 
         return (
-            <>
-                <h3 className={"apercuModalTitle"}>Informations sur votre oeuvre : </h3>
+            <div className={"contenuModal"}>
+                <h3>Informations sur votre oeuvre : </h3>
                 <div>
                     <label>Nom de l'oeuvre : </label> {this.props.name}
                 </div>
@@ -163,11 +161,10 @@ class ApercuModal extends React.Component{
 
                 <hr/>
 
-                <h3 className={"apercuModalTitle"}>Modifier le nombre de subdivisions de votre oeuvre : </h3>
+                <h3>Modifier le nombre de subdivisions de votre oeuvre : </h3>
                 <label>NB COLS</label>
                 <input type="number"
                        value={this.state.nb_cols}
-                       style={{marginLeft: "10px"}}
                        min={5} max={20}
                        onChange={(event) => this.changeInputMosaique(event, {
                            division: "nb_cols",
@@ -177,7 +174,6 @@ class ApercuModal extends React.Component{
                 <label>NB ROWS</label>
                 <input type="number"
                        value={this.state.nb_rows}
-                       style={{marginLeft: "10px"}}
                        min={5} max={20}
                        onChange={(event) => this.changeInputMosaique(event, {
                            division: "nb_rows",
@@ -190,12 +186,12 @@ class ApercuModal extends React.Component{
                           selectedTileId={this.state.selectedTileId}
                           tile_height={this.state.tile_height}
                           tile_width={this.state.tile_width}
-                          tile_margin={this.tile_margin}
                           containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
+                <br/><br/>
                 <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
                 
-            </>
+            </div>
         )
     }
 }

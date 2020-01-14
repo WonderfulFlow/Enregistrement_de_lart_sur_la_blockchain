@@ -59,11 +59,19 @@ export const getData = (id = null, limit = null) => {
         axios.get(url)
             .then(response => {
                 let data = response.data;
-                if(limit){
-                    // let data2 = data.slice(0, limit);
-                    // console.log(data2);
-                    console.log("A MODIFIER : actions_artwork");
-                    console.log(data);
+
+                if(!id){
+                    data = Object.keys(data).map(key => {
+                        console.log(key);
+                        return {
+                            id: key,
+                            ...data[key]
+                        }
+                    });
+
+                    if(limit && data.length > limit){
+                        data = data.slice(0, limit);
+                    }
                 }
 
                 dispatch(artworksGetSuccess(data));
@@ -72,8 +80,15 @@ export const getData = (id = null, limit = null) => {
                 console.log("error");
                 dispatch(artworksFail(error));
             });
-
     };
+};
 
+export const filterData = (event) => {
+    const filter = event.target.value;
+
+    return {
+        type: actionTypes.artworks_FILTER,
+        filter: filter
+    };
 };
 

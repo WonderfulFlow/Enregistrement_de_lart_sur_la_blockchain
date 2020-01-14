@@ -1,8 +1,9 @@
 import React from "react";
-import {Container, Typography} from "@material-ui/core";
+import "./HeadSection.css";
+import { Container, Typography } from "@material-ui/core";
 
 const headSection = (props) => (
-    <div>
+    <div className={"HeadSection"}>
         <Container maxWidth="sm">
         <br/>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -11,7 +12,9 @@ const headSection = (props) => (
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
             {props.subtitle}
         </Typography>
+
         {props.children}
+
         <br/><hr/><br/>
         </Container>
     </div>
