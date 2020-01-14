@@ -25,8 +25,7 @@ const form = (props) => (
                 accept={"image/*"}
                 aria-describedby="inputGroupFileAddon01"
                 placeholder={"test"}
-                onChange={props.uploadImage}
-            />
+                onChange={props.uploadImage}/>
             <InputLabel
                 className="custom-file-label"
                 htmlFor="inputGroupFile01"

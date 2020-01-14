@@ -1,4 +1,6 @@
 import React from "react";
+import ImagePreview from "../UploadForm/UploadForm";
+import Mosaique from "../Mosaique/Mosaique";
 import BuyPage from "../../components/buy_page/buy_page";
 import Footer from "../../components/Footer/Footer";
 
@@ -35,16 +37,20 @@ class Buyingpage extends React.Component{
         const { classes } = this.props;
         let buyPage = null;
         if(this.props.data){
-            // console.log("data : ", this.props.data);
-            buyPage = <BuyPage classes={classes}
-                               data={this.props.data}/>;
+            const imagePreview = <ImagePreview/>;
+            const mosaique = <Mosaique />;
+            buyPage = (
+                <BuyPage classes={classes}
+                         data={this.props.data}>
+                    <p>slt</p>
+                </BuyPage>
+            );
         }
 
         return (
             <>
-                <button onClick={this.props.fetchData}>fetch data</button>
-                <button onClick={() => console.log(this.props.data)}>show data</button>
                 {buyPage}
+                <button onClick={() => console.log(this.props.data)}>show data</button>
                 <Footer position={"absolute"}/>
             </>
         )

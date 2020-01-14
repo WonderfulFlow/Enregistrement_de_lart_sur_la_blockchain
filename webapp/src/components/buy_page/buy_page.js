@@ -3,7 +3,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Container, Typograph
 
 const buy_page = (props) => (
     <Container maxWidth="sm">
-        <Card className={props.classes.card}>
+        <Card className={props.classes.card} style={{marginTop: '25px'}}>
             <CardMedia className={props.classes.cardMedia}
                        image="https://source.unsplash.com/random"
                        title="Image title"/>
@@ -16,6 +16,9 @@ const buy_page = (props) => (
                 <Typography>
                     {props.data.description}
                 </Typography>
+                <div style={{marginTop: "50px"}}>
+                    {props.children}
+                </div>
             </CardContent>
             <CardActions>
                 <Button size="small"

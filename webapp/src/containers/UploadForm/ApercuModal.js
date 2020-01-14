@@ -12,7 +12,7 @@ import { abi, addresss, byte_code } from './config'
 import { stringify } from 'querystring';
 
 
-class ApercuModal extends React.Component{
+class ApercuModal extends React.Component {
     constructor(props){
         super(props);
 
@@ -43,12 +43,13 @@ class ApercuModal extends React.Component{
           .then(function(newContractInstance){
               console.log(newContractInstance.options.address) // instance with the new contract address
           })
-          .then(this.orderHandler());
+          .then(() => this.orderHandler());
       }
     
     getAccount = (account) => {
         this.setState({ account: account });
     };
+
     changeInputMosaique = (event, keys) => {
         const val = Math.max(event.target.value, 5);
 
@@ -107,9 +108,14 @@ class ApercuModal extends React.Component{
 
     orderHandler = () => {
         const formData = {
+            contract_address: "0x" + parseInt(Math.random() * 100, 10) + "b054a0a5Fadb328AB45D4DB19b5b9e01e",
             name: this.props.name,
             description: this.props.description,
-            price: this.props.price
+            price: this.props.price,
+            nb_rows: this.state.nb_rows,
+            nb_cols: this.state.nb_cols,
+            tile_height: this.state.tile_height,
+            tile_width: this.state.tile_width,
         };
 
         this.props.sendData(formData);
@@ -180,17 +186,16 @@ class ApercuModal extends React.Component{
                            dimension: "height"
                        })}/>
                 <br/><br/>
-                <Mosaique uploadedImage={this.props.uploadedImage}
-                          tilesArray={this.state.tilesArray}
-                          selectTileId={this.selectTile}
-                          selectedTileId={this.state.selectedTileId}
-                          tile_height={this.state.tile_height}
-                          tile_width={this.state.tile_width}
-                          containerWidth={containerWidth}
+                <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
                 <br/><br/>
-                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur","nom_oeuvre",10)}>deploy</button>
-                
+                {/*<button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur",*/}
+                {/*    "nom_oeuvre",10)}>*/}
+                {/*    deploy*/}
+                {/*</button>*/}
+                <button onClick={this.orderHandler}>
+                    deploy
+                </button>
             </div>
         )
     }
