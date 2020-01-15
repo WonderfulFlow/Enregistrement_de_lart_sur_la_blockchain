@@ -1,5 +1,6 @@
 import React from "react";
 import Mosaique from "../Mosaique/Mosaique";
+import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import Tile from "../../components/Tile/Tile";
 import "./ApercuModal.css";
 
@@ -55,7 +56,6 @@ class ApercuModal extends React.Component {
 
         this.setState((prevState, props) => {
             return {
-                ...prevState,
                 [keys.division]: val,
                 ["tile_" + keys.dimension]: props["original_" + keys.dimension] / val
             };
@@ -81,17 +81,11 @@ class ApercuModal extends React.Component {
             }
         }
 
-        this.setState({
-            ...this.state,
-            tilesArray: [...tiles_array]
-        });
+        this.setState({ tilesArray: [...tiles_array] });
     };
 
     selectTile = (tile) => {
-        this.setState({
-            ...this.state,
-            selectedTileId: tile.id
-        });
+        this.setState({ selectedTileId: tile.id });
 
         console.log("Col : " + tile.col + " Row : " + tile.row);
     };
@@ -99,7 +93,6 @@ class ApercuModal extends React.Component {
     setTileDimensions = () => {
         this.setState((prevState, props) => {
             return {
-                ...prevState,
                 tile_width: props.original_width / prevState.nb_cols,
                 tile_height: props.original_height / prevState.nb_rows
             };
@@ -114,6 +107,7 @@ class ApercuModal extends React.Component {
             price: this.props.price,
             nb_rows: this.state.nb_rows,
             nb_cols: this.state.nb_cols,
+            original_width: this.state.original_width,
             tile_height: this.state.tile_height,
             tile_width: this.state.tile_width,
         };
@@ -134,22 +128,28 @@ class ApercuModal extends React.Component {
         if(this.props.uploadedImage) {
             containerWidth = this.props.original_width + 2 * this.state.nb_cols + "px";
 
-            imagePreview = this.state.tilesArray.map(tile => {
-                const tileClass = this.state.selectedTileId === tile.id
-                    ? "tile selected"
-                    : "tile";
-
-                return (
-                    <Tile key={tile.id}
-                          index={tile.id}
-                          tile={tile}
-                          tileClass={tileClass}
-                          tile_height={this.state.tile_height}
-                          tile_width={this.state.tile_width}
-                          selectTile={this.selectTile}
-                          uploadedImage={this.props.uploadedImage}/>
-                );
-            });
+            // imagePreview = this.state.tilesArray.map(tile => {
+            //     const tileClass = this.state.selectedTileId === tile.id
+            //         ? "tile selected"
+            //         : "tile";
+            //
+            //     return (
+            //         <Tile key={tile.id}
+            //               index={tile.id}
+            //               tile={tile}
+            //               tileClass={tileClass}
+            //               tile_height={this.state.tile_height}
+            //               tile_width={this.state.tile_width}
+            //               selectTile={this.selectTile}
+            //               uploadedImage={this.props.uploadedImage}/>
+            //     );
+            // });
+            imagePreview = <ImagePreview tilesArray={this.state.tilesArray}
+                                         selectedTileId={this.state.selectedTileId}
+                                         tile_height={this.state.tile_height}
+                                         tile_width={this.state.tile_width}
+                                         selectTile={this.selectTile}
+                                         uploadedImage={this.props.uploadedImage}/>
         }
 
         return (

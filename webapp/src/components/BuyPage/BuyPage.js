@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
 
-const buy_page = (props) => (
+const buyPage = (props) => (
     <Container maxWidth="sm">
         <Card className={props.classes.card} style={{marginTop: '25px'}}>
             <CardMedia className={props.classes.cardMedia}
@@ -16,22 +16,18 @@ const buy_page = (props) => (
                 <Typography>
                     {props.data.description}
                 </Typography>
+                <Typography>
+                    { "Prix par case : " + props.data.price + "€" }
+                </Typography>
                 <div style={{marginTop: "50px"}}>
                     {props.children}
                 </div>
             </CardContent>
             <CardActions>
-                <Button size="small"
-                        color="primary">
-                    View
-                </Button>
-                <Button size="small"
-                        color="primary">
-                    Edit
-                </Button>
+                { props.actionButton }
             </CardActions>
         </Card>
     </Container>
 );
 
-export default buy_page;
+export default buyPage;

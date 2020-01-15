@@ -5,7 +5,7 @@ import Error from "./components/Errors/Error";
 import HomePage from './containers/HomePage/HomePage';
 import Catalogue from './containers/Catalogue/Catalogue';
 import UploadForm from "./containers/UploadForm/UploadForm";
-import Sell_page from "./containers/buy_page/buy_page"
+import BuyPage from "./containers/BuyPage/BuyPage_GenerateContent"
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
@@ -44,7 +44,7 @@ class App extends React.Component {
                 <Route path={routes_names.BROWSE} component={Catalogue}/>
                 <Route path={routes_names.MISEVENTE} component={UploadForm}/>
                 <Route path={routes_names.NO_METAMASK} component={Error}/>
-                <Route path={routes_names.BUY + ":id"} component={Sell_page}/>
+                <Route path={routes_names.BUY + ":id"} component={BuyPage}/>
                 <Redirect to={routes_names.HOME}/>
             </Switch>
         );
