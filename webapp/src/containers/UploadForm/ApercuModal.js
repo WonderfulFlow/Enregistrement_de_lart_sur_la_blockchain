@@ -1,7 +1,6 @@
 import React from "react";
 import Mosaique from "../Mosaique/Mosaique";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
-import Tile from "../../components/Tile/Tile";
 import "./ApercuModal.css";
 
 import { connect } from "react-redux";

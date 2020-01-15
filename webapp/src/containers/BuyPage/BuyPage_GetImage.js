@@ -3,7 +3,7 @@ import img from "../../img/img_test_artwork.png";
 import Mosaique from "../Mosaique/Mosaique";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import BuyPage from "../../components/BuyPage/BuyPage";
-import {Button, withMobileDialog} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 class BuyPage_GetImage extends React.Component {
     constructor(props) {

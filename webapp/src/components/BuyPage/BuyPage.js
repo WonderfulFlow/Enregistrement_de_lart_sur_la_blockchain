@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
+import { Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
 
 const buyPage = (props) => (
     <Container maxWidth="sm">

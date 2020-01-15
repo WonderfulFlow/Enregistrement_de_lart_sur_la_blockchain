@@ -1,5 +1,5 @@
 import React from "react";
-import BuyPage_GetImage from "./BuyPage_GetImage";
+import BuyPageGetImage from "./BuyPage_GetImage";
 import Footer from "../../components/Footer/Footer";
 
 import { makeStyles, withStyles } from "@material-ui/core";
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-class BuyPage_GenerateContent extends React.Component {
+class BuyPageGenerateContent extends React.Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         const artwork_id = params.id;
@@ -35,7 +35,7 @@ class BuyPage_GenerateContent extends React.Component {
         const { classes } = this.props;
         let buyPage = null;
         if(this.props.data){
-            buyPage = <BuyPage_GetImage classes={classes}
+            buyPage = <BuyPageGetImage classes={classes}
                                         data={this.props.data}/>;
         }
 
@@ -60,6 +60,6 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(BuyPage_GenerateContent));
+export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(BuyPageGenerateContent));
 
 
