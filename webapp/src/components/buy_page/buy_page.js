@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography, TextField } from "@material-ui/core";
 
 const buy_page = (props) => (
     <Container maxWidth="sm">
@@ -8,29 +8,32 @@ const buy_page = (props) => (
                        title="Image title"/>
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    {props.data.name}
+                   nom de l'oeuvre: {props.data.name}
                 </Typography>
                 <Typography>
-                    {props.data.description}
+                   description:  {props.data.description}
                     
                 </Typography>
                 <Typography>
                     {props.data.Artiste}
                 </Typography>
                 <Typography>
-                    {props.data.supply}
+                   suplly: {props.data.supply}
                 </Typography>
                 <Typography>
-                    {props.data.contract_address}
+                    adress du contrat: {props.data.contract_address}
                     
                 </Typography>
+                <TextField required id="numero de token" label="token a acheter"
+                       defaultValue=" " margin="normal"
+                       onChange={(event) => props.onChange(event.target.value, "token_id")}/>
             </CardContent>
             <CardActions>
                 <Button size="small" color="primary" onClick={props.clicked} >
-                    View
+                    number of token
                 </Button>
                 <Button size="small" color="primary" onClick={props.clicking} >
-                    Edit
+                    buy 1 token
                 </Button>
             </CardActions>
         </Card>

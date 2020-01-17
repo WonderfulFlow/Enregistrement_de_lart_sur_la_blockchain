@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
 class Buyingpage extends React.Component{
     constructor(props){
         super(props);
+        this.state={
+            token_id: 0
+        };
         this.show=this.show.bind(this);
         this.buy=this.buy.bind(this);
     }
@@ -56,7 +59,7 @@ class Buyingpage extends React.Component{
 
         //var MyContract = new Web3.eth.Contract(abi, address);
         contract.methods.balanceOf(accounts[0]).call()
-        .then(console.log);}
+        .then(alert);}
        /*else{
          window.alert("pas d'adresse pour cette oeurvre")
         }*/
@@ -67,7 +70,7 @@ class Buyingpage extends React.Component{
         console.log(this.props.data.contract_address)
         if(address!=null ){*/
         const address=this.props.data.contract_address;
-
+        console.log(this.state.token_id)
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
@@ -633,13 +636,18 @@ class Buyingpage extends React.Component{
         //console.log(contract)
         
         //var MyContract = new Web3.eth.Contract(abi, address);
-        contract.methods.purchaseToken(5).send({from: accounts[0],gas: 3000000,value:1 })
+        contract.methods.purchaseToken(parseInt(this.state.token_id)).send({from: accounts[0],gas: 3000000,value:1 })
         .then(console.log);}
        /* else{
             window.alert("pas d'adresse pour cette oeurvre")
         }
   }*/
   
+  onChange = (value, variable) => {
+    this.setState({
+        [variable]: value
+    });
+}
 
     componentDidMount() {
         const {match: {params}} = this.props;
@@ -652,16 +660,14 @@ class Buyingpage extends React.Component{
         const { classes } = this.props;
         let buyPage = null;
         if(this.props.data){
-            buyPage = <BuyPage classes={classes} data={this.props.data} clicked={this.show} clicking={this.buy} />;
+            buyPage = <BuyPage classes={classes} onChange={this.onChange} data={this.props.data} clicked={this.show} clicking={this.buy} />;
             
 
         }
 
         return (
             <>
-                <button onClick={this.props.fetchData}>fetch data</button>
-                <button onClick={() => console.log(this.props.data)}>show data</button>
-                {buyPage}
+                  {buyPage}
             </>
         )
     }
