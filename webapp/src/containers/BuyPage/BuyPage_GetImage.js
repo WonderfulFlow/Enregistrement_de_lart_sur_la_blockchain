@@ -59,7 +59,8 @@ class BuyPage_GetImage extends React.Component {
         const accounts = await web3.eth.getAccounts();
         const contract = new web3.eth.Contract(abi, address);
 
-        contract.methods.purchaseToken(parseInt(this.state.token_id))
+        console.log(this.state.selectedTiles[0]);
+        contract.methods.purchaseToken(parseInt(this.state.selectedTiles[0]))
             .send({
                 from: accounts[0],
                 gas: 3000000,

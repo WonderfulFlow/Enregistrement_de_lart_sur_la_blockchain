@@ -40,9 +40,11 @@ export const sendData = (formData) => {
 
         axios.put(url, formData)
             .then(response => {
+                console.log(response);
                 dispatch(artworksSendSuccess(response.data.name, formData));
             })
             .catch(error => {
+                console.log(error);
                 dispatch(artworksFail(error));
             });
     };

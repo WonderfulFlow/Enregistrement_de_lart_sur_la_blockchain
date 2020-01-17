@@ -42,7 +42,7 @@ class BuyPageGenerateContent extends React.Component {
         return (
             <>
                 {buyPage}
-                <Footer position={"absolute"}/>
+                {/*<Footer position={"absolute"}/>*/}
             </>
         )
     }

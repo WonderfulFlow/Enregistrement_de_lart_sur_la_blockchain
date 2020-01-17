@@ -31,6 +31,7 @@ class ApercuModal extends React.Component {
         const accounts = await web3.eth.getAccounts();
         const myContract = new web3.eth.Contract(abi, address);
 
+        alert(supply);
         myContract.deploy({
             data : byte_code,
             arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
@@ -42,7 +43,7 @@ class ApercuModal extends React.Component {
             .then(newContractInstance => {
                 alert("DeployContract");
                 console.log(newContractInstance.options.address);
-                this.orderHandler(newContractInstance);
+                this.orderHandler(newContractInstance.options.address);
             }) // instance with the new contract address
     }
 

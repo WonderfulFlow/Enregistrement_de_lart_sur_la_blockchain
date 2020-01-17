@@ -31,10 +31,6 @@ const form = (props) => (
                 aria-describedby="inputGroupFileAddon01"
                 placeholder={"test"}
                 onChange={props.uploadImage}/>
-            <InputLabel
-                className="custom-file-label"
-                htmlFor="inputGroupFile01"
-            />
         </div>
         <br/><br/>
         <Button type="button" onClick={props.openMosaique}>
