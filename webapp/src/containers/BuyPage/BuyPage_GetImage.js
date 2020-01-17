@@ -16,6 +16,7 @@ class BuyPage_GetImage extends React.Component {
         };
 
         this.buy = this.buy.bind(this);
+        this.show = this.show.bind(this);
     }
 
     generateTiles = () => {
@@ -69,6 +70,29 @@ class BuyPage_GetImage extends React.Component {
             .then(console.log);
     }
 
+    async show(){
+        const address=this.props.data.contract_address;
+        console.log(this.props.data.contract_address)
+        //if(address!=null ){
+
+        await window.ethereum.enable();
+
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const accounts = await web3.eth.getAccounts();
+        const contract_Address="0xAb44A688F2dE74d4ab20b95Cc3dA534886B8f8B9"; //should be fetched
+        const user = "0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852" // hard coded account
+
+        const contract = new web3.eth.Contract(abi, address);
+        console.log(accounts[0])
+
+        //var MyContract = new Web3.eth.Contract(abi, address);
+        contract.methods.balanceOf(accounts[0]).call()
+            .then(alert);}
+    /*else{
+      window.alert("pas d'adresse pour cette oeurvre")
+     }*/
+    //}
+
     onChange = (value, variable) => {
         this.setState({
             [variable]: value
@@ -108,28 +132,41 @@ class BuyPage_GetImage extends React.Component {
         let actionButton;
         if(nbTiles === 0){
             actionButton = (
-                <Button size="small"
-                        color="primary"
-                        onClick={this.buy}
-                        disabled>
-                    { buttonContent }
-                </Button>
+                <>
+                    <Button size="small"
+                            color="primary"
+                            onClick={this.buy}
+                            disabled>
+                        { buttonContent }
+                    </Button>
+                    <Button size="small"
+                            color="primary"
+                            onClick={this.show}>
+                        Show tokens
+                    </Button>
+            </>
             );
         } else {
             actionButton = (
-                <Button size="small"
-                        color="primary"
-                        onClick={this.buy}>
-                    { buttonContent }
-                </Button>
+                <>
+                    <Button size="small"
+                            color="primary"
+                            onClick={this.buy}>
+                        { buttonContent }
+                    </Button>
+                    <Button size="small"
+                            color="primary"
+                            onClick={this.show}>
+                        Show tokens
+                    </Button>
+                </>
             )
         }
 
         const buyPage = (
             <BuyPage classes={this.props.classes}
                      data={this.props.data}
-                     actionButton={actionButton}
-                    >
+                     actionButton={actionButton}>
                 {mosaique}
             </BuyPage>
         );

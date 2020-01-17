@@ -30,7 +30,6 @@ export const artworksFail = (error) => {
 };
 
 export const sendData = (formData) => {
-    alert("sendData");
     return dispatch => {
         dispatch(artworksStart());
 
