@@ -13,7 +13,7 @@ import * as actions_upload from "../../store/actions/actions_upload";
 import * as actions_modal from "../../store/actions/actions_modal";
 
 import Web3 from 'web3'
-import {abi, addresss, byte_code} from './config'
+import { abi, address, byte_code } from './config'
 import { stringify } from 'querystring';
 
 const useStyles = makeStyles(theme => ({
@@ -110,7 +110,7 @@ class UploadForm extends React.Component {
 
         console.log(accounts[0]);
 
-        const myContract = new web3.eth.Contract(abi,addresss);
+        const myContract = new web3.eth.Contract(abi, address);
         myContract.deploy({
             data : byte_code,
             arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]

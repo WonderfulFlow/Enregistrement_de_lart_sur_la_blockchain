@@ -4,11 +4,11 @@ import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import "./ApercuModal.css";
 
 import { connect } from "react-redux";
-import * as actions_send_data from "../../store/actions/actions_artworks";
+import * as actions_artworks from "../../store/actions/actions_artworks";
 import * as actions_modal from "../../store/actions/actions_modal";
 
 import Web3 from 'web3'
-import { abi, addresss, byte_code } from './config'
+import { abi, address, byte_code } from './config'
 import { stringify } from 'querystring';
 
 
@@ -18,7 +18,6 @@ class ApercuModal extends React.Component {
 
         this.state = {
             tilesArray: [],
-            selectedTileId: 0,
             nb_cols: 10,
             nb_rows: 10,
             tile_width: 0,
@@ -26,29 +25,25 @@ class ApercuModal extends React.Component {
         }
     }
 
-    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
+    async DeployContract (price, hash, nom_auteur, nom_oeuvre, supply) {
         await window.ethereum.enable();
         
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
         console.log(accounts[0]);
-        const myContract = new web3.eth.Contract(abi,addresss);
+        const myContract = new web3.eth.Contract(abi, address);
+
         myContract.deploy({
-          data : byte_code,
-          arguments : [price,stringify(hash),stringify(nom_auteur),stringify(nom_oeuvre),supply]
-        }).send({
-            from: accounts[0],
-            gasPrice: '20000000000'
-          })
-          .then(function(newContractInstance){
-              console.log(newContractInstance.options.address) // instance with the new contract address
-          })
-          .then(() => this.orderHandler());
-      }
-    
-    getAccount = (account) => {
-        this.setState({ account: account });
-    };
+            data : byte_code,
+            arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
+        })
+            .send({
+                from: accounts[0],
+                gasPrice: '20000000000'
+            })
+            .then(newContractInstance => console.log(newContractInstance.options.address)) // instance with the new contract address
+            .then(() => this.orderHandler());
+    }
 
     changeInputMosaique = (event, keys) => {
         const val = Math.max(event.target.value, 5);
@@ -83,12 +78,6 @@ class ApercuModal extends React.Component {
         this.setState({ tilesArray: [...tiles_array] });
     };
 
-    selectTile = (tile) => {
-        this.setState({ selectedTileId: tile.id });
-
-        console.log("Col : " + tile.col + " Row : " + tile.row);
-    };
-
     setTileDimensions = () => {
         this.setState((prevState, props) => {
             return {
@@ -121,33 +110,15 @@ class ApercuModal extends React.Component {
     }
 
     render(){
-        let imagePreview = null;
-        let containerWidth = 0;
+        let imagePreview = null,
+            containerWidth = 0;
 
         if(this.props.uploadedImage) {
             containerWidth = this.props.original_width + 2 * this.state.nb_cols + "px";
 
-            // imagePreview = this.state.tilesArray.map(tile => {
-            //     const tileClass = this.state.selectedTileId === tile.id
-            //         ? "tile selected"
-            //         : "tile";
-            //
-            //     return (
-            //         <Tile key={tile.id}
-            //               index={tile.id}
-            //               tile={tile}
-            //               tileClass={tileClass}
-            //               tile_height={this.state.tile_height}
-            //               tile_width={this.state.tile_width}
-            //               selectTile={this.selectTile}
-            //               uploadedImage={this.props.uploadedImage}/>
-            //     );
-            // });
             imagePreview = <ImagePreview tilesArray={this.state.tilesArray}
-                                         selectedTileId={this.state.selectedTileId}
                                          tile_height={this.state.tile_height}
                                          tile_width={this.state.tile_width}
-                                         selectTile={this.selectTile}
                                          uploadedImage={this.props.uploadedImage}/>
         }
 
@@ -187,12 +158,9 @@ class ApercuModal extends React.Component {
                 <br/><br/>
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
-                <br/><br/>
-                {/*<button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur",*/}
-                {/*    "nom_oeuvre",10)}>*/}
-                {/*    deploy*/}
-                {/*</button>*/}
-                <button onClick={this.orderHandler}>
+                <br/><br/> {/*price, hash, nom_auteur, nom_oeuvre, supply*/}
+                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur",
+                    "nom_oeuvre",10)}>
                     deploy
                 </button>
             </div>
@@ -210,7 +178,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        sendData: (formData) => dispatch(actions_send_data.sendData(formData)),
+        sendData: (formData) => dispatch(actions_artworks.sendData(formData)),
         closeModal: () => dispatch(actions_modal.closeModal()),
     };
 };

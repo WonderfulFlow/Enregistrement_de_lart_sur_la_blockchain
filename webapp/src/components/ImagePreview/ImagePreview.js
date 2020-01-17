@@ -3,9 +3,9 @@ import Tile from "../Tile/Tile";
 
 const imagePreview = (props) => {
     return props.tilesArray.map(tile => {
-        const tileClass = props.selectedTiles.includes(tile.id)
-            ? "tile selected"
-            : "tile";
+        let tileClass = "tile";
+        if(props.selectedTiles && props.selectedTiles.includes(tile.id))
+            tileClass += " selected";
 
         return (
             <Tile key={tile.id}

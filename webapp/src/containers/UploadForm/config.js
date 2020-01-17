@@ -1,4 +1,4 @@
-export const addresss = '0x92c114F6A3Ede531b95805d5197e0678dd42CfaC'
+export const address = '0x92c114F6A3Ede531b95805d5197e0678dd42CfaC';
 export const abi = [
 	{
 		"inputs": [
@@ -584,7 +584,8 @@ export const abi = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]
+];
+
 export const byte_code='0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820a906072c1065dbdb1041d1de751cb1b25ace39613f9db0640852d7974cddc8be64736f6c634300050c0032'
 
 

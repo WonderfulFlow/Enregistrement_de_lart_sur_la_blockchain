@@ -8,7 +8,9 @@ const tile = (props) => (
              width: props.tile_width,
              height: props.tile_height
          }}
-         onClick={() => props.selectTile(props.tile)}>
+         onClick={() => props.selectTile
+                            ? props.selectTile(props.tile)
+                            : null}>
         <img key={props.index}
              className={"imgTile"}
              src={props.uploadedImage}
