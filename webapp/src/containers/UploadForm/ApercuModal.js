@@ -11,7 +11,6 @@ import Web3 from 'web3'
 import { abi, address, byte_code } from './config'
 import { stringify } from 'querystring';
 
-
 class ApercuModal extends React.Component {
     constructor(props){
         super(props);
@@ -30,7 +29,6 @@ class ApercuModal extends React.Component {
         
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
-        console.log(accounts[0]);
         const myContract = new web3.eth.Contract(abi, address);
 
         myContract.deploy({
@@ -41,8 +39,11 @@ class ApercuModal extends React.Component {
                 from: accounts[0],
                 gasPrice: '20000000000'
             })
-            .then(newContractInstance => console.log(newContractInstance.options.address)) // instance with the new contract address
-            .then(() => this.orderHandler());
+            .then(newContractInstance => {
+                alert("DeployContract");
+                console.log(newContractInstance.options.address);
+                this.orderHandler(newContractInstance);
+            }) // instance with the new contract address
     }
 
     changeInputMosaique = (event, keys) => {
@@ -87,9 +88,11 @@ class ApercuModal extends React.Component {
         });
     };
 
-    orderHandler = () => {
+    orderHandler = (contract_address) => {
+        alert("orderHandler");
         const formData = {
-            contract_address: "0x" + parseInt(Math.random() * 100, 10) + "b054a0a5Fadb328AB45D4DB19b5b9e01e",
+            contract_address: contract_address,
+            artiste : this.props.artiste,
             name: this.props.name,
             description: this.props.description,
             price: this.props.price,
@@ -126,6 +129,9 @@ class ApercuModal extends React.Component {
             <div className={"contenuModal"}>
                 <h3>Informations sur votre oeuvre : </h3>
                 <div>
+                    <label>Nom de l'artiste : </label> {this.props.artiste}
+                </div>
+                <div>
                     <label>Nom de l'oeuvre : </label> {this.props.name}
                 </div>
                 <div>
@@ -158,9 +164,9 @@ class ApercuModal extends React.Component {
                 <br/><br/>
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
-                <br/><br/> {/*price, hash, nom_auteur, nom_oeuvre, supply*/}
-                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash","Auteur",
-                    "nom_oeuvre",10)}>
+                <br/><br/>
+                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash", this.props.artiste,
+                    this.state.name, this.state.nb_cols * this.state.nb_rows)}>
                     deploy
                 </button>
             </div>

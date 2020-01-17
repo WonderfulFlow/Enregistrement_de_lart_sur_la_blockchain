@@ -4,40 +4,42 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } f
 import { Link } from "react-router-dom";
 import * as routes from "../../routes";
 
-const artworkGrid = (props) => (
-    <div className={"ArtworkGrid"}>
-        <Grid container spacing={4}>
-            {props.data.map((artwork, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
-                    <Card className={props.classes.card}>
-                        <CardMedia className={props.classes.cardMedia}
-                                   image="https://source.unsplash.com/random"
-                                   title="Image title"/>
-                        <CardContent className={props.classes.cardContent}>
-                            <Typography gutterBottom
-                                        variant="h5"
-                                        component="h2">
-                                {artwork.name}
-                            </Typography>
-                            <Typography>
-                                {artwork.description}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small"
-                                    color="primary">
-                                <Link to={routes.BUY + artwork.id}>
-                                    Commander
-                                </Link>
-                            </Button>
-                            <div className={"divSpace"}/>
-                            <small>{artwork.price}€</small>
-                        </CardActions>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
-    </div>
-);
+const artworkGrid = (props) => {
+    console.log(props.data); return (
+        <div className={"ArtworkGrid"}>
+            <Grid container spacing={4}>
+                {props.data.map((artwork, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={4}>
+                        <Card className={props.classes.card}>
+                            <CardMedia className={props.classes.cardMedia}
+                                       image="https://source.unsplash.com/random"
+                                       title="Image title"/>
+                            <CardContent className={props.classes.cardContent}>
+                                <Typography gutterBottom
+                                            variant="h5"
+                                            component="h2">
+                                    {artwork.name}
+                                </Typography>
+                                <Typography>
+                                    {artwork.description}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small"
+                                        color="primary">
+                                    <Link to={routes.BUY + artwork.id}>
+                                        Commander
+                                    </Link>
+                                </Button>
+                                <div className={"divSpace"}/>
+                                <small>{artwork.price}€</small>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </div>
+    );
+};
 
 export default artworkGrid;

@@ -30,6 +30,7 @@ export const artworksFail = (error) => {
 };
 
 export const sendData = (formData) => {
+    alert("sendData");
     return dispatch => {
         dispatch(artworksStart());
 
@@ -38,8 +39,6 @@ export const sendData = (formData) => {
         console.log(url);
 
         axios.put(url, formData)
-
-       // axios.put('/artwork/1.json', formData)
             .then(response => {
                 dispatch(artworksSendSuccess(response.data.name, formData));
             })

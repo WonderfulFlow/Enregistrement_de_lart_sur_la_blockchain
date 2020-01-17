@@ -12,10 +12,6 @@ import { connect } from "react-redux";
 import * as actions_upload from "../../store/actions/actions_upload";
 import * as actions_modal from "../../store/actions/actions_modal";
 
-import Web3 from 'web3'
-import { abi, address, byte_code } from './config'
-import { stringify } from 'querystring';
-
 const useStyles = makeStyles(theme => ({
     paper: {
         position: 'absolute',
@@ -32,6 +28,7 @@ class UploadForm extends React.Component {
         super(props);
 
         this.state = {
+            artiste: "",
             name: "",
             description: "",
             price: 0,
@@ -48,6 +45,18 @@ class UploadForm extends React.Component {
         this.setState({
             [variable]: value
         });
+    };
+
+    checkFormArtisteValidity = () => {
+        let check = true;
+        // faire trycatch
+
+        if(typeof(this.state.artiste) !== "string")
+            check = false;
+        else if(this.state.artiste.length < 1  || this.state.artiste.length > 20)
+            check = false;
+
+        return check;
     };
 
     checkFormNameValidity = () => {
@@ -95,34 +104,13 @@ class UploadForm extends React.Component {
     checkFormValidity = () => {
         let check = false;
 
-        if(this.checkFormNameValidity() && this.checkFormDescriptionValidity() &&
-            this.checkFormPriceValidity() && this.checkFormImageValidity()){
+        if(this.checkFormArtisteValidity() && this.checkFormNameValidity() &&
+            this.checkFormDescriptionValidity() && this.checkFormPriceValidity() && this.checkFormImageValidity()){
             check = true;
         }
 
-        return true;
+        return check;
     };
-
-    async DeployContract (price, hash, nom_auteur, nom_oeuvre,supply) {
-        await window.ethereum.enable();
-        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        const accounts = await web3.eth.getAccounts();
-
-        console.log(accounts[0]);
-
-        const myContract = new web3.eth.Contract(abi, address);
-        myContract.deploy({
-            data : byte_code,
-            arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
-        })
-            .send({
-                from: accounts[0],
-                gasPrice: '20000000000'
-            })
-            .then(function(newContractInstance){
-                console.log(newContractInstance.options.address) // instance with the new contract address
-            });
-      }
     
     getAccount = (account) => {
         this.setState({ account: account });
@@ -146,8 +134,6 @@ class UploadForm extends React.Component {
                                             "en vente. Il est alors possible d'acheter et d'être le propriétaire de " +
                                             "parties de votre oeuvre."}/>
 
-                    <button onClick={() => this.DeployContract(3,"bonjour","bonjour","bonjour",3)}>deploy</button>
-
                     <Form openMosaique={this.openMosaique}
                           onChange={this.onChange}
                           uploadImage={this.props.uploadImage}/>
@@ -156,7 +142,8 @@ class UploadForm extends React.Component {
                            isOpen={this.props.modalOpen}
                            closeModal={this.props.closeModal}
                            original_width={this.props.original_width}>
-                        <ApercuModal name={this.state.name}
+                        <ApercuModal artiste={this.state.artiste}
+                                     name={this.state.name}
                                      description={this.state.description}
                                      price={this.state.price}/>
                     </Modal>

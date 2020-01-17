@@ -22,7 +22,8 @@ const catalogueContent = (props) => (
                                onChange={(event) => props.filterData(event)}
                                label="Chercher une oeuvre"/>
                 </div>
-                <ArtworkGrid data={props.filteredData} classes={props.classes}/>
+                <ArtworkGrid data={props.filteredData}
+                             classes={props.classes}/>
             </Container>
         </main>
         <Footer/>

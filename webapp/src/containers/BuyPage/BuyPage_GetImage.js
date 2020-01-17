@@ -4,6 +4,8 @@ import Mosaique from "../Mosaique/Mosaique";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import BuyPage from "../../components/BuyPage/BuyPage";
 import { Button } from "@material-ui/core";
+import Web3 from "web3";
+import { abi } from "../UploadForm/config";
 
 class BuyPage_GetImage extends React.Component {
     constructor(props) {
@@ -11,7 +13,9 @@ class BuyPage_GetImage extends React.Component {
         this.state = {
             tilesArray: [],
             selectedTiles: [],
-        }
+        };
+
+        this.buy = this.buy.bind(this);
     }
 
     generateTiles = () => {
@@ -48,7 +52,30 @@ class BuyPage_GetImage extends React.Component {
         }, () => console.log(this.state.selectedTiles));
     };
 
+    async buy(){
+        const address = this.props.data.contract_address;
+        await window.ethereum.enable();
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const accounts = await web3.eth.getAccounts();
+        const contract = new web3.eth.Contract(abi, address);
+
+        contract.methods.purchaseToken(parseInt(this.state.token_id))
+            .send({
+                from: accounts[0],
+                gas: 3000000,
+                value: 1
+            })
+            .then(console.log);
+    }
+
+    onChange = (value, variable) => {
+        this.setState({
+            [variable]: value
+        });
+    };
+
     componentDidMount() {
+        console.log(this.props.data);
         this.generateTiles();
     }
 
@@ -82,6 +109,7 @@ class BuyPage_GetImage extends React.Component {
             actionButton = (
                 <Button size="small"
                         color="primary"
+                        onClick={this.buy}
                         disabled>
                     { buttonContent }
                 </Button>
@@ -89,7 +117,8 @@ class BuyPage_GetImage extends React.Component {
         } else {
             actionButton = (
                 <Button size="small"
-                        color="primary">
+                        color="primary"
+                        onClick={this.buy}>
                     { buttonContent }
                 </Button>
             )

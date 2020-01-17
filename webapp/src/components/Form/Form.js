@@ -1,8 +1,13 @@
 import React from "react";
-import {Button, Input, InputLabel, TextField} from "@material-ui/core";
+import { Button, Input, InputLabel, TextField } from "@material-ui/core";
 
 const form = (props) => (
     <div>
+        <div>
+            <TextField required id="artist" label="Nom de l'artiste"
+                       defaultValue=" " margin="normal"
+                       onChange={(event) => props.onChange(event.target.value, "artiste")}/>
+        </div>
         <div>
             <TextField required id="name" label="Nom de l'oeuvre"
                        defaultValue=" " margin="normal"

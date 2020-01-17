@@ -47,7 +47,9 @@ class Catalogue extends React.Component{
         const classes = this.props;
         let catalogue = null;
 
-        if(this.props.filteredData){
+        console.log("filtered data : ");
+        console.log(this.props.filteredData);
+        if(this.props.filteredData && this.props.filteredData.length !== undefined){
             catalogue = (
                 <CatalogueContent classes={classes}
                                   filteredData={this.props.filteredData}
