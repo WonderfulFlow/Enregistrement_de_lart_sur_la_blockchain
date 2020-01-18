@@ -1,7 +1,6 @@
 import React from "react";
 import HeadSection from "../HeadSection/HeadSection";
 import ArtworkGrid from "../ArtworkGrid/ArtworkGrid";
-import Footer from "../Footer/Footer";
 import "./CatalogueContent.css";
 
 import { TextField, Container, CssBaseline } from "@material-ui/core";
@@ -26,7 +25,6 @@ const catalogueContent = (props) => (
                              classes={props.classes}/>
             </Container>
         </main>
-        <Footer/>
     </>
 );
 

@@ -40,7 +40,6 @@ class ApercuModal extends React.Component {
                 gasPrice: '20000000000'
             })
             .then(newContractInstance => {
-                alert("DeployContract");
                 console.log(newContractInstance.options.address);
                 this.orderHandler(newContractInstance.options.address);
             }) // instance with the new contract address
@@ -116,7 +115,7 @@ class ApercuModal extends React.Component {
             containerWidth = 0;
 
         if(this.props.uploadedImage) {
-            containerWidth = this.props.original_width + 2 * this.state.nb_cols + "px";
+            containerWidth = this.props.original_width + 2 * this.state.nb_cols + 2 + "px";
 
             imagePreview = <ImagePreview tilesArray={this.state.tilesArray}
                                          tile_height={this.state.tile_height}

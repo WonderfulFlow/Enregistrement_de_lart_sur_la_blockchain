@@ -53,45 +53,34 @@ class BuyPage_GetImage extends React.Component {
         }, () => console.log(this.state.selectedTiles));
     };
 
-    async buy(){
+    async buy(tileID){
         const address = this.props.data.contract_address;
         await window.ethereum.enable();
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
         const contract = new web3.eth.Contract(abi, address);
 
-        console.log(this.state.selectedTiles[0]);
-        contract.methods.purchaseToken(parseInt(this.state.selectedTiles[0]))
+        contract.methods.purchaseToken(tileID)
             .send({
                 from: accounts[0],
                 gas: 3000000,
                 value: 1
-            })
-            .then(console.log);
+            });
     }
 
     async show(){
         const address=this.props.data.contract_address;
-        console.log(this.props.data.contract_address)
-        //if(address!=null ){
-
         await window.ethereum.enable();
-
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
-        const contract_Address="0xAb44A688F2dE74d4ab20b95Cc3dA534886B8f8B9"; //should be fetched
-        const user = "0x2dEe326bd5b94034F3d7968E4d3a94EED1c3c852" // hard coded account
-
         const contract = new web3.eth.Contract(abi, address);
-        console.log(accounts[0])
 
-        //var MyContract = new Web3.eth.Contract(abi, address);
-        contract.methods.balanceOf(accounts[0]).call()
-            .then(alert);}
-    /*else{
-      window.alert("pas d'adresse pour cette oeurvre")
-     }*/
-    //}
+        contract.methods.balanceOf(accounts[0]).call().then(alert);
+    }
+
+    buyTiles = () => {
+        this.state.selectedTiles.forEach(tileID => this.buy(tileID));
+    };
 
     onChange = (value, variable) => {
         this.setState({
@@ -135,14 +124,14 @@ class BuyPage_GetImage extends React.Component {
                 <>
                     <Button size="small"
                             color="primary"
-                            onClick={this.buy}
+                            onClick={this.buyTiles}
                             disabled>
                         { buttonContent }
                     </Button>
                     <Button size="small"
                             color="primary"
                             onClick={this.show}>
-                        Show tokens
+                        Show owned tokens
                     </Button>
             </>
             );
@@ -151,13 +140,13 @@ class BuyPage_GetImage extends React.Component {
                 <>
                     <Button size="small"
                             color="primary"
-                            onClick={this.buy}>
+                            onClick={this.buyTiles}>
                         { buttonContent }
                     </Button>
                     <Button size="small"
                             color="primary"
                             onClick={this.show}>
-                        Show tokens
+                        Show owned tokens
                     </Button>
                 </>
             )

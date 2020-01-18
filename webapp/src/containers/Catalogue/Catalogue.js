@@ -1,5 +1,6 @@
 import React from "react";
 import CatalogueContent from "../../components/CatalogueContent/CatalogueContent";
+import Footer from "../../components/Footer/Footer";
 
 import { withStyles, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -46,14 +47,17 @@ class Catalogue extends React.Component{
     render(){
         const classes = this.props;
         let catalogue = null;
+        let position;
 
-        console.log("filtered data : ");
-        console.log(this.props.filteredData);
         if(this.props.filteredData && this.props.filteredData.length !== undefined){
+            position = this.props.filteredData.length < 4 ? "absolute" : "" ;
             catalogue = (
-                <CatalogueContent classes={classes}
-                                  filteredData={this.props.filteredData}
-                                  filterData={this.props.filterData}/>
+                <>
+                    <CatalogueContent classes={classes}
+                                      filteredData={this.props.filteredData}
+                                      filterData={this.props.filterData}/>
+                    <Footer position={position}/>
+                </>
             );
         }
 
