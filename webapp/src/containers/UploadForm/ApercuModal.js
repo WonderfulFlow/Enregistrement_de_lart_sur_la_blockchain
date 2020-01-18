@@ -30,10 +30,10 @@ class ApercuModal extends React.Component {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
         const myContract = new web3.eth.Contract(abi, address);
-
+        const price_per_division=(price/supply)*1000000000000000000
         myContract.deploy({
             data : byte_code,
-            arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
+            arguments : [price_per_division, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
         })
             .send({
                 from: accounts[0],
@@ -41,7 +41,7 @@ class ApercuModal extends React.Component {
             })
             .then(newContractInstance => {
                 console.log(newContractInstance.options.address);
-                this.orderHandler(newContractInstance.options.address);
+                this.orderHandler(newContractInstance.options.address, price_per_division, supply);
             }) // instance with the new contract address
     }
 
@@ -87,13 +87,14 @@ class ApercuModal extends React.Component {
         });
     };
 
-    orderHandler = (contract_address) => {
+    orderHandler = (contract_address, price, supply) => {
         const formData = {
             contract_address: contract_address,
             artiste : this.props.artiste,
             name: this.props.name,
             description: this.props.description,
-            price: this.props.price,
+            price: price,
+            supply:supply,
             nb_rows: this.state.nb_rows,
             nb_cols: this.state.nb_cols,
             original_width: this.state.original_width,
@@ -136,7 +137,7 @@ class ApercuModal extends React.Component {
                     <label>Description de l'oeuvre : </label> {this.props.description}
                 </div>
                 <div>
-                    <label>Prix des subdivisions : </label> {this.props.price}
+                    <label>Prix des subdivisions : </label> {(this.props.price/1000000000000000000)}
                 </div>
 
                 <hr/>

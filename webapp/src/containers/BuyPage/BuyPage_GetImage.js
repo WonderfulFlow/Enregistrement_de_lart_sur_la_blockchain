@@ -64,7 +64,7 @@ class BuyPage_GetImage extends React.Component {
             .send({
                 from: accounts[0],
                 gas: 3000000,
-                value: 1
+                value: (this.props.data.price)
             });
     }
 
@@ -116,7 +116,7 @@ class BuyPage_GetImage extends React.Component {
                                 : nbTiles === 1
                                     ? "Achetez le morceau"
                                     : "Acheter les " + nbTiles + " morceaux";
-        buttonContent += " pour " + nbTiles * this.props.data.price + "€";
+        buttonContent += " pour " + nbTiles * (this.props.data.price/1000000000000000000) + "eth";
 
         let actionButton;
         if(nbTiles === 0){

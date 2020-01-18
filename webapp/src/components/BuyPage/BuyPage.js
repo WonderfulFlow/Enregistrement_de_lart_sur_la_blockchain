@@ -17,7 +17,7 @@ const buyPage = (props) => (
                     {props.data.description}
                 </Typography>
                 <Typography>
-                    { "Prix par case : " + props.data.price + "€" }
+                    { "Prix par case : " + (props.data.price/1000000000000000000) + " eth" }
                 </Typography>
                 <div style={{marginTop: "50px"}}>
                     {props.children}

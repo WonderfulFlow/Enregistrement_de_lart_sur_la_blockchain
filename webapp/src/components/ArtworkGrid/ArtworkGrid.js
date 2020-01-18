@@ -32,7 +32,7 @@ const artworkGrid = (props) => {
                                     </Link>
                                 </Button>
                                 <div className={"divSpace"}/>
-                                <small>{artwork.price}€</small>
+                                <small>{artwork.price/1000000000000000000} eth </small>
                             </CardActions>
                         </Card>
                     </Grid>
