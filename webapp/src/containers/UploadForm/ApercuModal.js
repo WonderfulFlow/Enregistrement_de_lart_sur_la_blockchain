@@ -137,7 +137,7 @@ class ApercuModal extends React.Component {
                     <label>Description de l'oeuvre : </label> {this.props.description}
                 </div>
                 <div>
-                    <label>Prix des subdivisions : </label> {(this.props.price/1000000000000000000)}
+                    <label>Prix des subdivisions : </label> {(this.props.price/(this.state.nb_cols * this.state.nb_rows))}
                 </div>
 
                 <hr/>
