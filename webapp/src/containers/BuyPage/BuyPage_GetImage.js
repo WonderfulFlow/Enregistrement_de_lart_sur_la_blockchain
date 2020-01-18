@@ -89,7 +89,6 @@ class BuyPage_GetImage extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props.data);
         this.generateTiles();
     }
 
@@ -101,10 +100,10 @@ class BuyPage_GetImage extends React.Component {
                                            selectTile={this.selectTile}
                                            uploadedImage={img}/>;
 
-        const containerWidth = this.props.data.original_width + 2 * this.props.data.nb_cols;
+        const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";
 
         const mosaique = (
-            <div style={{border: "1px solid black"}}>
+            <div style={{border: "1px solid grey"}}>
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
             </div>

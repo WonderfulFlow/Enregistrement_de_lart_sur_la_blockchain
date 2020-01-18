@@ -1,6 +1,5 @@
 import React from "react";
 import BuyPageGetImage from "./BuyPage_GetImage";
-import Footer from "../../components/Footer/Footer";
 
 import { makeStyles, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -15,9 +14,6 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-    },
-    cardMedia: {
-        paddingTop: '56.25%', // 16:9
     },
     cardContent: {
         flexGrow: 1,
@@ -39,12 +35,7 @@ class BuyPageGenerateContent extends React.Component {
                                         data={this.props.data}/>;
         }
 
-        return (
-            <>
-                {buyPage}
-                {/*<Footer position={"absolute"}/>*/}
-            </>
-        )
+        return buyPage;
     }
 }
 
