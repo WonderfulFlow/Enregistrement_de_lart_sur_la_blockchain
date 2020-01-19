@@ -94,7 +94,7 @@ class ApercuModal extends React.Component {
             name: this.props.name,
             description: this.props.description,
             price: price,
-            supply:supply,
+            supply: supply,
             nb_rows: this.state.nb_rows,
             nb_cols: this.state.nb_cols,
             original_width: this.state.original_width,
