@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import './App.css';
 import AppBar from './components/AppBar/AppBar';
 import Error from "./components/Errors/Error";
@@ -19,6 +20,22 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as routes_names from './routes';
 
 class App extends React.Component {
+    componentDidMount() {
+        axios.get('http://localhost:3003/image_api', {
+            headers: {
+                'Content-Type': null
+            }
+        })
+            .then(response => {
+                console.log('reussi');
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log('echec');
+                console.log(error)
+            });
+    }
+
     render() {
         const rootReducer = combineReducers({
             upload: reducer_upload,

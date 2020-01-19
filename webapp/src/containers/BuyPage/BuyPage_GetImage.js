@@ -101,7 +101,7 @@ class BuyPage_GetImage extends React.Component {
                                            selectTile={this.selectTile}
                                            uploadedImage={img}/>;
 
-        const containerWidth = this.props.data.original_width + 2 * this.props.data.nb_cols;
+        const containerWidth = this.props.data.original_width + 2 * this.props.data.nb_cols + "px";
 
         const mosaique = (
             <div style={{border: "1px solid black"}}>
@@ -116,7 +116,7 @@ class BuyPage_GetImage extends React.Component {
                                 : nbTiles === 1
                                     ? "Achetez le morceau"
                                     : "Acheter les " + nbTiles + " morceaux";
-        buttonContent += " pour " + nbTiles * (this.props.data.price/1000000000000000000) + "eth";
+        buttonContent += " pour " + nbTiles * (this.props.data.price/1000000000000000000) + " eth";
 
         let actionButton;
         if(nbTiles === 0){
