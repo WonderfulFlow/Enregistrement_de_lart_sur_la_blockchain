@@ -30,7 +30,11 @@ class ApercuModal extends React.Component {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
         const myContract = new web3.eth.Contract(abi, address);
+        console.log("price= "+price)
         const price_per_division=(price/supply)*1000000000000000000
+        console.log("price= "+price_per_division  )
+
+
         myContract.deploy({
             data : byte_code,
             arguments : [price_per_division, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
