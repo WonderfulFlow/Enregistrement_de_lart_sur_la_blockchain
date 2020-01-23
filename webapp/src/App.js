@@ -21,7 +21,7 @@ import * as routes_names from './routes';
 
 class App extends React.Component {
     componentDidMount() {
-        axios.get('http://localhost:3003/image_api', {
+        axios.get('http://localhost:3003/get_image_api', {
             headers: {
                 'Content-Type': null
             }

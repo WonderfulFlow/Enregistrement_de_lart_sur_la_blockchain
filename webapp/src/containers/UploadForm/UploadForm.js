@@ -109,7 +109,7 @@ class UploadForm extends React.Component {
             check = true;
         }
 
-        return check;
+        return true;
     };
     
     getAccount = (account) => {

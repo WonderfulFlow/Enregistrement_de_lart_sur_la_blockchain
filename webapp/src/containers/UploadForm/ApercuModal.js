@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import Mosaique from "../Mosaique/Mosaique";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import "./ApercuModal.css";
@@ -26,23 +27,25 @@ class ApercuModal extends React.Component {
 
     async DeployContract (price, hash, nom_auteur, nom_oeuvre, supply) {
         await window.ethereum.enable();
-        
+
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
+        const weiValue = Web3.utils.toWei('1', 'ether');
         const myContract = new web3.eth.Contract(abi, address);
-        const price_per_division=(price/supply)*1000000000000000000
+
         myContract.deploy({
             data : byte_code,
-            arguments : [price_per_division, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
+            arguments : [price, stringify(hash), stringify(nom_auteur), stringify(nom_oeuvre), supply]
+        }).send({
+            from: accounts[0],
+            gasPrice: '20000000000'
         })
-            .send({
-                from: accounts[0],
-                gasPrice: '20000000000'
-            })
             .then(newContractInstance => {
-                console.log(newContractInstance.options.address);
-                this.orderHandler(newContractInstance.options.address, price_per_division, supply);
-            }) // instance with the new contract address
+                const address=  newContractInstance.options.address
+                console.log("contract :  " + newContractInstance.options.address) // instance with the new contract address
+                this.orderHandler(address, accounts[0], price, supply)
+            })
+
     }
 
     changeInputMosaique = (event, keys) => {
@@ -87,20 +90,32 @@ class ApercuModal extends React.Component {
         });
     };
 
-    orderHandler = (contract_address, price, supply) => {
+    orderHandler = (contract_address, artist_address, price, supply) => {
         const formData = {
             contract_address: contract_address,
-            artiste : this.props.artiste,
+            artist_name : this.props.artiste,
+            artist_address: artist_address,
             name: this.props.name,
             description: this.props.description,
             price: price,
-            supply:supply,
+            supply: supply,
             nb_rows: this.state.nb_rows,
             nb_cols: this.state.nb_cols,
-            original_width: this.state.original_width,
+            original_width: this.props.original_width,
             tile_height: this.state.tile_height,
             tile_width: this.state.tile_width,
         };
+
+        axios.post("http://localhost:3003/post_image_api", formData)
+            .then(response => {
+                console.log("reussi");
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log("echec");
+                console.log(error);
+            });
+
 
         this.props.sendData(formData);
         this.props.closeModal();

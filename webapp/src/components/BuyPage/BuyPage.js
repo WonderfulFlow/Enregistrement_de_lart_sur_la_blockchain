@@ -1,25 +1,26 @@
 import React from "react";
-import { Card, CardActions, CardContent, CardMedia, Container, Typography } from "@material-ui/core";
+import "./BuyPage.css";
+import { Card, CardActions, CardContent, Container, Typography } from "@material-ui/core";
 
 const buyPage = (props) => (
     <Container maxWidth="sm">
-        <Card className={props.classes.card} style={{marginTop: '25px'}}>
-            <CardMedia className={props.classes.cardMedia}
-                       image="https://source.unsplash.com/random"
-                       title="Image title"/>
+        <Card className={props.classes.card + " divCardArtwork"}>
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom
                             variant="h5"
                             component="h2">
-                    {props.data.name}
+                    Nom de l'oeuvre : {props.data.name}
                 </Typography>
                 <Typography>
-                    {props.data.description}
+                    Auteur : {props.data.artiste}
                 </Typography>
                 <Typography>
-                    { "Prix par case : " + (props.data.price/1000000000000000000) + " eth" }
+                    Description {props.data.description}
                 </Typography>
-                <div style={{marginTop: "50px"}}>
+                <Typography>
+                    Prix par case :  {(props.data.price/1000000000000000000) + " eth" }
+                </Typography>
+                <div className={"divArtwork"}>
                     {props.children}
                 </div>
             </CardContent>
