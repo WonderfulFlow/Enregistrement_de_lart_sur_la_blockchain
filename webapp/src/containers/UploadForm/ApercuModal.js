@@ -43,7 +43,7 @@ class ApercuModal extends React.Component {
             .then(newContractInstance => {
                 const address=  newContractInstance.options.address
                 console.log("contract :  " + newContractInstance.options.address) // instance with the new contract address
-                this.orderHandler(address, accounts[0], price, supply)
+                this.orderHandler(address, accounts[0], price*weiValue/supply, supply)
             })
 
     }
