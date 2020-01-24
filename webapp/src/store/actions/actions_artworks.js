@@ -1,4 +1,4 @@
-import axios from "../../axios-orders";
+import axios from "axios";
 import * as actionTypes from "./actions_names";
 
 export const artworksStart = () => {
@@ -15,10 +15,11 @@ export const artworksSendSuccess = (id, formData) => {
     };
 };
 
-export const artworksGetSuccess = (data) => {
+export const artworksGetSuccess = (data, artwork) => {
     return {
         type: actionTypes.artworks_GET_SUCCESS,
         data: data,
+        artwork: artwork
     };
 };
 
@@ -52,17 +53,47 @@ export const sendData = (formData) => {
 export const getData = (id = null, limit = null) => {
     return dispatch => {
         dispatch(artworksStart());
-        let url = "/artwork";
+        // let url = "/artwork";
+        // if(id) url += "/" + id;
+        // url += ".json";
+        //
+        // axios.get(url)
+        //     .then(response => {
+        //         let data = response.data;
+        //
+        //         if(!id){
+        //             data = Object.keys(data).map(key => {
+        //                 console.log(key);
+        //                 return {
+        //                     id: key,
+        //                     ...data[key]
+        //                 }
+        //             });
+        //
+        //             if(limit && data.length > limit){
+        //                 data = data.slice(0, limit);
+        //             }
+        //         }
+        //
+        //         dispatch(artworksGetSuccess(data));
+        //     })
+        //     .catch(error => {
+        //         console.log("error");
+        //         dispatch(artworksFail(error));
+        //     });
+        //
+
+        let url = "http://localhost:3003/api/data";
         if(id) url += "/" + id;
-        url += ".json";
 
         axios.get(url)
             .then(response => {
                 let data = response.data;
 
-                if(!id){
+                if(id) {
+                    data = data[0];
+                } else {
                     data = Object.keys(data).map(key => {
-                        console.log(key);
                         return {
                             id: key,
                             ...data[key]

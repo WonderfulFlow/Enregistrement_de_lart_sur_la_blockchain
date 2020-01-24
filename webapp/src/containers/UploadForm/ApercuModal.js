@@ -30,7 +30,6 @@ class ApercuModal extends React.Component {
 
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
-        const weiValue = Web3.utils.toWei('1', 'ether');
         const myContract = new web3.eth.Contract(abi, address);
 
         myContract.deploy({
@@ -41,8 +40,7 @@ class ApercuModal extends React.Component {
             gasPrice: '20000000000'
         })
             .then(newContractInstance => {
-                const address=  newContractInstance.options.address
-                console.log("contract :  " + newContractInstance.options.address) // instance with the new contract address
+                const address=  newContractInstance.options.address;
                 this.orderHandler(address, accounts[0], price, supply)
             })
 
@@ -104,9 +102,10 @@ class ApercuModal extends React.Component {
             original_width: this.props.original_width,
             tile_height: this.state.tile_height,
             tile_width: this.state.tile_width,
+            uploadedImage: this.props.uploadedImage,
         };
 
-        axios.post("http://localhost:3003/post_image_api", formData)
+        axios.post("http://localhost:3003/api/image", formData)
             .then(response => {
                 console.log("reussi");
                 console.log(response.data);

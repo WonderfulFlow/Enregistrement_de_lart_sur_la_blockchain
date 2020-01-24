@@ -9,7 +9,7 @@ const imagePreview = (props) => {
 
         return (
             <Tile key={tile.id}
-                  index={tile.id}
+                  data_id={props.data_id}
                   tile={tile}
                   tileClass={tileClass}
                   tile_height={props.tile_height}

@@ -12,7 +12,7 @@ const buyPage = (props) => (
                     Nom de l'oeuvre : {props.data.name}
                 </Typography>
                 <Typography>
-                    Auteur : {props.data.artiste}
+                    Auteur : {props.data.artist_name}
                 </Typography>
                 <Typography>
                     Description {props.data.description}

@@ -32,7 +32,7 @@ class BuyPageGenerateContent extends React.Component {
         let buyPage = null;
         if(this.props.data){
             buyPage = <BuyPageGetImage classes={classes}
-                                        data={this.props.data}/>;
+                                       data={this.props.data}/>;
         }
 
         return buyPage;

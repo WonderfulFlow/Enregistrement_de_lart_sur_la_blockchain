@@ -1,5 +1,4 @@
 import React from "react";
-import img from "../../img/img_test_artwork.png";
 import Mosaique from "../Mosaique/Mosaique";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import BuyPage from "../../components/BuyPage/BuyPage";
@@ -48,9 +47,7 @@ class BuyPage_GetImage extends React.Component {
             selectedTiles = [...this.state.selectedTiles, tile.id];
         }
 
-        this.setState({
-            selectedTiles: selectedTiles
-        }, () => console.log(this.state.selectedTiles));
+        this.setState({  selectedTiles: selectedTiles });
     };
 
     async buy(tileID){
@@ -98,7 +95,7 @@ class BuyPage_GetImage extends React.Component {
                                            tile_height={this.props.data.tile_height}
                                            tile_width={this.props.data.tile_width}
                                            selectTile={this.selectTile}
-                                           uploadedImage={img}/>;
+                                           uploadedImage={"http://localhost:3003/api/image/" + this.props.data.id}/>;
 
         const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";
 

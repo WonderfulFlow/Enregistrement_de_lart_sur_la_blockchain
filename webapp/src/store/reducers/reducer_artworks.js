@@ -9,6 +9,7 @@ const initialState = {
     input: "",
     data: null,
     filteredData: null,
+    artwork: null,
 };
 
 const artworksStart = (state, action) => {
@@ -24,6 +25,7 @@ const artworksGetSuccess = (state, action) => {
         error: null,
         data: action.data,
         filteredData: action.data,
+        artwork: action.artwork,
     });
 };
 
