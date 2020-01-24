@@ -30,6 +30,7 @@ class ApercuModal extends React.Component {
 
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         const accounts = await web3.eth.getAccounts();
+        const weiValue = Web3.utils.toWei('1', 'ether');
         const myContract = new web3.eth.Contract(abi, address);
 
         myContract.deploy({
@@ -41,7 +42,7 @@ class ApercuModal extends React.Component {
         })
             .then(newContractInstance => {
                 const address=  newContractInstance.options.address;
-                this.orderHandler(address, accounts[0], price, supply)
+                this.orderHandler(address, accounts[0], price * weiValue/supply, supply)
             })
 
     }
