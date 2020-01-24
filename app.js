@@ -1,154 +1,163 @@
-// load our app server using express somehow
-const express = require('express')
-const app = express()
-const morgan = require('morgan')
-const mysql = require('mysql')
-const bodyParser = require('body-parser')
-var formidable = require('formidable'),
+const express = require("express");
+const app = express();
+const morgan = require('morgan');
+const mysql = require("mysql");
+const bodyParser = require("body-parser");
+const formidable = require('formidable'),
     http = require('http'),
     util = require('util'),
     fs = require('fs-extra'),
-    path = require("path");
+    path = require('path');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
+
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "artblockchain",
+});
+
+connection.connect();
+app.use(morgan('short'));
+app.use(express.static('./public'));
+
+// app.get('/', function(req, res){
+//     res.json('slt');
+// });
 
 
-function getConnection () {
-   return  mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'renouveau75',
-        database: 'digital_artwork'
-    });
-}
-app.use(bodyParser.urlencoded({extended:false}))
 
-app.use(morgan('short'))
 
-app.use(express.static('./public'))
+// app.get('/', function(request, response){
+//     connection.query('SELECT * FROM test', function(err, rows, fields){
+//         if(err){
+//             console.log('Encountered an error : ', err.message);
+//             return response.send(500, err.message);
+//         }
+//
+//         const data = ({'services': rows});
+//         console.log(data);
+//
+//         response.render('index', {
+//             title: 'home',
+//             data: data,
+//             page: 'home'
+//         });
+//     });
+// });
 
-app.post('/upload', (req,res)=> {
-    console.log("Trying to create a new user...")
-    
-    const address = req.body.create_address
-    const author = req.body.create_author
-    const name = req.body.create_name
-    const hash = req.body.create_image_hash
-    const supply = req.body.create_supply
-    const current_price = req.body.create_price
+app.use(function(req, res, next) {
+//to allow cross domain requests to send cookie information.
+    res.header('Access-Control-Allow-Credentials', true);
 
-    queryString = "INSERT INTO digital_artwork.image (address,author,name_image,image_hash,supply,current_price) VALUES ( ?, ?, ?, ? , ? , ? );"
-    getConnection().query(queryString, [address,author,name,hash,supply,current_price], (err,results,fields)=> {
-        if (err) {
-            console.log("Failed to insert new user:" + err)
-            res.sendStatus(500)
-            return
-        }
-        console.log("Inserted a new user with id:", results.insertId)
-        res.end()
-    })
-res.end()
+// origin can not be '*' when crendentials are enabled. so need to set it to the request origin
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
 
-        
-})
+// list of methods that are supported by the server
+    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-XSRF-TOKEN');
 
-app.get('/image/:id', (req,res) => {
-    
-    console.log("Fetching images with id : " + req.params.id)
-           
-        const imagesId = req.params.id
-        const queryString = "SELECT * FROM  digital_artwork.image WHERE id_image = ?"
-        getConnection().query(queryString, [imagesId], (err,rows,fields) => {
-            if(err) {
-                console.log("Failed to query for users: " + err)
-                res.sendStatus( )
-            }
-            res.json(rows)
-        });
-        
-        //res.end()
-})
+    next();
+});
 
-app.get('/image', (req,res) => {
-    
-    console.log("Print all images")
-           
-        const queryString = "SELECT * FROM  digital_artwork.image"
-        getConnection().query(queryString,  (err,rows,fields) => {
-            if(err) {
-                console.log("Failed to query for users: " + err)
-                res.sendStatus()
-            }
-            res.json(rows)
-        });
-        
-        res.end()
-})
+app.post('/api/image', function(req, res, next){
+    const contract_address = req.body.contract_address;
+    const artist_name = req.body.artist_name;
+    const artist_address = req.body.artist_address;
+    const name = req.body.name;
+    const description = req.body.description;
+    const price = req.body.price;
+    const supply = req.body.supply;
+    const nb_rows = req.body.nb_rows;
+    const nb_cols = req.body.nb_cols;
+    const original_width = req.body.original_width;
+    const tile_height = req.body.tile_height;
+    const tile_width = req.body.tile_width;
 
-http.createServer((req,res) => {
-    if (req.url == '/upload' && req.method.toLowerCase() == 'post') {
-        var form = new formidable.IncomingForm();
-        form.parse(req, function (err, fields, files) {
-            res.writeHead(200, {'content-type': 'text/plain'});
-            res.write('received upload:\n\n');
-            res.end(util.inspect({fields: fields, files: files}));
-        });
-        
-        form.on('fileBegin', function(name, file) {
-        file.path = path.join(__dirname, '/temp/') + file.name;
-		});
-        form.on('progress', function(bytesReceived, bytesExpected) {
-        var percent_complete = (bytesReceived / bytesExpected) * 100;
-        console.log(percent_complete.toFixed(2));
-		});
+    const matches = req.body.uploadedImage.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+        response = {};
 
-        form.on('end', function (fields, files) {
-            /* Temporary location of our uploaded file */
-            var temp_path = this.openedFiles[0].path;
-            /* The file name of the uploaded file */
-            var file_name = this.openedFiles[0].name;
-            /* Location where we want to copy the uploaded file */
-            var new_location = path.join(__dirname, '/upload/');
-
-            fs.copy(temp_path, new_location + file_name, function (err) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log("success!");
-                    // Delete the "temp" file
-					fs.unlink(temp_path, function(err) {
-					if (err) {
-						console.error(err);
-						console.log("TROUBLE deletion temp !");
-						} else {
-						console.log("success deletion temp !");
-						}
-					});      
-                }
-            });        
-            
-        
-        });
-
-        return;
+    if (matches.length !== 3) {
+        return new Error('Invalid input string');
     }
 
-    /* Display the file upload form. */
-    res.writeHead(200, {'content-type': 'text/html'});
-    res.end(
-            '<form action="/upload" enctype="multipart/form-data" method="post">' +
-            '<input type="text" name="title"><br>' +
-            '<input type="file" name="upload" multiple="multiple"><br>' +
-            '<input type="submit" value="Upload">' +
-            '</form>'
-    );
-})
+    response.type = matches[1];
+    response.data = new Buffer(matches[2], 'base64');
+    const imageBuffer = response.data;
+    const id = '_' + Math.random().toString(36).substr(2, 9);
+    const fileName = id + '.jpg';
 
-app.get("/",(req, res) => {
-   console.log("Responding to root route")
-   res.send("nodejs_restapi") 
-})
+    try {
+        fs.writeFileSync("./images/" + fileName, imageBuffer, 'utf8');
+
+        const queryString = "INSERT INTO image (id, contract_address, artist_name, artist_address, name, description, price, supply, nb_rows, nb_cols, original_width, tile_height, tile_width) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        connection.query(queryString, [id, contract_address, artist_name, artist_address, name, description, price, supply, nb_rows, nb_cols, original_width, tile_height, tile_width], (err, results, fields) => {
+            if(err){
+                console.log("Failed to insert new user.");
+                res.sendStatus(500);
+                return;
+            }
+
+            console.log('Inserted a new user with id : ', results.insertId);
+            res.end();
+        });
+
+    } catch (e) {
+        next(e);
+    }
+});
+
+app.get('/api/image/:id', function(req, res){
+    res.sendFile('D:/Projets/React/backend/images/' + req.params.id + '.jpg');
+});
+
+app.get('/api/data', function(req, res) {
+    const query = "SELECT * FROM image;";
+
+    connection.query(query, (err, rows) => {
+        if(err){
+            console.log("Failed to query.");
+            res.sendStatus();
+        }
+
+        res.json(rows);
+    });
+});
+
+app.get('/api/data/:id', function(req, res){
+    const query = "SELECT * FROM image WHERE id = " + req.params.id + ";";
+
+    connection.query(query, (err, rows) => {
+        if(err){
+            console.log('Failed to query');
+            res.sendStatus();
+        }
+
+        res.json(rows);
+    })
+});
+
+app.get('/api/tokens/:id_artwork/:owner_address', function(req, res){
+    const id_artwork = req.params.id_artwork;
+    const owner_address = req.params.owner_address;
+    const query  = "SELECT token_artwork_id FROM tokens WHERE id_artwork = " + id_artwork + " AND owner_address = " + owner_address + ";";
+
+    connection.query(query, (err, rows) => {
+        if(err){
+            console.log('Failed to query');
+            res.sendStatus();
+        }
+
+        res.json(rows);
+    })
+});
 
 
-// localhost:3003
-app.listen(3003,() => {
-    console.log("Server is up and listening on 3003...")
-})
+
+
+app.listen(3003, () => {
+    console.log("Server is up and listening on 3003...");
+});
