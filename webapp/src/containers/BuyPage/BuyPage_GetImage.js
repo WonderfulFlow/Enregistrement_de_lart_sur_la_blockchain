@@ -12,18 +12,29 @@ class BuyPage_GetImage extends React.Component {
         this.state = {
             tilesArray: [],
             selectedTiles: [],
+            account: null,
+            contract: null,
         };
 
         this.buy = this.buy.bind(this);
         this.show = this.show.bind(this);
+        // this.checkTokenOwner = this.checkTokenOwner.bind(this);
+        this.setUpWeb3 = this.setUpWeb3.bind(this);
+        this.generateTiles = this.generateTiles.bind(this);
+        // this.checkFreeTiles = this.checkFreeTiles.bind(this);
     }
 
-    generateTiles = () => {
-        const tiles_array = [];
+    async generateTiles(){
+        const tiles_array = [],
+            nb_rows = this.props.data.nb_rows,
+            nb_cols = this.props.data.nb_cols;
         let id = 1;
+            // tileStatus;
 
-        for(let i = 0; i < this.props.data.nb_rows; i++){
-            for(let j = 0; j < this.props.data.nb_cols; j++){
+        for(let i = 0; i < nb_rows; i++){
+            for(let j = 0; j < nb_cols; j++){
+                // tileStatus = null;
+
                 tiles_array.push({
                     id: id,
                     col: j,
@@ -34,7 +45,9 @@ class BuyPage_GetImage extends React.Component {
             }
         }
 
-        this.setState({ tilesArray: [...tiles_array] });
+        this.setState({
+            tilesArray: [...tiles_array]
+        });
     };
 
     selectTile = (tile) => {
@@ -49,6 +62,14 @@ class BuyPage_GetImage extends React.Component {
 
         this.setState({  selectedTiles: selectedTiles });
     };
+
+    // async checkTokenOwner(tile_id){
+    //     const tokenOwner = await contract.methods.ownerOf(tile_id);
+    // }
+    //
+    // checkFreeTiles = () => {
+    //     this.state.tilesArray.forEach(this.checkTokenOwner(tile_id))
+    // };
 
     async buy(tileID){
         const address = this.props.data.contract_address;
@@ -72,6 +93,7 @@ class BuyPage_GetImage extends React.Component {
         const accounts = await web3.eth.getAccounts();
         const contract = new web3.eth.Contract(abi, address);
 
+        // accounts[0] ===
         contract.methods.balanceOf(accounts[0]).call().then(alert);
     }
 
@@ -85,8 +107,22 @@ class BuyPage_GetImage extends React.Component {
         });
     };
 
+    async setUpWeb3(){
+        const address = this.props.data.contract_address;
+        await window.ethereum.enable();
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        const accounts = await web3.eth.getAccounts();
+        const contract = new web3.eth.Contract(abi, address);
+
+        this.setState({
+            account: accounts[0],
+            contract: contract,
+        });
+    }
+
     componentDidMount() {
-        this.generateTiles();
+        this.setUpWeb3()
+            .then(this.generateTiles);
     }
 
     render(){
@@ -95,6 +131,8 @@ class BuyPage_GetImage extends React.Component {
                                            tile_height={this.props.data.tile_height}
                                            tile_width={this.props.data.tile_width}
                                            selectTile={this.selectTile}
+                                           contract={this.state.contract}
+                                           account={this.state.account}
                                            uploadedImage={"http://localhost:3003/api/image/" + this.props.data.id}/>;
 
         const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";
@@ -129,6 +167,7 @@ class BuyPage_GetImage extends React.Component {
                             onClick={this.show}>
                         Show owned tokens
                     </Button>
+                    <button onClick={() => console.log(this.state.tilesArray)}>blabla</button>
             </>
             );
         } else {

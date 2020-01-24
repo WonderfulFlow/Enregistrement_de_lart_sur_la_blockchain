@@ -13,3 +13,14 @@
 .imgTile {
     position: relative;
 }
+
+.owner {
+    background-color: rgba(0, 0, 255, 0.5);
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    cursor: not-allowed;
+}
+
+.sold {
+
+}

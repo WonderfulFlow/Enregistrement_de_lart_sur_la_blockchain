@@ -1,4 +1,5 @@
 import axios from "axios";
+import axios_firebase from "../../axios-orders";
 import * as actionTypes from "./actions_names";
 
 export const artworksStart = () => {
@@ -38,7 +39,7 @@ export const sendData = (formData) => {
         const url = '/artwork/' + id + '.json';
         console.log(url);
 
-        axios.put(url, formData)
+        axios_firebase.put(url, formData)
             .then(response => {
                 console.log(response);
                 dispatch(artworksSendSuccess(response.data.name, formData));

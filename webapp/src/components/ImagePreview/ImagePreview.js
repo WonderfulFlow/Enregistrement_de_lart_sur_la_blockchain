@@ -1,5 +1,5 @@
 import React from "react";
-import Tile from "../Tile/Tile";
+import Tile from "../../containers/Tile/Tile";
 
 const imagePreview = (props) => {
     return props.tilesArray.map(tile => {
@@ -9,16 +9,19 @@ const imagePreview = (props) => {
 
         return (
             <Tile key={tile.id}
-                  data_id={props.data_id}
                   tile={tile}
                   tileClass={tileClass}
                   tile_height={props.tile_height}
                   tile_width={props.tile_width}
                   selectTile={props.selectTile}
+                  account={props.account}
+                  contract={props.contract}
                   uploadedImage={props.uploadedImage}/>
         );
     });
 };
+
+
 
 export default imagePreview;
 
