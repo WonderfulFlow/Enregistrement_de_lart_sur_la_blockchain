@@ -29,12 +29,9 @@ class BuyPage_GetImage extends React.Component {
             nb_rows = this.props.data.nb_rows,
             nb_cols = this.props.data.nb_cols;
         let id = 1;
-            // tileStatus;
 
         for(let i = 0; i < nb_rows; i++){
             for(let j = 0; j < nb_cols; j++){
-                // tileStatus = null;
-
                 tiles_array.push({
                     id: id,
                     col: j,
@@ -133,6 +130,7 @@ class BuyPage_GetImage extends React.Component {
                                            selectTile={this.selectTile}
                                            contract={this.state.contract}
                                            account={this.state.account}
+                                           buyPage={true}
                                            uploadedImage={"http://localhost:3003/api/image/" + this.props.data.id}/>;
 
         const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";

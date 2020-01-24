@@ -10,9 +10,6 @@ const artworkGrid = (props) => (
             {props.data.map((artwork, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                     <Card className={props.classes.card}>
-                        <CardMedia className={props.classes.cardMedia}
-                                   image="https://source.unsplash.com/random"
-                                   title="Image title"/>
                         <CardContent className={props.classes.cardContent}>
                             <Typography gutterBottom
                                         variant="h5"

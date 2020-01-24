@@ -16,6 +16,7 @@ const imagePreview = (props) => {
                   selectTile={props.selectTile}
                   account={props.account}
                   contract={props.contract}
+                  buyPage={props.buyPage}
                   uploadedImage={props.uploadedImage}/>
         );
     });
