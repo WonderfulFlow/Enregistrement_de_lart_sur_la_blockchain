@@ -84,7 +84,7 @@ export const getData = (id = null, limit = null) => {
         //     });
         //
 
-        let url = "http://localhost:3003/api/data";
+        let url = "http://menduni.ddns.net:3003/api/data";
         if(id) url += "/" + id;
 
         axios.get(url)

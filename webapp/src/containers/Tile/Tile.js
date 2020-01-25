@@ -30,7 +30,7 @@ class Tile extends React.Component {
     }
 
     componentDidMount() {
-        this.isTileOwned();
+     //   this.isTileOwned();
     }
 
     render(){

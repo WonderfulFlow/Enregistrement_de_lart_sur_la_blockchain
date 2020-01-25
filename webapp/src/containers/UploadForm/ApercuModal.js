@@ -46,6 +46,15 @@ class ApercuModal extends React.Component {
             })
 
     }
+    
+    async DeployContract2 (price, hash, nom_auteur, nom_oeuvre, supply) {
+        //await window.ethereum.enable();
+
+        this.orderHandler(123, 3, price * 10/supply, supply)
+ 
+
+    }
+
 
     changeInputMosaique = (event, keys) => {
         const val = Math.max(event.target.value, 5);
@@ -106,7 +115,7 @@ class ApercuModal extends React.Component {
             uploadedImage: this.props.uploadedImage,
         };
 
-        axios.post("http://localhost:3003/api/image", formData)
+        axios.post("http://menduni.ddns.net:3003/api/image", formData)
             .then(response => {
                 console.log("reussi");
                 console.log(response.data);
@@ -179,7 +188,7 @@ class ApercuModal extends React.Component {
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
                 <br/><br/>
-                <button onClick={() => this.DeployContract(parseInt(this.props.price),"hash", this.props.artiste,
+                <button onClick={() => this.DeployContract2(parseInt(this.props.price),"hash", this.props.artiste,
                     this.state.name, this.state.nb_cols * this.state.nb_rows)}>
                     deploy
                 </button>
