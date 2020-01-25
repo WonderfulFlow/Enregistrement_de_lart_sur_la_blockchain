@@ -9,6 +9,7 @@ const formidable = require('formidable'),
     fs = require('fs-extra'),
     path = require('path');
 
+app.use(express.bodyParser({limit: '50mb'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -77,7 +78,7 @@ app.post('/api/image', function(req, res, next){
     const tile_height = req.body.tile_height;
     const tile_width = req.body.tile_width;
 
- /*   const matches = req.body.uploadedImage.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    const matches = req.body.uploadedImage.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
         response = {};
 
     if (matches.length !== 3) {
@@ -88,16 +89,17 @@ app.post('/api/image', function(req, res, next){
     response.data = new Buffer(matches[2], 'base64');
     const imageBuffer = response.data;
     const id = '_' + Math.random().toString(36).substr(2, 9);
-    const fileName = id + '.jpg';*/
-   
- //   try {
+    const fileName = id + '.jpg';
+    
+    try {
         console.log('tente linput')
-        //fs.writeFileSync("./images/" + fileName, imageBuffer, 'utf8');
+        fs.writeFileSync("./images/" + fileName, imageBuffer, 'utf8');
         //const queryString = "INSERT INTO images(id, contract_address, artiste_name, artiste_address, name,description, price, supply, nb_rows, nb_cols, original_width,original_height, tile_height, tile_width) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        //connection.query(queryString, [3, contract_address, artist_name, artist_address, name, description, price, supply, nb_rows, nb_cols, original_width,3, tile_height, tile_width], (err, results, fields) => {
-            const queryString = " INSERT INTO images(id, contract_address, artiste_name, artiste_address, name,description, price, supply, nb_rows, nb_cols, original_width,original_height, tile_height, tile_width) VALUES (2, '23443','azer', '2344', 'tyu', 'ghtgr', 23, 2, 12, 1, 2, 2, 3,4);"
+        const queryString = " INSERT INTO images(id, contract_address, artiste_name, artiste_address, name,description, price, supply, nb_rows, nb_cols, original_width, tile_height, tile_width) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);"
+        // 
+        connection.query(queryString, [id,contract_address,artist_name, artist_address, name, description, price, supply, nb_rows,nb_cols, original_width, tile_height, tile_width], (err, results, fields) => {
 
-        connection.query(queryString,(err, results, fields) => {
+        //connection.query(queryString,(err, results, fields) => {
         if(err){
                 console.log("Failed to insert new user.");
                 res.sendStatus(400);
@@ -108,13 +110,15 @@ app.post('/api/image', function(req, res, next){
             res.end();
         });
 
- /*   } catch (e) {
+    } catch (e) {
         next(e);
-    }*/
+    }
 });
-
+// /projet/Enregistrement_de_lart_sur_la_blockchain/images
 app.get('/api/image/:id', function(req, res){
-    res.sendFile('D:/Projets/React/backend/images/' + req.params.id + '.jpg');
+   // res.sendFile('./images/' + req.params.id + '.jpg');
+   ///home/pi/projet/Enregistrement_de_lart_sur_la_blockchain
+    res.sendfile('/home/pi/projet/Enregistrement_de_lart_sur_la_blockchain/images/'+ req.params.id + '.jpg');
 });
 
 app.get('/api/data', function(req, res) {
@@ -122,7 +126,7 @@ app.get('/api/data', function(req, res) {
 
     connection.query(query, (err, rows) => {
         if(err){
-            console.log("Failed to query.");
+            console.log("Failed to query1.");
             res.sendStatus();
         }
 
@@ -131,11 +135,12 @@ app.get('/api/data', function(req, res) {
 });
 
 app.get('/api/data/:id', function(req, res){
-    const query = "SELECT * FROM images WHERE id = " + req.params.id + ";";
-
+    //const query = "SELECT * FROM images WHERE id = _ntca6xgdz" + req.params.id + ";";
+    const query = "SELECT * FROM images WHERE id = '" +req.params.id +"';";
+    console.log(req.params.id)
     connection.query(query, (err, rows) => {
         if(err){
-            console.log('Failed to query');
+            console.log('Failed to query2');
             res.sendStatus();
         }
 
@@ -150,7 +155,7 @@ app.get('/api/tokens/:id_artwork/:owner_address', function(req, res){
 
     connection.query(query, (err, rows) => {
         if(err){
-            console.log('Failed to query');
+            console.log('Failed to query3');
             res.sendStatus();
         }
 
