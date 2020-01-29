@@ -1,6 +1,6 @@
 import React from "react";
 import "./ArtworkGrid.css";
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import * as routes from "../../routes";
 

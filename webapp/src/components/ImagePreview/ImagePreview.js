@@ -22,7 +22,5 @@ const imagePreview = (props) => {
     });
 };
 
-
-
 export default imagePreview;
 

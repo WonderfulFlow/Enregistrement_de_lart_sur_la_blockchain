@@ -123,6 +123,7 @@ class BuyPage_GetImage extends React.Component {
     }
 
     render(){
+        console.log("id : " + this.props.data.id);
         const imagePreview = <ImagePreview tilesArray={this.state.tilesArray}
                                            selectedTiles={this.state.selectedTiles}
                                            tile_height={this.props.data.tile_height}
@@ -136,7 +137,8 @@ class BuyPage_GetImage extends React.Component {
         const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";
 
         const mosaique = (
-            <div style={{border: "1px solid grey"}}>
+            <div className={"contenuModal"}
+                 style={{border: "1px solid grey"}}>
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
             </div>
@@ -165,7 +167,6 @@ class BuyPage_GetImage extends React.Component {
                             onClick={this.show}>
                         Show owned tokens
                     </Button>
-                    <button onClick={() => console.log(this.state.tilesArray)}>blabla</button>
             </>
             );
         } else {
