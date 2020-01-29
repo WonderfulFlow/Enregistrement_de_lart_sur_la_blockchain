@@ -1,6 +1,7 @@
 import axios from "axios";
 import axios_firebase from "../../axios-orders";
 import * as actionTypes from "./actions_names";
+import URL from "../../menduni_config";
 
 export const artworksStart = () => {
     return {
@@ -55,7 +56,7 @@ export const getData = (id = null, limit = null) => {
     return dispatch => {
         dispatch(artworksStart());
 
-        let url = "http://localhost:3003/api/data";
+        let url = URL + "/api/data";
         if(id) url += "/" + id;
 
         axios.get(url)

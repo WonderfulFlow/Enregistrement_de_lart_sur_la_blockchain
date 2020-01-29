@@ -5,6 +5,7 @@ import BuyPage from "../../components/BuyPage/BuyPage";
 import { Button } from "@material-ui/core";
 import Web3 from "web3";
 import { abi } from "../UploadForm/config";
+import URL from "../../menduni_config";
 
 class BuyPage_GetImage extends React.Component {
     constructor(props) {
@@ -132,13 +133,12 @@ class BuyPage_GetImage extends React.Component {
                                            contract={this.state.contract}
                                            account={this.state.account}
                                            buyPage={true}
-                                           uploadedImage={"http://localhost:3003/api/image/" + this.props.data.id}/>;
+                                           uploadedImage={URL + "/api/image/" + this.props.data.id}/>;
 
         const containerWidth = this.props.data.nb_cols * this.props.data.tile_width + 2 * this.props.data.nb_cols + 2 + "px";
 
         const mosaique = (
-            <div className={"contenuModal"}
-                 style={{border: "1px solid grey"}}>
+            <div className={"contenuModal BuyPage_GetImage"}>
                 <Mosaique containerWidth={containerWidth}
                           imagePreview={imagePreview}/>
             </div>
