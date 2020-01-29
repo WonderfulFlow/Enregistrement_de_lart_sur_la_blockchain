@@ -3,7 +3,7 @@ import "./BuyPage.css";
 import { Card, CardActions, CardContent, Container, Typography } from "@material-ui/core";
 
 const buyPage = (props) => (
-    <Container maxWidth="sm">
+    <Container maxWidth={props.cardSize}>
         <Card className={props.classes.card + " divCardArtwork"}>
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom

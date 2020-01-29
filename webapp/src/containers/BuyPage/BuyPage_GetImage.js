@@ -123,7 +123,7 @@ class BuyPage_GetImage extends React.Component {
     }
 
     render(){
-        console.log("id : " + this.props.data.id);
+
         const imagePreview = <ImagePreview tilesArray={this.state.tilesArray}
                                            selectedTiles={this.state.selectedTiles}
                                            tile_height={this.props.data.tile_height}
@@ -186,9 +186,19 @@ class BuyPage_GetImage extends React.Component {
             )
         }
 
+        const dataWidth = this.props.data.original_width + 2 * (this.props.data.nb_cols + 1);
+        const cardSize = dataWidth < 600
+            ? "sm"
+            : dataWidth < 960
+                ? "md"
+                : dataWidth < 1280
+                    ? "lg"
+                    : "xl";
+
         const buyPage = (
             <BuyPage classes={this.props.classes}
                      data={this.props.data}
+                     cardSize={cardSize}
                      actionButton={actionButton}>
                 {mosaique}
             </BuyPage>
