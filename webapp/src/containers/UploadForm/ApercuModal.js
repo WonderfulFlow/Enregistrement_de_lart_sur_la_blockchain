@@ -106,7 +106,7 @@ class ApercuModal extends React.Component {
             uploadedImage: this.props.uploadedImage,
         };
 
-        axios.post("http://localhost:3003/api/image", formData)
+        axios.post("http://menduni.ddns.net:3003/api/image", formData)
             .then(response => {
                 console.log("reussi");
                 console.log(response.data);

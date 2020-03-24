@@ -1,1 +1,1 @@
-export default URL = "menduni.ddns.net";
+export default URL = "http://menduni.ddns.net:3003";
